@@ -1,8 +1,8 @@
-import BookingList from "./Components/Desk/BookingList";
+import BookingHome from "./Components/Desk/BookingHome";
 
 function App() {
   return (
-    <BookingList></BookingList>
+    <BookingHome></BookingHome>
   );
 }
 

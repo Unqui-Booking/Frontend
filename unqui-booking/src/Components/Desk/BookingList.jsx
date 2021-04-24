@@ -1,9 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react'
+import bookingProvider from '../../Api/booking'
 import { Grid , Typography, Divider, CardContent} from '@material-ui/core'
 
-const bookings = [1,2,3,4,5,6,7,8,9,10]
-
 const BookingList = () => {
+
+    const [bookings, setBooking] = useState([])
+
+    useEffect(()=>{
+        bookingProvider.getAll().then(bookings => {
+            setBooking(bookings)
+        })
+    }, [setBooking])
+
+
     return (
         <CardContent>
             <Grid container spacing={3}>
@@ -13,7 +22,7 @@ const BookingList = () => {
                 </Grid>
                 {bookings.map(b => 
                     <Grid item xs={12} key={b}>
-                        <p>12-13</p>
+                        <p>{b.startTime}hs - {b.endTime}hs</p>
                         <Divider></Divider>
                     </Grid>
                 )}

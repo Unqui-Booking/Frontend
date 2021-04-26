@@ -1,19 +1,24 @@
-import React from 'react';
-import { Grid , Typography, Divider, CardContent} from '@material-ui/core'
+import React from 'react'
+import { Grid , Typography, Divider, CardContent, IconButton} from '@material-ui/core'
+import CachedIcon from '@material-ui/icons/Cached';
 
-const bookings = [1,2,3,4,5,6,7,8,9,10]
+const BookingList = (props) => {
 
-const BookingList = () => {
     return (
         <CardContent>
             <Grid container spacing={3}>
-                <Grid item xs={12}>
+                <Grid item xs={11}>
                     <Typography variant='h5'> Reservas registradas </Typography>
                     <Divider></Divider>
                 </Grid>
-                {bookings.map(b => 
-                    <Grid item xs={12} key={b}>
-                        <p>12-13</p>
+                <Grid item xs={1}>
+                <IconButton aria-label="delete" color="primary" onClick={props.getAllBookings}>
+                    <CachedIcon />
+                </IconButton>
+                </Grid>
+                {props.bookings.map(b => 
+                    <Grid item xs={12} key={b.id}>
+                        <p>{b.startTime}hs - {b.endTime}hs</p>
                         <Divider></Divider>
                     </Grid>
                 )}

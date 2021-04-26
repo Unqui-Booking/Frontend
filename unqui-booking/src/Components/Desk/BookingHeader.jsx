@@ -15,8 +15,9 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
-const BookingHeader = () => {
+const BookingHeader = (props) => {
     const classes = useStyles()
+    const {initBooking} = props
     return (
         <CardContent>
             <Grid container spacing={3}>
@@ -30,7 +31,7 @@ const BookingHeader = () => {
                             className={classes.textField}
                             label="Fecha de reserva"
                             type="date"
-                            defaultValue="2017-05-24"
+                            defaultValue="2021-04-24"
                             disabled
                             InputLabelProps={{
                             shrink: true,
@@ -40,7 +41,7 @@ const BookingHeader = () => {
                     
                 </Grid>
                 <Grid item xs={12} sm={5} className={classes.register}>
-                    <BookingRegister></BookingRegister>
+                    <BookingRegister initBooking={initBooking}></BookingRegister>
                 </Grid>
             </Grid>
         </CardContent>

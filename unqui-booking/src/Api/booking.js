@@ -9,4 +9,20 @@ export function getAll(){
     })
 }
 
-export default { getAll }
+export function registerBooking(date, endTime, startTime, desk) {
+    const payload = {
+      date,
+      endTime,
+      startTime,
+      desk_id: desk
+    }
+    return new Promise((resolve, reject) => {
+      public_api.post(BOOKING_URL, payload).then(response => {
+        resolve(response.data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  }
+
+export default { getAll, registerBooking }

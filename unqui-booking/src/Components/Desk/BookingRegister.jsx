@@ -1,6 +1,8 @@
 import React from 'react';
+import {useState} from 'react'
 import { TextField, Button, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import bookingProvider from '../../Api/booking'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -16,9 +18,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BookingRegister() {
+export default function BookingRegister(props) {
 
+  const [startHour, setStartHour] = useState();
+  const [endHour, setEndtHour] = useState();
+  const {initBooking} = props;
   const classes = useStyles();
+
+  const handleChangeStartHours = (valueSelectStartHour)=>{
+    const hours = (valueSelectStartHour.target.value).split(":")[0];
+    setStartHour(hours)
+  }
+
+  const handleChangeEndHours = (valueSelectEndHour)=>{
+    const hours = (valueSelectEndHour.target.value).split(":")[0];
+    setEndtHour(hours)
+  }
+
+  const onSaveRegister = () =>{
+    if(startHour != null && endHour != null){
+      bookingProvider.registerBooking("24/04/21", endHour, startHour, 1)
+      initBooking();
+    }else{
+      return console.log("error post booking")
+    }
+    
+  }
 
   return (
     <Card>
@@ -28,7 +53,8 @@ export default function BookingRegister() {
               id="time"
               label="Hora inicial de reserva"
               type="time"
-              defaultValue="07:30"
+              defaultValue="08:00"
+              onChange={handleChangeStartHours}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -41,7 +67,8 @@ export default function BookingRegister() {
               id="time"
               label="Hora final de reserva"
               type="time"
-              defaultValue="07:30"
+              defaultValue="21:00"
+              onChange={handleChangeEndHours}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -50,7 +77,7 @@ export default function BookingRegister() {
                 step: 300, // 5 min
               }}
             />
-            <Button variant="contained" color="primary">Reservar</Button>
+            <Button variant="contained" color="primary" onClick={onSaveRegister}>Reservar</Button>
           
         </form>
       </CardContent>

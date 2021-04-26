@@ -26,7 +26,7 @@ En caso de no contar con git, se debe instalarlo con el siguiente comando:
 
 ## Levantar el proyecto
 
-Ir a la carpeta unquibooking y desde una terminal, ejecutar las siguinetes líneas:
+Ir a la carpeta unquibooking y desde una terminal, ejecutar las siguientes líneas:
 
 <pre> npm install </pre> 
 <pre> npm start </pre> 

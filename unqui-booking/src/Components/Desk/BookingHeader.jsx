@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
-const BookingHeader = (props) => {
+const BookingHeader = () => {
     const classes = useStyles()
-    const {initBooking} = props
+
     return (
         <CardContent>
             <Grid container spacing={3}>
@@ -41,7 +41,7 @@ const BookingHeader = (props) => {
                     
                 </Grid>
                 <Grid item xs={12} sm={5} className={classes.register}>
-                    <BookingRegister initBooking={initBooking}></BookingRegister>
+                    <BookingRegister></BookingRegister>
                 </Grid>
             </Grid>
         </CardContent>

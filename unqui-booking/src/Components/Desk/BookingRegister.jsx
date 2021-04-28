@@ -43,8 +43,8 @@ const BookingRegister = ({
 
   const onSaveRegister = () => {
     if (startHour != null && endHour != null) {
-      registerBooking("24/04/21", endHour, startHour, 1)
-      getAllBookings()
+      registerBooking("24/04/21", endHour, startHour, 1);
+      getAllBookings();
     } else {
       return console.log("error post booking")
     }

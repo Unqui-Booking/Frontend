@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Container,  Typography} from '@material-ui/core'
+import { Grid, Container, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
@@ -21,17 +21,21 @@ const useStyles = makeStyles((theme) => ({
         padding: "2rem",
         textAlign: "center",
       },
-      a: {
-          display: "flex",
-          flexFlow: "row-wrap",
-          backgroundColor: "red"
+      margin: {
+        margin: "1rem",
       },
-      b: {
-        backgroundColor: "pink"
-        },
-        c: {
-            backgroundColor: "green"
-        }
+      area: {
+          backgroundColor: "rgba(0, 0, 0, 0.1)",
+          border: "6px",
+          borderStyle: "outset",
+          paddingTop: "1rem",
+      },
+      titleArea: {
+          textAlign: "center",
+      },
+      dateSelect: {
+          marginBottom: "2rem",
+      },
 
 }))
 
@@ -52,8 +56,9 @@ const Home = () => {
                     <Typography variant='h4' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
                 </Grid>
                 <Grid item xs={12} justify="center" className={classes.flex}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
                         <KeyboardDatePicker
+                            className={classes.dateSelect}
                             disableToolbar
                             variant="inline"
                             format="dd/MM/yyyy"
@@ -72,26 +77,47 @@ const Home = () => {
 
                 {/*** Desk from computer area ***/}
 
-                <Grid item xs={12} justify="center" className={classes.a}>           
-                    {computerArea.map((d)=>(
-                        <Desk></Desk>   
-                    ) )}        
-                </Grid>
+                <Grid item xs={12} className={classes.area}>
+                    <Grid container justify="center" className={classes.flex}>  
+                        <Grid xs={12} className={classes.titleArea}>
+                            <Typography variant='h5' > Area de computadoras </Typography>    
+                        </Grid>         
+                        {computerArea.map((d)=>(
+                            <Grid item xs={2} className={classes.margin}>
+                                <Desk />
+                            </Grid>
+                        ) )} 
+                    </Grid>       
+                </Grid>  
 
                 {/*** Desk from silent area ***/}    
 
-                <Grid item xs={6} justify="center" className={classes.b}>           
-                    {silentArea.map((d)=>(
-                        <Desk></Desk>   
-                    ) )}        
-                </Grid>   
+                <Grid item xs={6} className={classes.area}>
+                    <Grid container justify="center" className={classes.flex}>  
+                        <Grid xs={12} className={classes.titleArea}>
+                            <Typography variant='h5' > Area silenciosa </Typography>    
+                        </Grid>
+                        {silentArea.map((d)=>(
+                            <Grid item xs={4} className={classes.margin}>
+                                <Desk />
+                            </Grid>
+                        ) )} 
+                    </Grid>       
+                </Grid>  
 
                 {/** Desk from general area **/} 
 
-                <Grid item xs={6} justify="center" className={classes.c}>           
-                    {generalArea.map((d)=>(
-                        <Desk></Desk>
-                    ) )}        
+                <Grid item xs={6} className={classes.area}>
+                    <Grid container justify="center" className={classes.flex}>  
+                        <Grid xs={12} className={classes.titleArea}>
+                            <Typography variant='h5' > Area general </Typography>    
+                        </Grid>         
+                        {generalArea.map((d)=>(
+                            <Grid item xs={4} className={classes.margin}>
+                                <Desk />
+                            </Grid>
+                        ) )} 
+                    </Grid>       
                 </Grid>   
             
         </Grid>

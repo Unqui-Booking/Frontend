@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
         padding: "2rem",
         textAlign: "center",
       },
+      box: {
+        boxShadow: "none",
+      }
 }))
 
 
@@ -24,7 +27,7 @@ const Desk = () => {
         <Container maxWidth="md">
             <Grid container className={classes.root} justify="center" > 
             <Grid item xs={12} justify="center" className={classes.flex}>
-                <Button variant="contained" color="default">
+                <Button variant="contained" color="default" className={classes.box}>
                     <img src={imgDesk} />
                 </Button>
             </Grid>

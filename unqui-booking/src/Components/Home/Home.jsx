@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import Desk from './Desk'
-
+import AreaDesk from './AreaDesk'
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -77,47 +77,20 @@ const Home = () => {
 
                 {/*** Desk from computer area ***/}
 
-                <Grid item xs={12} className={classes.area}>
-                    <Grid container justify="center" className={classes.flex}>  
-                        <Grid xs={12} className={classes.titleArea}>
-                            <Typography variant='h5' > Area de computadoras </Typography>    
-                        </Grid>         
-                        {computerArea.map((d)=>(
-                            <Grid item xs={2} className={classes.margin}>
-                                <Desk />
-                            </Grid>
-                        ) )} 
-                    </Grid>       
+                <Grid item xs={12} className={classes.area}>   
+                    <AreaDesk title="Area de computadoras" listDesk={computerArea}/>  
                 </Grid>  
 
                 {/*** Desk from silent area ***/}    
 
                 <Grid item xs={6} className={classes.area}>
-                    <Grid container justify="center" className={classes.flex}>  
-                        <Grid xs={12} className={classes.titleArea}>
-                            <Typography variant='h5' > Area silenciosa </Typography>    
-                        </Grid>
-                        {silentArea.map((d)=>(
-                            <Grid item xs={4} className={classes.margin}>
-                                <Desk />
-                            </Grid>
-                        ) )} 
-                    </Grid>       
+                    <AreaDesk title="Area silenciosa" listDesk={silentArea}/>       
                 </Grid>  
 
                 {/** Desk from general area **/} 
 
                 <Grid item xs={6} className={classes.area}>
-                    <Grid container justify="center" className={classes.flex}>  
-                        <Grid xs={12} className={classes.titleArea}>
-                            <Typography variant='h5' > Area general </Typography>    
-                        </Grid>         
-                        {generalArea.map((d)=>(
-                            <Grid item xs={4} className={classes.margin}>
-                                <Desk />
-                            </Grid>
-                        ) )} 
-                    </Grid>       
+                    <AreaDesk title="Area general" listDesk={generalArea}/>        
                 </Grid>   
             
         </Grid>

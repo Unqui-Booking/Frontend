@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-export const API_URL = "http://localhost:8080/"
+export const API_URL     = "http://localhost:8080/"
 export const BOOKING_URL = `${API_URL}booking`
+export const DESK_URL    = `${API_URL}desk`
 
 
 export default axios.create({

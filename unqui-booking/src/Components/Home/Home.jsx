@@ -75,11 +75,11 @@ const Home = () => {
                     </MuiPickersUtilsProvider>
                 </Grid>
 
-                {/*** Desk from computer area ***/}
+                {/*** Desk from computer area 
 
                 <Grid item xs={12} className={classes.area}>   
                     <AreaDesk title="Area de computadoras" listDesk={computerArea}/>  
-                </Grid>  
+                </Grid>  ***/}
 
                 {/*** Desk from silent area ***/}    
 

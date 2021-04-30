@@ -1,5 +1,6 @@
 import BookingHome from "./Components/Desk/BookingHome";
 import Home from "./Components/Home/Home";
+import { BrowserRouter as  HashRouter, Switch, Route  } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles'
 import theme from './themeConfig'
 import NavBar from "./Components/Home/NavBar"
@@ -12,8 +13,12 @@ function App() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <NavBar></NavBar>
-        {/** <BookingHome></BookingHome>**/}
-        <Home></Home>
+        <HashRouter>
+          <Switch>
+              <Route exact path='/' component={Home} />
+              <Route path='/desk' component={BookingHome} />
+          </Switch>
+          </HashRouter>
         </Provider>
     </ThemeProvider>
     

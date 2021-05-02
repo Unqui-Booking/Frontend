@@ -30,9 +30,9 @@ const AreaDesk = (props) => {
             
             {props.listsDesk.map((d)=>(
                 <Grid item xs={12} className={classes.margin} key={d.id}>
-                    <Desk desk={d}/>
+                    <Desk desk={d.id} setSelectedDesk={props.setSelectedDesk} deskSelected={props.deskSelected}/>
                 </Grid>
-            ) )} 
+            ))} 
         </Grid>  
     )
 }

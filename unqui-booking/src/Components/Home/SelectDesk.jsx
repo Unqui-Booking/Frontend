@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import AreaDesk from "./AreaDesk";
-import { getAllDesks } from '../../Actions/deskActions' 
+import { getAllDesks, setSelectedDesk } from '../../Actions/deskActions' 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -15,8 +15,10 @@ const useStyles = makeStyles((theme) => ({
 const SelectDesk = ( {
     deskReducer: {
         desks,
+        deskSelected,
     },
-    getAllDesks}) => {
+    getAllDesks,
+    setSelectedDesk, }) => {
         
         useEffect(() => {
             getAllDesks()
@@ -26,12 +28,12 @@ const SelectDesk = ( {
 
         return (
             <Grid container>
-                
+                {/** ToDo >>> filtrar desde la api por tipo de area **/}
                     <Grid item xs={12} sm={6}>
-                        <AreaDesk listsDesk={desks} title={"Area silenciosa"} ></AreaDesk>
+                        <AreaDesk listsDesk={desks} title={"Area silenciosa"} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected}></AreaDesk>
                     </Grid>
                 <Grid item xs={12} sm={6}>
-                    <AreaDesk listsDesk={desks} title={"Area general"}></AreaDesk>
+                    <AreaDesk listsDesk={desks} title={"Area general"} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected}></AreaDesk>
                 </Grid>
             </Grid>
             
@@ -43,4 +45,4 @@ const mapStateToProps = state => ({
 
 });
     
-export default connect(mapStateToProps, { getAllDesks, })(SelectDesk)
+export default connect(mapStateToProps, { getAllDesks, setSelectedDesk, })(SelectDesk)

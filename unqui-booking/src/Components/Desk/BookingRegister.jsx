@@ -45,6 +45,7 @@ const BookingRegister = ({
     if (startHour != null && endHour != null) {
       registerBooking("24/04/21", endHour, startHour, 1);
       getAllBookings();
+      //ToDo>>> limpiar desk selected
     } else {
       return console.log("error post booking")
     }

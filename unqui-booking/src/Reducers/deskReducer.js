@@ -1,9 +1,11 @@
-import { SET_LOADING, LOGS_ERROR, GET_DESKS  } from '../Actions/types'
+import { SET_LOADING, LOGS_ERROR, GET_DESKS, SELECTED_DESK  } from '../Actions/types'
 
 const initialState = {
     loading:true,
     error: null,
     desks:[],
+    deskID: null,
+    deskSelected: false,
 }
 
 export default function(state = initialState, action){
@@ -25,6 +27,12 @@ export default function(state = initialState, action){
                 ...state,
                 desks:action.payload,
             }
+        case SELECTED_DESK:
+            return{
+                ...state,
+                deskID: action.payload,
+                deskSelected: true
+            }    
         default: return state
     }
 

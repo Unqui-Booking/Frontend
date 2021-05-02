@@ -1,0 +1,92 @@
+import React, {useState} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Stepper, CardContent, Step, StepLabel, Button, Grid, Card } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router';
+import AreaDesk from './AreaDesk'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
+  backButton: {
+    marginRight: theme.spacing(1),
+  },
+  instructions: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  right: {
+    display: 'flex',
+    justifyContent: "flex-end",
+  },
+}));
+
+function getSteps() {
+  return ['Seleccionar escritorio', 'Seleccionar asiento', 'Disponibilidad'];
+}
+
+function getStepContent(stepIndex) {
+  switch (stepIndex) {
+    case 0:
+      return 'ESCRITORIO PARA RESERVAR';
+    case 1:
+      return 'ASIENTO PARA RESERVAR';
+    case 2:
+      return 'VALIDACIÓN DE DISPONIBILIDAD';
+    default:
+      return 'Sin contenido';
+  }
+}
+
+export default function SelectPlace() {
+  const classes = useStyles();
+  const [activeStep, setActiveStep] = useState(0);
+  const steps = getSteps();
+  const history = useHistory()
+
+  const handleClick = () => {
+      history.push("/desk");
+  }
+
+  const handleNext = () => {
+    activeStep == 2 ? (handleClick()) : ( setActiveStep((prevActiveStep) => prevActiveStep + 1) )
+  }
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+
+  return (
+    <Card>
+    <CardContent>
+      <Grid container spacing={3}>
+
+        <Grid item xs={12}>
+          <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+          </Stepper>
+          <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+        </Grid>
+
+        <Grid item xs={12} className={classes.right}>
+          {activeStep !== 0 && (
+            <Button onClick={handleBack} className={classes.backButton}>
+              Atrás
+            </Button>
+          )}
+          <Button variant="contained" color="primary" onClick={handleNext}>
+            {activeStep === steps.length - 1 ? 'Ir a reservar' : 'Siguiente'}
+          </Button>
+        </Grid>
+
+      </Grid>
+    </CardContent>
+    </Card>
+  );
+}

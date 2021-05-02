@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Stepper, CardContent, Step, StepLabel, Button, Grid, Card } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router';
-import AreaDesk from './AreaDesk'
+import SelectDesk from './SelectDesk'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +29,7 @@ function getSteps() {
 function getStepContent(stepIndex) {
   switch (stepIndex) {
     case 0:
-      return 'ESCRITORIO PARA RESERVAR';
+      return <SelectDesk></SelectDesk>;
     case 1:
       return 'ASIENTO PARA RESERVAR';
     case 2:
@@ -43,7 +43,7 @@ export default function SelectPlace() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
-  const history = useHistory()
+  const history = useHistory();
 
   const handleClick = () => {
       history.push("/desk");

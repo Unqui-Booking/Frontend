@@ -3,7 +3,6 @@ import { Grid, Container, Button} from '@material-ui/core'
 import Nav from 'react-bootstrap/Nav';
 import { makeStyles } from '@material-ui/core/styles'
 import imgDesk from '../../Img/desk.png'
-import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
       flex: {
@@ -13,22 +12,17 @@ const useStyles = makeStyles((theme) => ({
         padding: "2rem",
         textAlign: "center",
       },
-      box: {
-        boxShadow: "none",
-      }
+      
 }))
 
 
-const Desk = () => {
+const Desk = (props) => {
 
     const classes = useStyles();
-    var date = new Date();
-    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
-    const history = useHistory()
+    const desk = props.desk
 
     const handleClick = () => {
-        history.push("/desk");
+        console.log("escritorio seleccionado")
     }
 
     return (

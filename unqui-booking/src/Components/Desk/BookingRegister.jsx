@@ -1,9 +1,10 @@
 import React from 'react';
 import { useState } from 'react'
 import { connect } from "react-redux";
-import { TextField, Button, Card, CardContent } from '@material-ui/core';
+import { Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { registerBooking , getAllBookings} from '../../Actions/bookingActions'
+import ScheduleIcon from '@material-ui/icons/Schedule';
 
  const useStyles = makeStyles((theme) => ({
     container: {
@@ -11,11 +12,19 @@ import { registerBooking , getAllBookings} from '../../Actions/bookingActions'
       flexWrap: 'wrap',
       flexFlow: 'column',
       alignItems: 'center',
+      margin: theme.spacing(1),
+      minWidth: 120,
 
     },
-    textField: {
-      margin: theme.spacing(2),
+    selectTime: {
+      margin: theme.spacing(1),
       width: 200,
+    },
+    margin: {
+      margin: theme.spacing(1),
+    },
+    formRegister:{
+      borderLeft: "1px rgba(0, 0, 0, 0.12) solid",
     },
   }));
 
@@ -26,19 +35,36 @@ const BookingRegister = ({
   getAllBookings,
 }) => {
 
- 
-  const [startHour, setStartHour] = useState();
-  const [endHour, setEndtHour] = useState();
   const classes = useStyles();
+  const hours = [9,10,11,12,13,14,15,16,17,18,19,20]
+  const [startHour, setStartHour] = useState(9);
+  const [endHour, setEndtHour] = useState(10);
 
-  const handleChangeStartHours = (valueSelectStartHour) => {
-    const hours = (valueSelectStartHour.target.value).split(":")[0];
-    setStartHour(hours)
+  const handleChangeStartHours = (event) => {
+    setStartHour(event.target.value)
   }
 
-  const handleChangeEndHours = (valueSelectEndHour) => {
-    const hours = (valueSelectEndHour.target.value).split(":")[0];
-    setEndtHour(hours)
+  const handleChangeEndHours = (event) => {
+    setEndtHour(event.target.value)
+  }
+
+  const validateCountHours = () => {
+      return (endHour - startHour <= 3) && (endHour > startHour) && (endHour != startHour)
+  }
+
+  const getTextHelper = () => {
+    let text = ''
+
+    if(endHour - startHour > 3) { text = "El rango horario no puede superar las tres horas" }
+      else{ 
+        if(startHour > endHour) { text = "La hora de fin no puede ser menor al hora de inicio"}
+          else{
+            if(endHour == startHour) {text = "El rango horario no puede ser menor a una hora"}
+          }
+      }
+
+    return text;
+
   }
 
   const onSaveRegister = () => {
@@ -52,42 +78,50 @@ const BookingRegister = ({
   }
 
   return (
-    <Card>
-      <CardContent>
-        <form className={classes.container} noValidate>
-          <TextField
-            id="time"
-            label="Hora inicial de reserva"
-            type="time"
-            defaultValue="08:00"
-            onChange={handleChangeStartHours}
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{
-              step: 300, // 5 min
-            }}
-          />
-          <TextField
-            id="time"
-            label="Hora final de reserva"
-            type="time"
-            defaultValue="21:00"
-            onChange={handleChangeEndHours}
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{
-              step: 3000, // 5 min
-            }}
-          />
-          <Button variant="contained" color="primary" onClick={onSaveRegister}>Reservar</Button>
+    <>
+      <Grid className={classes.formRegister}>
+          <FormControl className={classes.container}>
+              <Grid item>
+                <InputLabel id="startTime">Hora inicio</InputLabel>
+                <Select
+                  value={startHour}
+                  onChange={handleChangeStartHours}
+                  displayEmpty
+                  labelId="startTime"
+                  id="startTime"
+                  className={classes.selectTime}
+                  IconComponent= {ScheduleIcon}
+                  >
+                    <MenuItem value={hours[0]}>{hours[0]}:00</MenuItem>
+                    {hours.slice(1, hours.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                    )}
+                </Select>
+              </Grid>
+            </FormControl>
 
-        </form>
-      </CardContent>
-    </Card>
+          <FormControl className={classes.container}>
+            
+              <InputLabel id="endTime">Hora fin</InputLabel>
+              <Select
+                value={endHour}
+                labelId="endTime"
+                id="endTime"
+                onChange={handleChangeEndHours}
+                displayEmpty
+                className={classes.selectTime}
+                IconComponent= {ScheduleIcon}
+                >
+                  <MenuItem value={hours[0]}>{hours[0]}:00</MenuItem>
+                  {hours.slice(1, hours.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                  )}
+              </Select>
+            {!validateCountHours() ? <FormHelperText color="red">{getTextHelper()}</FormHelperText> : null}
+            
+            <Button variant="contained" color="primary"  className={classes.margin} onClick={onSaveRegister} disabled={( !validateCountHours() ?  true :  false ) }>Reservar</Button>
+          
+          </FormControl>
+      </Grid>
+    </>
   );
 }
 

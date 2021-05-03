@@ -80,7 +80,7 @@ const BookingRegister = ({
               shrink: true,
             }}
             inputProps={{
-              step: 300, // 5 min
+              step: 3000, // 5 min
             }}
           />
           <Button variant="contained" color="primary" onClick={onSaveRegister}>Reservar</Button>

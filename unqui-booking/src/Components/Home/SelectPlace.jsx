@@ -4,6 +4,7 @@ import { Stepper, CardContent, Step, StepLabel, Button, Grid, Card } from '@mate
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router';
 import SelectDesk from './SelectDesk'
+import SelectChair from './SelectChair'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +32,7 @@ function getStepContent(stepIndex) {
     case 0:
       return <SelectDesk></SelectDesk>;
     case 1:
-      return 'ASIENTO PARA RESERVAR';
+      return <SelectChair></SelectChair>;
     case 2:
       return 'VALIDACIÓN DE DISPONIBILIDAD';
     default:

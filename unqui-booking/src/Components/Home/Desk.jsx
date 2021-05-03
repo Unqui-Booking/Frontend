@@ -3,16 +3,18 @@ import { Grid, Container, Button} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import imgDesk from '../../Img/desk.png'
 
-
 const useStyles = makeStyles((theme) => ({
-      flex: {
-          display: "flex",
-      },
-      title: {
+    flex: {
+        display: "flex",
+    },
+    title: {
         padding: "2rem",
         textAlign: "center",
-        
-      },
+    },
+    box: {
+        boxShadow: 'none',
+        backgroundColor: 'transparent',
+    },
       
 }))
 
@@ -24,6 +26,7 @@ const Desk = (props) =>{
     
     
     const handleClick = (e) => {
+        //ToDo cambiar de color el boton
         const buttonElement = e.target.parentElement.parentElement
 
         buttonElement.style.backgroundColor = 'green'
@@ -36,7 +39,7 @@ const Desk = (props) =>{
         <Container maxWidth="md">
             <Grid container className={classes.root} justify="center" > 
             <Grid item xs={12} justify="center" className={classes.flex}>
-                <Button variant="contained"  color="default"  onClick={(e) => handleClick(e)}>
+                <Button variant="contained"  color="default"  onClick={(e) => handleClick(e)} className={classes.box}>
                     <img src={imgDesk} id={desk}/>
                 </Button>
             </Grid>

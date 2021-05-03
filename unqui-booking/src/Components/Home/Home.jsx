@@ -38,6 +38,9 @@ const Home = () => {
     var date = new Date();
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
+    const filterWeekends = (date) => {
+        return date.getDay() === 0 || date.getDay() === 6;
+      }
     
     return (
         <Container maxWidth="md">
@@ -61,6 +64,7 @@ const Home = () => {
                             onChange={console.log("fecha seleccionada")}
                             disablePast={true}
                             maxDate={lastDay}
+                            shouldDisableDate={filterWeekends}
                         />
                     </MuiPickersUtilsProvider>
                 </Grid>

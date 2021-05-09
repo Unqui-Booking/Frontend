@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
     sizeChair: {
         height: '4rem',
         width: '4rem',
-        "&:hover":{
-            color: '#b7002e',
-        },
     },
     sizeTable: {
         height: '4rem',
@@ -39,10 +36,6 @@ const useStyles = makeStyles((theme) => ({
     box: {
         boxShadow: 'none',
         backgroundColor: 'transparent',
-        "&:hover":{
-            boxShadow: 'none',
-            backgroundColor: 'transparent',
-        },
     }
   }));
 

@@ -57,7 +57,7 @@ const BookingRegister = ({
 
     if(endHour - startHour > 3) { text = "El rango horario no puede superar las tres horas" }
       else{ 
-        if(startHour > endHour) { text = "La hora de fin no puede ser menor al hora de inicio"}
+        if(startHour > endHour) { text = "La hora fin no puede ser menor a la hora inicio"}
           else{
             if(endHour == startHour) {text = "El rango horario no puede ser menor a una hora"}
           }

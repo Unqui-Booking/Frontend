@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import AreaDesk from "./AreaDesk";
-import { getAllDesks, setSelectedDesk } from '../../Actions/deskActions' 
+import { getAllDesks, setSelectedDesk, getDeskByArea } from '../../Actions/deskActions' 
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -14,26 +14,30 @@ const useStyles = makeStyles((theme) => ({
 
 const SelectDesk = ( {
     deskReducer: {
-        desks,
         deskSelected,
+        desksSilent,
+        desksGeneral,
     },
     getAllDesks,
-    setSelectedDesk, }) => {
+    setSelectedDesk,
+    getDeskByArea }) => {
         
         useEffect(() => {
-            getAllDesks()
+            getAllDesks();
+            getDeskByArea("silent");
+            getDeskByArea("general");
         }, [])
 
         const classes = useStyles();
 
         return (
             <Grid container>
-                {/** ToDo >>> filtrar desde la api por tipo de area **/}
+                {/** ToDo >>> filtrar por tipo de area **/}
                     <Grid item xs={12} sm={6}>
-                        <AreaDesk listsDesk={desks} title={"Area silenciosa"} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected}></AreaDesk>
+                        <AreaDesk listsDesk={desksSilent} title={"Area silenciosa"} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected}></AreaDesk>
                     </Grid>
                 <Grid item xs={12} sm={6}>
-                    <AreaDesk listsDesk={desks} title={"Area general"} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected}></AreaDesk>
+                    <AreaDesk listsDesk={desksGeneral} title={"Area general"} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected}></AreaDesk>
                 </Grid>
             </Grid>
             
@@ -45,4 +49,4 @@ const mapStateToProps = state => ({
 
 });
     
-export default connect(mapStateToProps, { getAllDesks, setSelectedDesk, })(SelectDesk)
+export default connect(mapStateToProps, { getAllDesks, setSelectedDesk, getDeskByArea })(SelectDesk)

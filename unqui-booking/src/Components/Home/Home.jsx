@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Grid, Container, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import DateFnsUtils from '@date-io/date-fns';
@@ -35,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
 
     const classes = useStyles();
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
     var date = new Date();
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
@@ -42,6 +44,10 @@ const Home = () => {
         return date.getDay() === 0 || date.getDay() === 6;
       }
     
+    const selectDate = (date) => {
+        setSelectedDate(date)
+    }
+
     return (
         <Container maxWidth="md">
             <Grid container className={classes.root} justify="center" > 
@@ -57,11 +63,12 @@ const Home = () => {
                             format="dd/MM/yyyy"
                             margin="normal"
                             id="date-picker-inline"
+                            value={selectedDate}
                             label="Seleccionar fecha de reserva"
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
                             }}
-                            onChange={console.log("fecha seleccionada")}
+                            onChange={selectDate}
                             disablePast={true}
                             maxDate={lastDay}
                             shouldDisableDate={filterWeekends}

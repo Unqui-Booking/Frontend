@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Seleccionar escritorio', 'Seleccionar asiento', 'Disponibilidad'];
+  return ['Seleccionar escritorio', 'Seleccionar asiento', 'Confirmación'];
 }
 
 function getStepContent(stepIndex) {
@@ -34,7 +34,7 @@ function getStepContent(stepIndex) {
     case 1:
       return <SelectChair></SelectChair>;
     case 2:
-      return 'VALIDACIÓN DE DISPONIBILIDAD';
+      return 'Información de escritorio y asiento';
     default:
       return 'Sin contenido';
   }

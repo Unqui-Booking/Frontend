@@ -7,8 +7,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     border: {
-        border: '1px',
-        borderStyle: 'none groove none none',
+        border: '1px #d5d5d5 solid',
+        borderStyle: 'none solid',
     },
 }))
 
@@ -26,19 +26,14 @@ const SelectDesk = ( {
             getAllDesks();
             getDeskByArea("silent");
             getDeskByArea("general");
+            {console.log(deskSelected)}
         }, [])
 
         const classes = useStyles();
 
         return (
             <Grid container>
-                {/** ToDo >>> filtrar por tipo de area **/}
-                    <Grid item xs={12} sm={6}>
-                        <AreaDesk listsDesk={desksSilent} title={"Area silenciosa"} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected}></AreaDesk>
-                    </Grid>
-                <Grid item xs={12} sm={6}>
-                    <AreaDesk listsDesk={desksGeneral} title={"Area general"} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected}></AreaDesk>
-                </Grid>
+                <AreaDesk desksGeneral={desksGeneral} desksSilent={desksSilent} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected}></AreaDesk>
             </Grid>
             
         )

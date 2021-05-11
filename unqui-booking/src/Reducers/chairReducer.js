@@ -1,9 +1,9 @@
-import { SET_LOADING, LOGS_ERROR, GET_BOOKINGS, ADD_BOOKING } from '../Actions/types'
+import { SET_LOADING, LOGS_ERROR, GET_CHAIR_BY_DESK } from '../Actions/types'
 
 const initialState = {
-    loading:true,
+    loading: true,
     error: null,
-    bookings:[],
+    chairs:[],
 }
 
 export default function(state = initialState, action){
@@ -20,16 +20,10 @@ export default function(state = initialState, action){
             ...state,
             error: action.payload
             };
-        case GET_BOOKINGS:
+        case GET_CHAIR_BY_DESK:
             return {
-                ...state,
-                bookings: action.payload,
-            }
-        case ADD_BOOKING:
-            return {
-                ...state,
-                success: true,
-                loading: false,
+            ...state,
+            chairs: action.payload,
             }
         default: return state
     }

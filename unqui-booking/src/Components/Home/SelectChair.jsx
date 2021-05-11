@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Button } from '@material-ui/core'
-import { GiOfficeChair, GiTable } from 'react-icons/gi';
+import { GiOfficeChair } from 'react-icons/gi';
+import { getChairByDesk } from '../../Actions/chairActions'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -39,11 +41,20 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const SelectChair = () => {
+const SelectChair = ({
+    chairReducer: {
+        chairs,
+    },
+    deskReducer:{
+        desk,
+    },
+    getChairByDesk, }) => {
 
     const classes = useStyles();
-    const chairsTop = [1,2,3,4,5,6]
-    const chairBottom = [1,2,3,4,5,6]
+
+    useEffect( () => {
+        getChairByDesk(desk.id)
+    }, [])
 
     const handleClick = (e) => {
         console.log(e);
@@ -53,7 +64,7 @@ const SelectChair = () => {
         <Grid container justify="center" className={classes.flex}>
             
             <Grid item xs={12} sm={12} justify="center" className={classes.flex}>
-                {chairsTop.map((cl) => (
+                {chairs.map((cl) => (
                     <Grid xs={2} className={classes.chairTop}>
                         <Button variant="contained"  color="default"  onClick={(e) => handleClick(e)} className={classes.box}>
                             <GiOfficeChair className={classes.sizeChair} key={cl}/>
@@ -65,7 +76,7 @@ const SelectChair = () => {
                 <p className={classes.text}>[ Escritorio seleccionado ]</p>
             </Grid>
             <Grid item xs={12} sm={12} justify="center" className={classes.flex}> 
-                {chairBottom.map((cr) => (
+                {chairs.map((cr) => (
                     <Grid xs={2} justify="center" className={classes.chairBottom}>
                         <Button variant="contained"  color="default"  onClick={(e) => handleClick(e)} className={classes.box}>
                             <GiOfficeChair className={classes.sizeChair} key={cr}/>
@@ -78,4 +89,10 @@ const SelectChair = () => {
     )
 }
 
-export default SelectChair
+const mapStateToProps = state => ({
+    chairReducer: state.chairReducer,
+    deskReducer: state.deskReducer,
+    
+});
+
+export default connect(mapStateToProps, { getChairByDesk })(SelectChair)

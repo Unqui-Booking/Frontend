@@ -1,8 +1,8 @@
+import React from 'react'
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { Alert } from '@material-ui/lab';
-import React, { useState } from 'react'
-//TODO >>> guardar en un reducer el activeStep
+
 const AlertMessage = ({
     deskReducer: {
         deskSelected,

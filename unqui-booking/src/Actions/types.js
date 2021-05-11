@@ -7,4 +7,4 @@ export const SELECTED_DESK            = 'SELECTED_DESK'
 export const GET_DESK_BY_AREA_SILENT  = 'GET_DESK_BY_AREA_SILENT'
 export const GET_DESK_BY_AREA_GENERAL = 'GET_DESK_BY_AREA_GENERAL'
 export const ACTIVE_STEP              = 'ACTIVE_STEP'
- 
+export const GET_CHAIR_BY_DESK        = 'GET_CHAIR_BY_DESK'

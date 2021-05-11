@@ -19,11 +19,11 @@ export const getAllDesks = () => async dispatch => {
     }
 }
 
-export const setSelectedDesk = (idDesk) => dispatch => {
+export const setSelectedDesk = (desk) => dispatch => {
     try{
         dispatch( {
             type: SELECTED_DESK,
-            payload: idDesk
+            payload: desk
         })
     }
     catch(err){
@@ -55,3 +55,4 @@ export const getDeskByArea = (area) => async dispatch => {
         console.log(err);
     }
 }
+

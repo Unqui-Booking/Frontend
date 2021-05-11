@@ -35,7 +35,7 @@ const Desk = (props) =>{
     
     
     const handleClick = () => {        
-        setSelectedDesk(desk.id);
+        setSelectedDesk(desk);
       }
 
     return (

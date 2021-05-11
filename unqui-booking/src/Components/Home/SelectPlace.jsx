@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router';
 import SelectDesk from './SelectDesk'
 import SelectChair from './SelectChair'
+import AlertMessage from './AlertMessage';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +76,7 @@ export default function SelectPlace() {
               })}
             </Stepper>
           </Grid>
-        
+          <AlertMessage activeStep={activeStep} />
           <Grid item xs={12}>
             <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
           </Grid>  

@@ -10,6 +10,7 @@ const AlertMessage = ({
     },
     chairReducer: {
       seatId,
+      seatSelected
     },
     alertMessageReducer: {
       activeStep
@@ -22,7 +23,7 @@ const AlertMessage = ({
             case 0:
               return  `Escritorio seleccionado: ${desk.nameDesk}`;
             case 1:
-              return "Asiento seleccionado";
+              return `Asiento seleccionado: ${seatId}`;
             default:
               return 'Sin seleccióm';
           }
@@ -33,7 +34,7 @@ const AlertMessage = ({
             case 0:
               return deskSelected;
             case 1:
-              return false;
+              return seatSelected;
             default:
               return false;
           }

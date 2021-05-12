@@ -72,7 +72,7 @@ const SelectPlace = ({
 
   const handleBack = () => {
     setCurrentStep((prevActiveStep) => prevActiveStep - 1);
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(activeStep - 1);
   };
 
   const handleDisabled = (activeStep) => {

@@ -31,11 +31,12 @@ const useStyles = makeStyles((theme) => ({
 const Desk = (props) =>{
 
     const classes = useStyles();
-    const {desk, setSelectedDesk} = props 
+    const {desk, setSelectedDesk, getChairByDesk} = props 
     
     
     const handleClick = () => {        
         setSelectedDesk(desk);
+        getChairByDesk(desk.id);
       }
 
     return (

@@ -34,12 +34,11 @@ const AreaDesk = (props) => {
     return (
         <Grid container justify="center" className={classes.flex}>  
             
-            
             <Grid item sm={6} xs={12} className={classes.border}>
                 <Typography variant='h5' className={classes.titleArea}> Área Silenciosa </Typography> 
                       
                 {props.desksSilent.map((d)=>(
-                    <Desk desk={d} desk={d} setSelectedDesk={props.setSelectedDesk} deskSelected={props.deskSelected}/>
+                    <Desk desk={d} desk={d} setSelectedDesk={props.setSelectedDesk} deskSelected={props.deskSelected} getChairByDesk={props.getChairByDesk}/>
                 ))} 
             </Grid>
             <Grid item sm={6} xs={12} className={classes.border}>
@@ -47,7 +46,7 @@ const AreaDesk = (props) => {
             <Typography variant='h5' className={classes.titleArea}> Área General </Typography> 
                
                {props.desksGeneral.map((d)=>(
-                   <Desk desk={d} setSelectedDesk={props.setSelectedDesk} deskSelected={props.deskSelected}/>
+                   <Desk desk={d} setSelectedDesk={props.setSelectedDesk} deskSelected={props.deskSelected} getChairByDesk={props.getChairByDesk} />
                ))} 
             </Grid>
         </Grid>

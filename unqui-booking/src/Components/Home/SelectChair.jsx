@@ -45,16 +45,9 @@ const SelectChair = ({
     chairReducer: {
         chairs,
     },
-    deskReducer:{
-        desk,
-    },
-    getChairByDesk, }) => {
+     }) => {
 
     const classes = useStyles();
-
-    useEffect( () => {
-        getChairByDesk(desk.id)
-    }, [])
 
     const handleClick = (e) => {
         console.log(e);
@@ -91,8 +84,7 @@ const SelectChair = ({
 
 const mapStateToProps = state => ({
     chairReducer: state.chairReducer,
-    deskReducer: state.deskReducer,
     
 });
 
-export default connect(mapStateToProps, { getChairByDesk })(SelectChair)
+export default connect(mapStateToProps, { })(SelectChair)

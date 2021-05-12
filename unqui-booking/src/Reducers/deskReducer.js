@@ -1,4 +1,5 @@
 import { SET_LOADING, LOGS_ERROR, GET_DESKS, SELECTED_DESK, GET_DESK_BY_AREA_SILENT, GET_DESK_BY_AREA_GENERAL, ACTIVE_STEP  } from '../Actions/types'
+
 const initialState = {
     loading:true,
     error: null,

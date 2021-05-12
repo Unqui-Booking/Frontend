@@ -1,4 +1,4 @@
-import { GET_CHAIR_BY_DESK, LOGS_ERROR } from './types';
+import { GET_CHAIR_BY_DESK, LOGS_ERROR} from './types';
 import { CHAIR_URL } from '../Api/base'
 import dataService from '../Services/service'
 

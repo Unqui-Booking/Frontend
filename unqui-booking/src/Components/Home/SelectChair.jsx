@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Button } from '@material-ui/core'
+import { Grid, Button, Chip } from '@material-ui/core'
 import { GiOfficeChair } from 'react-icons/gi';
-import { getChairByDesk } from '../../Actions/chairActions'
 
 const useStyles = makeStyles((theme) => ({
 
     flex: {
         display: "flex",
+    },
+    column: {
+        display: "flex",
+        flexFlow: 'column',
+        alignItems: 'center',
     },
     sizeChair: {
         height: '4rem',
@@ -38,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
     box: {
         boxShadow: 'none',
         backgroundColor: 'transparent',
+    },
+    chip: {
+        border: '1px solid #d5d5d5',
+        textTransform: 'capitalize',
+        color: '#000000ad',
+        fontSize: '0.8rem',
     }
   }));
 
@@ -60,7 +70,10 @@ const SelectChair = ({
                 {chairs.map((cl) => (
                     <Grid xs={2} className={classes.chairTop}>
                         <Button variant="contained"  color="default"  onClick={(e) => handleClick(e)} className={classes.box}>
+                        <Grid className={classes.column}>
+                            <Chip size="small" label={cl.id} color="default" variant="outline" className={classes.chip} />
                             <GiOfficeChair className={classes.sizeChair} key={cl}/>
+                        </Grid>
                         </Button>
                     </Grid>
                 ))}
@@ -72,9 +85,11 @@ const SelectChair = ({
                 {chairs.map((cr) => (
                     <Grid xs={2} justify="center" className={classes.chairBottom}>
                         <Button variant="contained"  color="default"  onClick={(e) => handleClick(e)} className={classes.box}>
-                            <GiOfficeChair className={classes.sizeChair} key={cr}/>
+                            <Grid className={classes.column}>
+                                <GiOfficeChair className={classes.sizeChair} key={cr}/>
+                                <Chip size="small" label={cr.id} color="default" variant="outline" className={classes.chip} />
+                            </Grid>    
                         </Button>
-                        
                     </Grid>
                 ))}
             </Grid>

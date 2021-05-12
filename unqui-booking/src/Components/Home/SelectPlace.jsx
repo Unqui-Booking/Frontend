@@ -8,6 +8,7 @@ import SelectDesk from './SelectDesk'
 import SelectChair from './SelectChair'
 import AlertMessage from './AlertMessage';
 import { setActiveStep } from '../../Actions/alertMessageActions';
+import Confirmation from './Confirmation';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,36 +27,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getSteps() {
-  return ['Seleccionar escritorio', 'Seleccionar asiento', 'Confirmación'];
-}
 
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return <SelectDesk></SelectDesk>;
-    case 1:
-      return <SelectChair></SelectChair>;
-    case 2:
-      return 'Información de escritorio y asiento';
-    default:
-      return 'Sin contenido';
-  }
-}
 
 const SelectPlace = ({
   deskReducer: {
-    deskSelected
+    deskSelected,
+    desk
   },
   chairReducer: {
-    seatSelected
+    seatSelected,
+    seatId
   },
   setActiveStep }) => {
+
+  const getSteps = () => {
+    return ['Seleccionar escritorio', 'Seleccionar asiento', 'Confirmación'];
+  }
+    
 
   const classes = useStyles();
   const [activeStep, setCurrentStep] = useState(0);
   const steps = getSteps();
   const history = useHistory();
+
+  
+  const getStepContent = (stepIndex) => {
+    switch (stepIndex) {
+      case 0:
+        return <SelectDesk/>;
+      case 1:
+        return <SelectChair/>;
+      case 2:
+        return <Confirmation desk={desk} seat={seatId}/>;
+      default:
+        return 'Sin contenido';
+    }
+  }
 
   const handleClick = () => {
       history.push("/desk");
@@ -66,7 +73,7 @@ const SelectPlace = ({
       handleClick()
     }else{
       setCurrentStep((prevActiveStep) => prevActiveStep + 1);
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setActiveStep(activeStep + 1);
     }
   }
 

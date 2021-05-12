@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Button, Chip } from '@material-ui/core'
 import { GiOfficeChair } from 'react-icons/gi';
+import { setSelectedSeat } from '../../Actions/chairActions';
+import { setActiveStep } from '../../Actions/alertMessageActions'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -54,13 +56,17 @@ const useStyles = makeStyles((theme) => ({
 const SelectChair = ({
     chairReducer: {
         chairs,
+        seatId,
     },
-     }) => {
+    setSelectedSeat,
+    setActiveStep }) => {
 
     const classes = useStyles();
 
-    const handleClick = (e) => {
-        console.log(e);
+    const handleClick = (seatId) => {
+        setSelectedSeat(seatId);
+        setActiveStep(1);
+        console.log(seatId);
     }
 
     return (
@@ -69,7 +75,7 @@ const SelectChair = ({
             <Grid item xs={12} sm={12} justify="center" className={classes.flex}>
                 {chairs.map((cl) => (
                     <Grid xs={2} className={classes.chairTop}>
-                        <Button variant="contained"  color="default"  onClick={(e) => handleClick(e)} className={classes.box}>
+                        <Button variant="contained"  color="default"  onClick={() => handleClick(cl.id)} className={classes.box}>
                         <Grid className={classes.column}>
                             <Chip size="small" label={cl.id} color="default" variant="outline" className={classes.chip} />
                             <GiOfficeChair className={classes.sizeChair} key={cl}/>
@@ -84,7 +90,7 @@ const SelectChair = ({
             <Grid item xs={12} sm={12} justify="center" className={classes.flex}> 
                 {chairs.map((cr) => (
                     <Grid xs={2} justify="center" className={classes.chairBottom}>
-                        <Button variant="contained"  color="default"  onClick={(e) => handleClick(e)} className={classes.box}>
+                        <Button variant="contained"  color="default"  onClick={() => handleClick(cr.id)} className={classes.box}>
                             <Grid className={classes.column}>
                                 <GiOfficeChair className={classes.sizeChair} key={cr}/>
                                 <Chip size="small" label={cr.id} color="default" variant="outline" className={classes.chip} />
@@ -102,4 +108,4 @@ const mapStateToProps = state => ({
     
 });
 
-export default connect(mapStateToProps, { })(SelectChair)
+export default connect(mapStateToProps, { setSelectedSeat, setActiveStep })(SelectChair)

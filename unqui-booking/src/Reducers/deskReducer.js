@@ -1,4 +1,4 @@
-import { SET_LOADING, LOGS_ERROR, GET_DESKS, SELECTED_DESK, GET_DESK_BY_AREA_SILENT, GET_DESK_BY_AREA_GENERAL, ACTIVE_STEP  } from '../Actions/types'
+import { SET_LOADING, LOGS_ERROR, GET_DESKS, SELECTED_DESK, GET_DESK_BY_AREA_SILENT, GET_DESK_BY_AREA_GENERAL  } from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -8,7 +8,6 @@ const initialState = {
     desksGeneral: [],
     desk: {},
     deskSelected: false,
-    activeStep: null
 }
 
 export default function(state = initialState, action){
@@ -35,7 +34,6 @@ export default function(state = initialState, action){
                 ...state,
                 desk: action.payload,
                 deskSelected: true,
-                activeStep: 0,
             }    
         case GET_DESK_BY_AREA_SILENT:
             return{
@@ -46,11 +44,6 @@ export default function(state = initialState, action){
             return{
                 ...state,
                 desksGeneral: action.payload,
-            }
-        case ACTIVE_STEP:
-            return{
-                ...state,
-                activeStep: action.payload,
             }
         default: return state
     }

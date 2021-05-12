@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AreaDesk from "./AreaDesk";
 import { getAllDesks, setSelectedDesk, getDeskByArea } from '../../Actions/deskActions' 
 import { getChairByDesk } from '../../Actions/chairActions'
+import { setActiveStep } from '../../Actions/alertMessageActions'
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -22,7 +23,8 @@ const SelectDesk = ( {
     getAllDesks,
     setSelectedDesk,
     getDeskByArea,
-    getChairByDesk }) => {
+    getChairByDesk,
+    setActiveStep }) => {
         
         useEffect(() => {
             getAllDesks();
@@ -35,7 +37,7 @@ const SelectDesk = ( {
 
         return (
             <Grid container>
-                <AreaDesk desksGeneral={desksGeneral} desksSilent={desksSilent} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected} getChairByDesk={getChairByDesk} ></AreaDesk>
+                <AreaDesk desksGeneral={desksGeneral} desksSilent={desksSilent} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected} getChairByDesk={getChairByDesk} setActiveStep={setActiveStep} ></AreaDesk>
             </Grid>
             
         )
@@ -46,4 +48,4 @@ const mapStateToProps = state => ({
 
 });
     
-export default connect(mapStateToProps, { getAllDesks, setSelectedDesk, getDeskByArea, getChairByDesk })(SelectDesk)
+export default connect(mapStateToProps, { getAllDesks, setSelectedDesk, getDeskByArea, getChairByDesk, setActiveStep })(SelectDesk)

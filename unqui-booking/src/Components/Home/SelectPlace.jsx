@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Stepper, CardContent, Step, StepLabel, Button, Grid, Card, Divider } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -6,7 +7,7 @@ import { useHistory } from 'react-router';
 import SelectDesk from './SelectDesk'
 import SelectChair from './SelectChair'
 import AlertMessage from './AlertMessage';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { setActiveStep } from '../../Actions/alertMessageActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,9 +43,17 @@ function getStepContent(stepIndex) {
   }
 }
 
-export default function SelectPlace() {
+const SelectPlace = ({
+  deskReducer: {
+    deskSelected
+  },
+  chairReducer: {
+    seatSelected
+  },
+  setActiveStep }) => {
+
   const classes = useStyles();
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setCurrentStep] = useState(0);
   const steps = getSteps();
   const history = useHistory();
 
@@ -53,12 +62,34 @@ export default function SelectPlace() {
   }
 
   const handleNext = () => {
-    activeStep == 2 ? (handleClick()) : ( setActiveStep((prevActiveStep) => prevActiveStep + 1) )
+    if(activeStep == 2){
+      handleClick()
+    }else{
+      setCurrentStep((prevActiveStep) => prevActiveStep + 1);
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   }
 
   const handleBack = () => {
+    setCurrentStep((prevActiveStep) => prevActiveStep - 1);
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  const handleDisabled = (activeStep) => {
+    switch(activeStep){
+      case 0:
+        return !deskSelected; 
+        break;
+      case 1:
+        return !seatSelected; 
+        break;
+      case 2:
+        return false //return habilitado para reservar == true;
+        break;
+      default:
+          return false;
+    }
+  }
 
   return (
     <Card>
@@ -87,7 +118,7 @@ export default function SelectPlace() {
                 Atrás
               </Button>
             )}
-            <Button variant="contained" color="primary" onClick={handleNext}>
+            <Button variant="contained" color="primary" onClick={handleNext} disabled={handleDisabled(activeStep)}>
               {activeStep === steps.length - 1 ? 'Reservar' : 'Siguiente'}
             </Button>
           </Grid>
@@ -97,3 +128,10 @@ export default function SelectPlace() {
     </Card>
   );
 }
+
+const mapStateToProps = state => ({
+  deskReducer: state. deskReducer,
+  chairReducer: state.chairReducer
+});
+
+export default connect(mapStateToProps, { setActiveStep })(SelectPlace)

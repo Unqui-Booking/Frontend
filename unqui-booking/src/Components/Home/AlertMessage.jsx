@@ -5,9 +5,14 @@ import { Alert } from '@material-ui/lab';
 
 const AlertMessage = ({
     deskReducer: {
-        deskSelected,
-        activeStep,
-        desk
+      deskSelected,
+      desk
+    },
+    chairReducer: {
+      seatId,
+    },
+    alertMessageReducer: {
+      activeStep
     }
 
     })=> {
@@ -49,7 +54,8 @@ const AlertMessage = ({
 
 const mapStateToProps = state => ({
     deskReducer: state.deskReducer,
-
+    chairReducer: state.chairReducer,
+    alertMessageReducer: state.alertMessageReducer,
 });
 
 export default connect(mapStateToProps, { })(AlertMessage)

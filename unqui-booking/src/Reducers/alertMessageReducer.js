@@ -1,11 +1,9 @@
-import { SET_LOADING, LOGS_ERROR, GET_CHAIR_BY_DESK, SELECTED_SEAT } from '../Actions/types'
+import { SET_LOADING, LOGS_ERROR, ACTIVE_STEP } from '../Actions/types'
 
 const initialState = {
     loading: true,
     error: null,
-    chairs:[],
-    seatSelected: false,
-    seatId: null,
+    activeStep: null,
 }
 
 export default function(state = initialState, action){
@@ -22,16 +20,10 @@ export default function(state = initialState, action){
             ...state,
             error: action.payload
             };
-        case GET_CHAIR_BY_DESK:
-            return {
-            ...state,
-            chairs: action.payload,
-            }
-        case SELECTED_SEAT:
+        case ACTIVE_STEP:
             return {
                 ...state,
-                seatId: action.payload,
-                seatSelected: true,
+                activeStep: action.payload,
             }
 
         default: return state

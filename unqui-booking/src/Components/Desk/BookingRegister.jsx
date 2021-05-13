@@ -33,6 +33,9 @@ const BookingRegister = ({
     startHour,
     endHour,
   },
+  alertMessageReducer: {
+    activeStep,
+  },
   registerBooking, 
   getAllBookings,
   setSelectedStartHour,
@@ -93,6 +96,7 @@ const BookingRegister = ({
               <Grid item>
                 <InputLabel id="startTime">Hora inicio</InputLabel>
                 <Select
+                  disabled={activeStep == 2} 
                   value={startHour}
                   onChange={handleChangeStartHours}
                   displayEmpty
@@ -112,6 +116,7 @@ const BookingRegister = ({
             
               <InputLabel id="endTime">Hora fin</InputLabel>
               <Select
+                disabled={activeStep == 2} 
                 value={endHour}
                 labelId="endTime"
                 id="endTime"
@@ -137,6 +142,7 @@ const BookingRegister = ({
 const mapStateToProps = state => ({
   bookingReducer: state.bookingReducer,
   dateHoursReducer: state.dateHoursReducer,
+  alertMessageReducer: state.alertMessageReducer,
 });
 
 export default connect(mapStateToProps, { registerBooking, getAllBookings, setSelectedStartHour, setSelectedEndHour })(BookingRegister)

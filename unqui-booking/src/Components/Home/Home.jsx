@@ -40,6 +40,9 @@ const Home = ({
     dateHoursReducer: {
         date,
     },
+    alertMessageReducer: {
+        activeStep,
+    },
     setSelectedDate,
 
     }) => {
@@ -59,7 +62,7 @@ const Home = ({
     const handleOnChange = (date) => {
         setSelectedDate(date);
     }
-
+  
     return (
         <Container maxWidth="md">
             <Grid container className={classes.root} justify="center" > 
@@ -69,6 +72,7 @@ const Home = ({
                 <Grid item xs={6} justify="center" className={classes.flex}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils} >
                         <KeyboardDatePicker
+                            disabled={ activeStep == 2  }
                             className={classes.dateSelect}
                             disableToolbar
                             variant="inline"
@@ -98,7 +102,7 @@ const Home = ({
 
 const mapStateToProps = state => ({
     dateHoursReducer: state.dateHoursReducer,
-
+    alertMessageReducer: state.alertMessageReducer
 });
     
 export default connect(mapStateToProps, { setSelectedDate })(Home)

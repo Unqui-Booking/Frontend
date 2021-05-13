@@ -38,6 +38,11 @@ const SelectPlace = ({
     seatSelected,
     seatId
   },
+  dateHoursReducer: {
+    date,
+    startHour,
+    endHour
+  },
   setActiveStep }) => {
 
   const getSteps = () => {
@@ -58,7 +63,7 @@ const SelectPlace = ({
       case 1:
         return <SelectChair/>;
       case 2:
-        return <Confirmation desk={desk} seat={seatId}/>;
+        return <Confirmation desk={desk} seat={seatId} date={date} startHour={startHour} endHour={endHour} />;
       default:
         return 'Sin contenido';
     }
@@ -138,7 +143,8 @@ const SelectPlace = ({
 
 const mapStateToProps = state => ({
   deskReducer: state. deskReducer,
-  chairReducer: state.chairReducer
+  chairReducer: state.chairReducer,
+  dateHoursReducer: state.dateHoursReducer
 });
 
 export default connect(mapStateToProps, { setActiveStep })(SelectPlace)

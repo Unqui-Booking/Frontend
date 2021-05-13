@@ -1,8 +1,9 @@
 import { Grid } from "@material-ui/core"
+import moment from 'moment';
 
 const Confirmation = (props) => {
 
-    const {desk, seat} = props
+    const {desk, seat, date, startHour, endHour} = props
 
     return (
         
@@ -17,11 +18,12 @@ const Confirmation = (props) => {
             </Grid> 
             <Grid item xs={4} sm={4} ></Grid>
             <Grid item xs={8} sm={8}>
-            <strong>Fecha de reserva:</strong> 12/05/2021
+            <strong>Fecha de reserva:</strong> {moment(date).format('DD/MM/YYYY')}
+            
             </Grid> 
             <Grid item xs={4} sm={4} ></Grid>
             <Grid item xs={8} sm={8}>
-            <strong>Horario de reserva:</strong> 10hs -15hs
+            <strong>Horario de reserva:</strong> {startHour}hs - {endHour}hs
             </Grid> 
         </Grid>
     )

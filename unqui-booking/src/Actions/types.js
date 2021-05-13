@@ -9,4 +9,7 @@ export const GET_DESK_BY_AREA_GENERAL = 'GET_DESK_BY_AREA_GENERAL'
 export const ACTIVE_STEP              = 'ACTIVE_STEP'
 export const GET_CHAIR_BY_DESK        = 'GET_CHAIR_BY_DESK'
 export const SELECTED_SEAT            = 'SELECTED_SEAT'
+export const SELECTED_DATE            = 'SELECTED_DATE'
+export const SELECTED_START_HOUR        = 'SELECTED_START_HOUR'
+export const SELECTED_END_HOUR          = 'SELECTED_END_HOUR'
 

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react'
 import { connect } from "react-redux";
 import { Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { registerBooking , getAllBookings} from '../../Actions/bookingActions'
+import { registerBooking , getAllBookings} from '../../Actions/bookingActions';
+import { setSelectedStartHour, setSelectedEndHour } from '../../Actions/dateHoursActions';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
  const useStyles = makeStyles((theme) => ({
@@ -23,29 +24,37 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
     margin: {
       margin: theme.spacing(1),
     },
-    formRegister:{
-      borderLeft: "1px rgba(0, 0, 0, 0.12) solid",
-    },
   }));
 
 
 const BookingRegister = ({
   bookingReducer: {},
+  dateHoursReducer: {
+    startHour,
+    endHour,
+  },
   registerBooking, 
   getAllBookings,
+  setSelectedStartHour,
+  setSelectedEndHour,
 }) => {
+
+/*    useEffect( () => {
+    setSelectedStartHour(9);
+    setSelectedEndHour(10);
+  }, []) */
 
   const classes = useStyles();
   const hours = [9,10,11,12,13,14,15,16,17,18,19,20]
-  const [startHour, setStartHour] = useState(9);
-  const [endHour, setEndtHour] = useState(10);
 
   const handleChangeStartHours = (event) => {
-    setStartHour(event.target.value)
+    setSelectedStartHour(event.target.value);
+    console.log("INICIO: "+startHour)
   }
 
   const handleChangeEndHours = (event) => {
-    setEndtHour(event.target.value)
+    setSelectedEndHour(event.target.value);
+    console.log("FIN " +endHour)
   }
 
   const validateCountHours = () => {
@@ -79,7 +88,7 @@ const BookingRegister = ({
 
   return (
     <>
-      <Grid className={classes.formRegister}>
+      <Grid>
           <FormControl className={classes.container}>
               <Grid item>
                 <InputLabel id="startTime">Hora inicio</InputLabel>
@@ -117,7 +126,7 @@ const BookingRegister = ({
               </Select>
             {!validateCountHours() ? <FormHelperText color="red">{getTextHelper()}</FormHelperText> : null}
             
-            <Button variant="contained" color="primary"  className={classes.margin} onClick={onSaveRegister} disabled={( !validateCountHours() ?  true :  false ) }>Reservar</Button>
+            {/* <Button variant="contained" color="primary"  className={classes.margin} onClick={onSaveRegister} disabled={( !validateCountHours() ?  true :  false ) }>Reservar</Button> */}
           
           </FormControl>
       </Grid>
@@ -127,7 +136,7 @@ const BookingRegister = ({
 
 const mapStateToProps = state => ({
   bookingReducer: state.bookingReducer,
-
+  dateHoursReducer: state.dateHoursReducer,
 });
 
-export default connect(mapStateToProps, { registerBooking, getAllBookings })(BookingRegister)
+export default connect(mapStateToProps, { registerBooking, getAllBookings, setSelectedStartHour, setSelectedEndHour })(BookingRegister)

@@ -12,18 +12,30 @@ const useStyles = makeStyles((theme) => ({
         padding: "2rem",
         textAlign: "center",
     },
-    box: {
+    boxAviabled: {
         display: 'flex',
         margin: theme.spacing(1),
         boxShadow: 'none',
         backgroundColor: 'transparent',
         
     },
+    noBoxAviabled: {
+        boxShadow: 'none',
+        backgroundColor: 'transparent',
+        '&:hover': {
+            boxShadow: 'none',
+            backgroundColor: 'transparent',
+            cursor: "default",
+          }
+    },
     chip: {
         border: '1px solid #d5d5d5',
         textTransform: 'capitalize',
         color: '#000000ad',
         fontSize: '0.8rem',
+    },
+    disabledDesk: {
+        filter: 'brightness(50%)',
     }
 }))
 
@@ -34,19 +46,35 @@ const Desk = (props) =>{
     const {desk, setSelectedDesk, getChairByDesk, setActiveStep} = props 
     
     
-    const handleClick = () => {        
-        setSelectedDesk(desk);
-        getChairByDesk(desk.id);
-        setActiveStep(0);
+    const handleClick = (available) => {      
+        if(available){
+            setSelectedDesk(desk);
+            getChairByDesk(desk.id);
+            setActiveStep(0);
+        }          
       }
+
+    const getStyleDesk = (available) => {
+        if(!available){
+            return classes.disabledDesk;
+        }
+    }
+
+    const getStyleBox = (available) => {
+        if(!available){
+            return classes.noBoxAviabled;
+        }else{
+            return classes.boxAviabled
+        }
+    }
 
     return (
         <Container maxWidth="md">
             <Grid container className={classes.root} justify="center" spacing={2}> 
                 <Grid item xs={12} justify="center" className={classes.flex}>
-                    <Button variant="contained"  color="default"  onClick={() => handleClick()} className={classes.box} >
+                    <Button variant="contained"  color="default"  onClick={() => handleClick(desk.available)} className={getStyleBox(desk.available)}>
                         <Grid className={classes.flex}>
-                            <img src={imgDesk} id={desk.id}/>
+                            <img src={imgDesk} id={desk.id} className={getStyleDesk(desk.available)}/>
                             <Chip size="small" label={desk.nameDesk} color="default" variant="outline" className={classes.chip} />
                         </Grid>
                     </Button>

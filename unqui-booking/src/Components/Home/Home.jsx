@@ -41,7 +41,8 @@ const Home = () => {
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
     const filterWeekends = (date) => {
-        return date.getDay() === 0 || date.getDay() === 6;
+        const today = new Date();
+        return date.getDay() === 0 || date.getDay() === 6 || date.getDate() > (today.getDate() + 14);
       }
     
     const selectDate = (date) => {

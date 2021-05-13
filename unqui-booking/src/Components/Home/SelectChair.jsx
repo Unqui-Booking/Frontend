@@ -16,10 +16,6 @@ const useStyles = makeStyles((theme) => ({
         flexFlow: 'column',
         alignItems: 'center',
     },
-    sizeChair: {
-        height: '4rem',
-        width: '4rem',
-    },
     sizeTable: {
         height: '4rem',
         width: '4rem',
@@ -50,7 +46,25 @@ const useStyles = makeStyles((theme) => ({
         textTransform: 'capitalize',
         color: '#000000ad',
         fontSize: '0.8rem',
-    }
+    },
+    chairNoDisabled: {
+        height: '4rem',
+        width: '4rem',
+    },
+    chairDisabled: {
+        height: '4rem',
+        width: '4rem',
+        color: "#d5d5d5",
+    },
+    noBoxAviabled: {
+        boxShadow: 'none',
+        backgroundColor: 'transparent',
+        '&:hover': {
+            boxShadow: 'none',
+            backgroundColor: 'transparent',
+            cursor: "default",
+          }
+    },
   }));
 
 const SelectChair = ({
@@ -63,10 +77,27 @@ const SelectChair = ({
 
     const classes = useStyles();
 
-    const handleClick = (seatId) => {
-        setSelectedSeat(seatId);
-        setActiveStep(1);
-        console.log(seatId);
+    const handleClick = (seat) => {
+        if(seat.available){
+            setSelectedSeat(seat.id);
+            setActiveStep(1);
+        }
+    }
+
+    const getStyleBox = (available) => {
+        if(!available){
+            return classes.noBoxAviabled;
+        }else{
+            return classes.box
+        }
+    }
+
+    const getStyleChair = (available) => {
+        if(!available){
+            return classes.chairDisabled
+        }else{
+            return classes.chairNoDisabled
+        }
     }
 
     return (
@@ -75,10 +106,11 @@ const SelectChair = ({
             <Grid item xs={12} sm={12} justify="center" className={classes.flex}>
                 {chairs.map((cl) => (
                     <Grid xs={2} className={classes.chairTop}>
-                        <Button variant="contained"  color="default"  onClick={() => handleClick(cl.id)} className={classes.box}>
+                        <Button variant="contained"  color="default"  onClick={() => handleClick(cl)} className={getStyleBox(cl.available)}>
                         <Grid className={classes.column}>
                             <Chip size="small" label={cl.id} color="default" variant="outline" className={classes.chip} />
-                            <GiOfficeChair className={classes.sizeChair} key={cl}/>
+                            {console.log("silla: "+cl.id+ " estado: "+ cl.available)}
+                            <GiOfficeChair className={getStyleChair(cl.available)} key={cl}/>
                         </Grid>
                         </Button>
                     </Grid>
@@ -90,9 +122,9 @@ const SelectChair = ({
             <Grid item xs={12} sm={12} justify="center" className={classes.flex}> 
                 {chairs.map((cr) => (
                     <Grid xs={2} justify="center" className={classes.chairBottom}>
-                        <Button variant="contained"  color="default"  onClick={() => handleClick(cr.id)} className={classes.box}>
+                        <Button variant="contained"  color="default"  onClick={() => handleClick(cr)} className={getStyleBox(cr.available)}>
                             <Grid className={classes.column}>
-                                <GiOfficeChair className={classes.sizeChair} key={cr}/>
+                                <GiOfficeChair className={getStyleChair(cr.available)} key={cr}/>
                                 <Chip size="small" label={cr.id} color="default" variant="outline" className={classes.chip} />
                             </Grid>    
                         </Button>

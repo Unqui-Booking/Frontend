@@ -133,6 +133,7 @@ const SelectPlace = ({
             <Button variant="contained" color="primary" onClick={handleNext} disabled={handleDisabled(activeStep)}>
               {activeStep === steps.length - 1 ? 'Reservar' : 'Siguiente'}
             </Button>
+              {/* TODO >>> limpiar el state del desk seleccionado y los horarios, la fecha dejarla */}
           </Grid>
             
         </Grid>

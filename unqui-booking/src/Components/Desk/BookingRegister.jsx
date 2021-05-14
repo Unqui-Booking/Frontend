@@ -30,6 +30,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 const BookingRegister = ({
   bookingReducer: {},
   dateHoursReducer: {
+    date,
     startHour,
     endHour,
   },
@@ -41,11 +42,6 @@ const BookingRegister = ({
   setSelectedStartHour,
   setSelectedEndHour,
 }) => {
-
-/*    useEffect( () => {
-    setSelectedStartHour(9);
-    setSelectedEndHour(10);
-  }, []) */
 
   const classes = useStyles();
   const hours = [9,10,11,12,13,14,15,16,17,18,19,20]

@@ -3,7 +3,7 @@ import { SET_LOADING, LOGS_ERROR, SELECTED_DATE, SELECTED_START_HOUR, SELECTED_E
 const initialState = {
     loading:true,
     error: null,
-    date: null,
+    date: new Date(),
     startHour: 9,
     endHour: 10
 }

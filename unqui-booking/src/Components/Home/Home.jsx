@@ -47,10 +47,9 @@ const Home = ({
 
     }) => {
 
-        useEffect( () => {
+       /*  useEffect( () => {
             setSelectedDate(new Date());
-            
-        }, [])
+        }, []) */
 
     const classes = useStyles();
 

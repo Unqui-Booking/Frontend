@@ -51,14 +51,18 @@ const BookingList = ({
     chairReducer: {
         seatId
     },
+    snackbarReducer:{
+        openSnackbar,
+      },
     getBookingBySeatAndDate})=>{
 
         moment.locale('es');  
         const classes = useStyles()
-        const [open, setOpen] = useState(success);
+        const [open, setOpen] = useState(openSnackbar);
 
         useEffect(() => {
-            setOpen(open)
+            setOpen(openSnackbar);
+            getBookingBySeatAndDate(seatId, moment(date).format().split('T')[0].toString())
         }, [])
 
         const handleClose = (event, reason) => {
@@ -109,7 +113,8 @@ const BookingList = ({
 const mapStateToProps = state => ({
     bookingReducer: state.bookingReducer,
     dateHoursReducer: state.dateHoursReducer,
-    chairReducer: state.chairReducer
+    chairReducer: state.chairReducer,
+    snackbarReducer: state.snackbarReducer
 });
 
 export default connect(mapStateToProps, { getBookingBySeatAndDate})(BookingList)

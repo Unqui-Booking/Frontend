@@ -10,6 +10,7 @@ import SelectChair from './SelectChair'
 import AlertMessage from './AlertMessage';
 import { setActiveStep } from '../../Actions/alertMessageActions';
 import { registerBooking, getBookingBySeatDateHours, getBookingBySeatAndDate } from '../../Actions/bookingActions';
+import { handleOpen } from '../../Actions/snackbarAction';
 import Confirmation from './Confirmation';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,10 +49,14 @@ const SelectPlace = ({
   bookingReducer: {
     bookingsFiltered,
   },
+  snackbarReducer:{
+    openSnackbar,
+  },
   setActiveStep,
   registerBooking,
   getBookingBySeatDateHours,
-  getBookingBySeatAndDate }) => {
+  getBookingBySeatAndDate,
+  handleOpen }) => {
 
   const getSteps = () => {
     return ['Seleccionar escritorio', 'Seleccionar asiento', 'Confirmación'];
@@ -102,7 +107,7 @@ const SelectPlace = ({
     if (startTime != null && endTime != null) {
       registerBooking(seatId, moment(date).format().split('T')[0].toString(), startTime, endTime);
       getBookingBySeatAndDate(seatId, moment(date).format().split('T')[0].toString());
-      //ToDo>>> limpiar desk selected
+      handleOpen(true);
     } else {
       return console.log("error post booking")
     }
@@ -174,6 +179,7 @@ const mapStateToProps = state => ({
   chairReducer: state.chairReducer,
   dateHoursReducer: state.dateHoursReducer,
   bookingReducer: state.bookingReducer,
+  snackbarReducer: state.snackbarReducer,
 });
 
-export default connect(mapStateToProps, { setActiveStep, getBookingBySeatDateHours, registerBooking, getBookingBySeatAndDate })(SelectPlace)
+export default connect(mapStateToProps, { setActiveStep, getBookingBySeatDateHours, registerBooking, getBookingBySeatAndDate, handleOpen })(SelectPlace)

@@ -1,9 +1,8 @@
 import React , { useEffect } from 'react'
 import moment from 'moment';
-import 'moment/locale/es';
 import { connect } from 'react-redux';
 import { Grid , Typography, Divider, CardContent, makeStyles, Chip, TextField } from '@material-ui/core'
-import { getAllBookings } from '../../Actions/bookingActions'
+import { getBookingBySeatAndDate } from '../../Actions/bookingActions'
 
 const useStyles = makeStyles((theme) => ({
     rangeHours: {
@@ -40,18 +39,23 @@ const useStyles = makeStyles((theme) => ({
 const BookingList = ({
     
     bookingReducer:{
-        bookings,
+        bookingsFilteredBySeatDate,
     },
     dateHoursReducer: {
-        date
+        date,
+        startTime,
+        endTime
     },
-    getAllBookings})=>{
+    chairReducer: {
+        seatId
+    },
+    getBookingBySeatAndDate})=>{
 
         const classes = useStyles()
 
-        useEffect(() => {
-            getAllBookings()
-        }, [])
+       /*  useEffect(() => {
+            getBookingBySeatDateHours(seatId, moment(date).format().split('T')[0].toString(), startTime, endTime)
+        }, []) */
 
         moment.locale('es');  
         
@@ -73,7 +77,7 @@ const BookingList = ({
                     </Grid>
 
                     <Grid item xs={12} sm={8} className={classes.rangeHours}>
-                        {bookings.map(b => 
+                        {bookingsFilteredBySeatDate.map(b => 
                             <Grid item className={classes.spacing}>
                                 <Chip size="small" key={b.id} label={`${b.startTime}hs - ${b.endTime}hs`} color="primary" variant="outline" className={classes.chip} />
                             </Grid>                       
@@ -88,7 +92,8 @@ const BookingList = ({
 
 const mapStateToProps = state => ({
     bookingReducer: state.bookingReducer,
-    dateHoursReducer: state.dateHoursReducer
+    dateHoursReducer: state.dateHoursReducer,
+    chairReducer: state.chairReducer
 });
 
-export default connect(mapStateToProps, { getAllBookings, })(BookingList)
+export default connect(mapStateToProps, { getBookingBySeatAndDate})(BookingList)

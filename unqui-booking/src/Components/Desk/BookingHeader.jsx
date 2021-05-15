@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Grid , Typography, Divider, CardContent, TextField, makeStyles} from '@material-ui/core'
-import BookingRegister from './BookingRegister'
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -35,7 +34,6 @@ const BookingHeader = ({
                     <Typography variant='h6'>Reservas registradas para escritorio {desk.nameDesk}, asiento {seatId}</Typography>
                 </Grid>
                 <Grid item xs={12} sm={5} className={classes.register}>
-                    {/* <BookingRegister></BookingRegister> */}
                 </Grid>
             </Grid>
         </CardContent>

@@ -31,8 +31,8 @@ const BookingRegister = ({
   bookingReducer: {},
   dateHoursReducer: {
     date,
-    startHour,
-    endHour,
+    startTime,
+    endTime,
   },
   alertMessageReducer: {
     activeStep,
@@ -48,41 +48,31 @@ const BookingRegister = ({
 
   const handleChangeStartHours = (event) => {
     setSelectedStartHour(event.target.value);
-    console.log("INICIO: "+startHour)
+    console.log("INICIO: "+startTime)
   }
 
   const handleChangeEndHours = (event) => {
     setSelectedEndHour(event.target.value);
-    console.log("FIN " +endHour)
+    console.log("FIN " +endTime)
   }
 
   const validateCountHours = () => {
-      return (endHour - startHour <= 3) && (endHour > startHour) && (endHour != startHour)
+      return (endTime - startTime <= 3) && (endTime > startTime) && (endTime != startTime)
   }
 
   const getTextHelper = () => {
     let text = ''
 
-    if(endHour - startHour > 3) { text = "El rango horario no puede superar las tres horas" }
+    if(endTime - startTime > 3) { text = "El rango horario no puede superar las tres horas" }
       else{ 
-        if(startHour > endHour) { text = "La hora fin no puede ser menor a la hora inicio"}
+        if(startTime > endTime) { text = "La hora fin no puede ser menor a la hora inicio"}
           else{
-            if(endHour == startHour) {text = "El rango horario no puede ser menor a una hora"}
+            if(endTime == startTime) {text = "El rango horario no puede ser menor a una hora"}
           }
       }
 
     return text;
 
-  }
-
-  const onSaveRegister = () => {
-    if (startHour != null && endHour != null) {
-      registerBooking("24/04/21", endHour, startHour, 1);
-      getAllBookings();
-      //ToDo>>> limpiar desk selected
-    } else {
-      return console.log("error post booking")
-    }
   }
 
   return (
@@ -93,7 +83,7 @@ const BookingRegister = ({
                 <InputLabel id="startTime">Hora inicio</InputLabel>
                 <Select
                   disabled={activeStep == 2} 
-                  value={startHour}
+                  value={startTime}
                   onChange={handleChangeStartHours}
                   displayEmpty
                   labelId="startTime"
@@ -113,7 +103,7 @@ const BookingRegister = ({
               <InputLabel id="endTime">Hora fin</InputLabel>
               <Select
                 disabled={activeStep == 2} 
-                value={endHour}
+                value={endTime}
                 labelId="endTime"
                 id="endTime"
                 onChange={handleChangeEndHours}
@@ -127,8 +117,6 @@ const BookingRegister = ({
               </Select>
             {!validateCountHours() ? <FormHelperText color="red">{getTextHelper()}</FormHelperText> : null}
             
-            {/* <Button variant="contained" color="primary"  className={classes.margin} onClick={onSaveRegister} disabled={( !validateCountHours() ?  true :  false ) }>Reservar</Button> */}
-          
           </FormControl>
       </Grid>
     </>

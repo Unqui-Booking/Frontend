@@ -1,4 +1,4 @@
-import { SELECTED_DATE, SELECTED_START_HOUR, SELECTED_END_HOUR, LOGS_ERROR, } from './types';
+import { SELECTED_DATE, SELECTED_START_TIME, SELECTED_END_TIME, LOGS_ERROR, } from './types';
 
 
 export const setSelectedDate = (date) => dispatch => {
@@ -17,11 +17,11 @@ export const setSelectedDate = (date) => dispatch => {
     }
 }
 
-export const setSelectedStartHour = (startHour) => dispatch => {
+export const setSelectedStartHour = (startTime) => dispatch => {
     try{
         dispatch( {
-            type: SELECTED_START_HOUR,
-            payload: startHour
+            type: SELECTED_START_TIME,
+            payload: startTime
         })
     }
     catch(err){
@@ -33,11 +33,11 @@ export const setSelectedStartHour = (startHour) => dispatch => {
     }
 }
 
-export const setSelectedEndHour = (endHour) => dispatch => {
+export const setSelectedEndHour = (endTime) => dispatch => {
     try{
         dispatch( {
-            type: SELECTED_END_HOUR,
-            payload: endHour
+            type: SELECTED_END_TIME,
+            payload: endTime
         })
     }
     catch(err){

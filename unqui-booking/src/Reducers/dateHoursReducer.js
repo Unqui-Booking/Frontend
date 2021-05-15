@@ -1,11 +1,11 @@
-import { SET_LOADING, LOGS_ERROR, SELECTED_DATE, SELECTED_START_HOUR, SELECTED_END_HOUR  } from '../Actions/types'
+import { SET_LOADING, LOGS_ERROR, SELECTED_DATE, SELECTED_START_TIME, SELECTED_END_TIME  } from '../Actions/types'
 
 const initialState = {
     loading:true,
     error: null,
     date: new Date(),
-    startHour: 9,
-    endHour: 10
+    startTime: 9,
+    endTime: 10
 }
 
 export default function(state = initialState, action){
@@ -27,15 +27,15 @@ export default function(state = initialState, action){
                 ...state,
                 date: action.payload,
             }
-        case SELECTED_START_HOUR:
+        case SELECTED_START_TIME:
             return{
                 ...state,
-                startHour: action.payload,
+                startTime: action.payload,
             }    
-        case SELECTED_END_HOUR:
+        case SELECTED_END_TIME:
             return{
                 ...state,
-                endHour: action.payload,
+                endTime: action.payload,
             }
         default: return state
     }

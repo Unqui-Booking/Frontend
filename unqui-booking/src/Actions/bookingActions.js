@@ -69,15 +69,13 @@ export const registerBooking = (seatId, date, startTime, endTime) => async dispa
             type: ADD_BOOKING,
             payload: res.data
         })
-        console.log("acaaaaaaaaaaaaaaaaa "+res.data);
-        /* return Promise.resolve(res.data); */
     }
     catch(err){
         dispatch({
             type: LOGS_ERROR,
             payload: console.log(err)
           });
-          return Promise.reject(err);
+          console.log(err);
     }
 }
 

@@ -19,6 +19,7 @@ const SelectDesk = ( {
         deskSelected,
         desksSilent,
         desksGeneral,
+        
     },
     getAllDesks,
     setSelectedDesk,
@@ -30,7 +31,6 @@ const SelectDesk = ( {
             getAllDesks();
             getDeskByArea("silent");
             getDeskByArea("general");
-            {console.log(deskSelected)}
         }, [])
 
         const classes = useStyles();
@@ -45,7 +45,6 @@ const SelectDesk = ( {
 
 const mapStateToProps = state => ({
     deskReducer: state.deskReducer,
-
 });
     
 export default connect(mapStateToProps, { getAllDesks, setSelectedDesk, getDeskByArea, getChairByDesk, setActiveStep })(SelectDesk)

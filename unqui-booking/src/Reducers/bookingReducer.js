@@ -2,6 +2,7 @@ import { SET_LOADING, LOGS_ERROR, GET_BOOKINGS, ADD_BOOKING, GET_SPECIFIC_BOOKIN
 
 const initialState = {
     loading:true,
+    success: false,
     error: null,
     bookings:[],
     bookingsFiltered: [],
@@ -32,7 +33,6 @@ export default function(state = initialState, action){
                 ...state,
                 success: true,
                 loading: false,
-              
             }
         case GET_SPECIFIC_BOOKING:
             return {

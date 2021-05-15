@@ -1,5 +1,5 @@
-import React, { useEffect, useImperativeHandle } from 'react'
-import { Grid, Container, Button, Chip} from '@material-ui/core'
+import React from 'react'
+import { Grid, Container, Button, Chip } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import imgDesk from '../../Img/desk.png'
 
@@ -43,8 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const Desk = (props) =>{
 
     const classes = useStyles();
-    const {desk, setSelectedDesk, getChairByDesk, setActiveStep} = props 
-    
+    const {desk, setSelectedDesk, getChairByDesk, setActiveStep } = props 
     
     const handleClick = (available) => {      
         if(available){
@@ -68,6 +67,8 @@ const Desk = (props) =>{
         }
     }
 
+    
+
     return (
         <Container maxWidth="md">
             <Grid container className={classes.root} justify="center" spacing={2}> 
@@ -79,7 +80,7 @@ const Desk = (props) =>{
                         </Grid>
                     </Button>
                 </Grid>
-        </Grid>
+            </Grid>
         </Container>
         
     )

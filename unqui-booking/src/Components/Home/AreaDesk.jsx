@@ -31,22 +31,24 @@ const AreaDesk = (props) => {
 
     const classes = useStyles();
 
+    const {desksSilent, desksGeneral, setSelectedDesk, deskSelected, getChairByDesk, setActiveStep} = props
+
     return (
         <Grid container justify="center" className={classes.flex}>  
             
             <Grid item sm={6} xs={12} className={classes.border}>
                 <Typography variant='h5' className={classes.titleArea}> Área Silenciosa </Typography> 
                       
-                {props.desksSilent.map((d)=>(
-                    <Desk desk={d} desk={d} setSelectedDesk={props.setSelectedDesk} deskSelected={props.deskSelected} getChairByDesk={props.getChairByDesk} setActiveStep={props.setActiveStep} />
+                {desksSilent.map((d)=>(
+                    <Desk desk={d} desk={d} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected} getChairByDesk={getChairByDesk} setActiveStep={setActiveStep} />
                 ))} 
             </Grid>
             <Grid item sm={6} xs={12} className={classes.border}>
 
             <Typography variant='h5' className={classes.titleArea}> Área General </Typography> 
                
-               {props.desksGeneral.map((d)=>(
-                   <Desk desk={d} setSelectedDesk={props.setSelectedDesk} deskSelected={props.deskSelected} getChairByDesk={props.getChairByDesk} setActiveStep={props.setActiveStep} />
+               {desksGeneral.map((d)=>(
+                   <Desk desk={d} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected} getChairByDesk={getChairByDesk} setActiveStep={setActiveStep} />
                ))} 
             </Grid>
         </Grid>

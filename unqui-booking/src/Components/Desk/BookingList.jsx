@@ -1,8 +1,9 @@
-import React , { useEffect } from 'react'
+import React , { useState, useEffect } from 'react'
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { Grid , Typography, Divider, CardContent, makeStyles, Chip, TextField } from '@material-ui/core'
+import { Grid , Snackbar, CardContent, makeStyles, Chip, TextField } from '@material-ui/core'
 import { getBookingBySeatAndDate } from '../../Actions/bookingActions'
+import { Alert } from '@material-ui/lab'
 
 const useStyles = makeStyles((theme) => ({
     rangeHours: {
@@ -40,6 +41,7 @@ const BookingList = ({
     
     bookingReducer:{
         bookingsFilteredBySeatDate,
+        success,
     },
     dateHoursReducer: {
         date,
@@ -51,13 +53,20 @@ const BookingList = ({
     },
     getBookingBySeatAndDate})=>{
 
-        const classes = useStyles()
-
-       /*  useEffect(() => {
-            getBookingBySeatDateHours(seatId, moment(date).format().split('T')[0].toString(), startTime, endTime)
-        }, []) */
-
         moment.locale('es');  
+        const classes = useStyles()
+        const [open, setOpen] = useState(success);
+
+        useEffect(() => {
+            setOpen(open)
+        }, [])
+
+        const handleClose = (event, reason) => {
+            if (reason === 'clickaway') {
+              return;
+            }
+            setOpen(false);
+        };
         
         return (
             <CardContent>
@@ -84,6 +93,13 @@ const BookingList = ({
                             
                         )}
                     </Grid>
+
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="success">
+                            Reserva registrada exitosamente.
+                        </Alert>
+                    </Snackbar>
+
                 </Grid>
             </CardContent>
         )

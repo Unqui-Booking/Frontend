@@ -1,86 +1,132 @@
-import React from 'react';
-import {useState} from 'react'
-import { TextField, Button, Card, CardContent } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { useState } from 'react'
+import { connect } from "react-redux";
+import { Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import bookingProvider from '../../Api/booking'
+import { registerBooking , getAllBookings} from '../../Actions/bookingActions';
+import { setSelectedStartHour, setSelectedEndHour } from '../../Actions/dateHoursActions';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexFlow: 'column',
-    alignItems: 'center',
-    
+ const useStyles = makeStyles((theme) => ({
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      flexFlow: 'column',
+      alignItems: 'center',
+      margin: theme.spacing(1),
+      minWidth: 120,
+
+    },
+    selectTime: {
+      margin: theme.spacing(1),
+      width: 200,
+    },
+    margin: {
+      margin: theme.spacing(1),
+    },
+  }));
+
+
+const BookingRegister = ({
+  bookingReducer: {},
+  dateHoursReducer: {
+    date,
+    startTime,
+    endTime,
   },
-  textField: {
-    margin: theme.spacing(2),
-    width: 200,
+  alertMessageReducer: {
+    activeStep,
   },
-}));
+  registerBooking, 
+  getAllBookings,
+  setSelectedStartHour,
+  setSelectedEndHour,
+}) => {
 
-export default function BookingRegister(props) {
-
-  const [startHour, setStartHour] = useState();
-  const [endHour, setEndtHour] = useState();
-  const {initBooking} = props;
   const classes = useStyles();
+  const hours = [9,10,11,12,13,14,15,16,17,18,19,20]
 
-  const handleChangeStartHours = (valueSelectStartHour)=>{
-    const hours = (valueSelectStartHour.target.value).split(":")[0];
-    setStartHour(hours)
+  const handleChangeStartHours = (event) => {
+    setSelectedStartHour(event.target.value);
+    console.log("INICIO: "+startTime)
   }
 
-  const handleChangeEndHours = (valueSelectEndHour)=>{
-    const hours = (valueSelectEndHour.target.value).split(":")[0];
-    setEndtHour(hours)
+  const handleChangeEndHours = (event) => {
+    setSelectedEndHour(event.target.value);
+    console.log("FIN " +endTime)
   }
 
-  const onSaveRegister = () =>{
-    if(startHour != null && endHour != null){
-      bookingProvider.registerBooking("24/04/21", endHour, startHour, 1)
-      initBooking();
-    }else{
-      return console.log("error post booking")
-    }
-    
+  const validateCountHours = () => {
+      return (endTime - startTime <= 3) && (endTime > startTime) && (endTime != startTime)
+  }
+
+  const getTextHelper = () => {
+    let text = ''
+
+    if(endTime - startTime > 3) { text = "El rango horario no puede superar las tres horas" }
+      else{ 
+        if(startTime > endTime) { text = "La hora fin no puede ser menor a la hora inicio"}
+          else{
+            if(endTime == startTime) {text = "El rango horario no puede ser menor a una hora"}
+          }
+      }
+
+    return text;
+
   }
 
   return (
-    <Card>
-      <CardContent>
-        <form className={classes.container} noValidate>
-            <TextField
-              id="time"
-              label="Hora inicial de reserva"
-              type="time"
-              defaultValue="08:00"
-              onChange={handleChangeStartHours}
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }}
-            />
-            <TextField
-              id="time"
-              label="Hora final de reserva"
-              type="time"
-              defaultValue="21:00"
-              onChange={handleChangeEndHours}
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }}
-            />
-            <Button variant="contained" color="primary" onClick={onSaveRegister}>Reservar</Button>
-          
-        </form>
-      </CardContent>
-    </Card>
+    <>
+      <Grid>
+          <FormControl className={classes.container}>
+              <Grid item>
+                <InputLabel id="startTime">Hora inicio</InputLabel>
+                <Select
+                  disabled={activeStep == 2} 
+                  value={startTime}
+                  onChange={handleChangeStartHours}
+                  displayEmpty
+                  labelId="startTime"
+                  id="startTime"
+                  className={classes.selectTime}
+                  IconComponent= {ScheduleIcon}
+                  >
+                    <MenuItem value={hours[0]}>{hours[0]}:00</MenuItem>
+                    {hours.slice(1, hours.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                    )}
+                </Select>
+              </Grid>
+            </FormControl>
+
+          <FormControl className={classes.container}>
+            
+              <InputLabel id="endTime">Hora fin</InputLabel>
+              <Select
+                disabled={activeStep == 2} 
+                value={endTime}
+                labelId="endTime"
+                id="endTime"
+                onChange={handleChangeEndHours}
+                displayEmpty
+                className={classes.selectTime}
+                IconComponent= {ScheduleIcon}
+                >
+                  <MenuItem value={hours[0]}>{hours[0]}:00</MenuItem>
+                  {hours.slice(1, hours.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                  )}
+              </Select>
+            {!validateCountHours() ? <FormHelperText color="red">{getTextHelper()}</FormHelperText> : null}
+            
+          </FormControl>
+      </Grid>
+    </>
   );
 }
+
+const mapStateToProps = state => ({
+  bookingReducer: state.bookingReducer,
+  dateHoursReducer: state.dateHoursReducer,
+  alertMessageReducer: state.alertMessageReducer,
+});
+
+export default connect(mapStateToProps, { registerBooking, getAllBookings, setSelectedStartHour, setSelectedEndHour })(BookingRegister)

@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import moment from 'moment';
 import { Grid , Typography, Divider, CardContent, TextField, makeStyles} from '@material-ui/core'
-import BookingRegister from './BookingRegister'
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -15,37 +16,33 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
-const BookingHeader = (props) => {
+const BookingHeader = ({
+    deskReducer: {
+        desk
+    },
+    chairReducer: {
+        seatId
+    },
+
+    }) => {
     const classes = useStyles()
-    const {initBooking} = props
+
     return (
         <CardContent>
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={7} className={classes.header}>
-                    <Typography variant='h4'> Escritorio 1</Typography>
-                    <Divider></Divider>
-                    
-                    <form noValidate>
-                        <TextField
-                            id="date"
-                            className={classes.textField}
-                            label="Fecha de reserva"
-                            type="date"
-                            defaultValue="2021-04-24"
-                            disabled
-                            InputLabelProps={{
-                            shrink: true,
-                            }}
-                        />
-                    </form>
-                    
+                <Grid item xs={12} sm={12} className={classes.header}>
+                    <Typography variant='h6'>Reservas registradas para escritorio {desk.nameDesk}, asiento {seatId}</Typography>
                 </Grid>
                 <Grid item xs={12} sm={5} className={classes.register}>
-                    <BookingRegister initBooking={initBooking}></BookingRegister>
                 </Grid>
             </Grid>
         </CardContent>
     )
 }
+
+const mapStateToProps = state => ({
+    deskReducer: state.deskReducer,
+    chairReducer: state.chairReducer,
+});
  
-export default BookingHeader
+export default connect(mapStateToProps, { })(BookingHeader)

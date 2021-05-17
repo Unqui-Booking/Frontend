@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react'
 import { connect } from "react-redux";
+import moment from 'moment';
 import { Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { registerBooking , getAllBookings} from '../../Actions/bookingActions';
+import { registerBooking , getAllBookings, getMapAvailabilySeats} from '../../Actions/bookingActions';
 import { setSelectedStartHour, setSelectedEndHour } from '../../Actions/dateHoursActions';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
@@ -37,10 +38,14 @@ const BookingRegister = ({
   alertMessageReducer: {
     activeStep,
   },
+  deskReducer: {
+    desk,
+  },
   registerBooking, 
   getAllBookings,
   setSelectedStartHour,
   setSelectedEndHour,
+  getMapAvailabilySeats,
 }) => {
 
   const classes = useStyles();
@@ -53,6 +58,9 @@ const BookingRegister = ({
 
   const handleChangeEndHours = (event) => {
     setSelectedEndHour(event.target.value);
+    if(desk != null){ //si selecciono el cambio de fecha en el paso 2
+      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, endTime);
+  }
     console.log("FIN " +endTime)
   }
 
@@ -127,6 +135,7 @@ const mapStateToProps = state => ({
   bookingReducer: state.bookingReducer,
   dateHoursReducer: state.dateHoursReducer,
   alertMessageReducer: state.alertMessageReducer,
+  deskReducer: state.deskReducer,
 });
 
-export default connect(mapStateToProps, { registerBooking, getAllBookings, setSelectedStartHour, setSelectedEndHour })(BookingRegister)
+export default connect(mapStateToProps, { registerBooking, getAllBookings, setSelectedStartHour, setSelectedEndHour, getMapAvailabilySeats })(BookingRegister)

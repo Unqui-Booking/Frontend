@@ -1,4 +1,10 @@
-import { SET_LOADING, LOGS_ERROR, GET_BOOKINGS, ADD_BOOKING, GET_SPECIFIC_BOOKING, GET_SPECIFIC_BOOKING_BY_SEAT_DATE } from '../Actions/types'
+import { SET_LOADING,
+         LOGS_ERROR, 
+         GET_BOOKINGS, 
+         ADD_BOOKING, 
+         GET_SPECIFIC_BOOKING, 
+         GET_SPECIFIC_BOOKING_BY_SEAT_DATE,
+         GET_MAP_AVAILABILY_SEATS } from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -6,7 +12,8 @@ const initialState = {
     error: null,
     bookings:[],
     bookingsFiltered: [],
-    bookingsFilteredBySeatDate: []
+    bookingsFilteredBySeatDate: [],
+    mapAvailabilySeats: null
 }
 
 export default function(state = initialState, action){
@@ -43,6 +50,12 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 bookingsFilteredBySeatDate: action.payload,
+            }
+        case GET_MAP_AVAILABILY_SEATS:
+            return {
+                ...state,
+                mapAvailabilySeats: action.payload,
+                
             }
         default: return state
     }

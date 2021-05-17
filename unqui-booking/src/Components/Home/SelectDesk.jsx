@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import AreaDesk from "./AreaDesk";
 import { getAllDesks, setSelectedDesk, getDeskByArea } from '../../Actions/deskActions' 
+import { getMapAvailabilySeats } from '../../Actions/bookingActions'
 import { getChairByDesk } from '../../Actions/chairActions'
 import { setActiveStep } from '../../Actions/alertMessageActions'
 import { Grid } from '@material-ui/core';
@@ -21,11 +22,17 @@ const SelectDesk = ( {
         desksGeneral,
         
     },
+    dateHoursReducer: {
+        date,
+        startTime,
+        endTime,
+    },
     getAllDesks,
     setSelectedDesk,
     getDeskByArea,
     getChairByDesk,
-    setActiveStep }) => {
+    setActiveStep,
+    getMapAvailabilySeats }) => {
         
         useEffect(() => {
             getAllDesks();
@@ -37,7 +44,7 @@ const SelectDesk = ( {
 
         return (
             <Grid container>
-                <AreaDesk desksGeneral={desksGeneral} desksSilent={desksSilent} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected} getChairByDesk={getChairByDesk} setActiveStep={setActiveStep} ></AreaDesk>
+                <AreaDesk desksGeneral={desksGeneral} desksSilent={desksSilent} setSelectedDesk={setSelectedDesk} deskSelected={deskSelected} getChairByDesk={getChairByDesk} setActiveStep={setActiveStep} getMapAvailabilySeats={getMapAvailabilySeats} date={date} startTime={startTime} endTime={endTime}></AreaDesk>
             </Grid>
             
         )
@@ -45,6 +52,7 @@ const SelectDesk = ( {
 
 const mapStateToProps = state => ({
     deskReducer: state.deskReducer,
+    dateHoursReducer: state.dateHoursReducer,
 });
     
-export default connect(mapStateToProps, { getAllDesks, setSelectedDesk, getDeskByArea, getChairByDesk, setActiveStep })(SelectDesk)
+export default connect(mapStateToProps, { getAllDesks, setSelectedDesk, getDeskByArea, getChairByDesk, setActiveStep, getMapAvailabilySeats })(SelectDesk)

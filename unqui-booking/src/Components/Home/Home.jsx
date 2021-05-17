@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { Grid, Container, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import SelectPlace from './SelectPlace'
 import BookingRegister from '../Desk/BookingRegister';
-import { setSelectedDate } from  '../../Actions/dateHoursActions'
+import { setSelectedDate } from  '../../Actions/dateHoursActions';
+import { getMapAvailabilySeats } from '../../Actions/bookingActions';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -39,11 +41,17 @@ const Home = ({
 
     dateHoursReducer: {
         date,
+        startTime,
+        endTime
     },
     alertMessageReducer: {
         activeStep,
     },
+    deskReducer: {
+        desk
+    },
     setSelectedDate,
+    getMapAvailabilySeats,
 
     }) => {
 
@@ -60,6 +68,10 @@ const Home = ({
     
     const handleOnChange = (date) => {
         setSelectedDate(date);
+        if(desk != null){ //si selecciono el cambio de fecha en el paso 2
+            getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, endTime);
+        }
+        
     }
   
     return (
@@ -84,8 +96,8 @@ const Home = ({
                                 'aria-label': 'change date',
                             }}
                             onChange={handleOnChange}
-                            disablePast={true}
-                            shouldDisableDate={filterDays}
+                            //disablePast={true}
+                            //shouldDisableDate={filterDays}
                         />
                     </MuiPickersUtilsProvider>
                 </Grid>
@@ -101,7 +113,8 @@ const Home = ({
 
 const mapStateToProps = state => ({
     dateHoursReducer: state.dateHoursReducer,
-    alertMessageReducer: state.alertMessageReducer
+    alertMessageReducer: state.alertMessageReducer,
+    deskReducer: state.deskReducer
 });
     
-export default connect(mapStateToProps, { setSelectedDate })(Home)
+export default connect(mapStateToProps, { setSelectedDate, getMapAvailabilySeats })(Home)

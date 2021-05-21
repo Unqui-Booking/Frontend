@@ -34,6 +34,7 @@ const BookingRegister = ({
     date,
     startTime,
     endTime,
+    timeDisabled,
   },
   alertMessageReducer: {
     activeStep,
@@ -49,7 +50,8 @@ const BookingRegister = ({
 }) => {
 
   const classes = useStyles();
-  const hours = [9,10,11,12,13,14,15,16,17,18,19,20]
+  const hoursStart = [9,10,11,12,13,14,15,16,17,18,19]
+  const hoursEnd = [9,10,11,12,13,14,15,16,17,18,19,20]
 
   const handleChangeStartHours = (event) => {
     setSelectedStartHour(event.target.value);
@@ -84,6 +86,10 @@ const BookingRegister = ({
 
   }
 
+  const getDisabilityEndTime = (h) => {
+    return !timeDisabled.includes(h);
+  }
+
   return (
     <>
       <Grid>
@@ -100,8 +106,8 @@ const BookingRegister = ({
                   className={classes.selectTime}
                   IconComponent= {ScheduleIcon}
                   >
-                    <MenuItem value={hours[0]}>{hours[0]}:00</MenuItem>
-                    {hours.slice(1, hours.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                    <MenuItem value={hoursStart[0]}>{hoursStart[0]}:00</MenuItem>
+                    {hoursStart.slice(1, hoursStart.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
                     )}
                 </Select>
               </Grid>
@@ -112,7 +118,7 @@ const BookingRegister = ({
               <InputLabel id="endTime">Hora fin</InputLabel>
               <Select
                 disabled={activeStep == 2} 
-                value={endTime}
+                value={timeDisabled[0]}
                 labelId="endTime"
                 id="endTime"
                 onChange={handleChangeEndHours}
@@ -120,8 +126,10 @@ const BookingRegister = ({
                 className={classes.selectTime}
                 IconComponent= {ScheduleIcon}
                 >
-                  <MenuItem value={hours[0]}>{hours[0]}:00</MenuItem>
-                  {hours.slice(1, hours.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                  <MenuItem value={hoursEnd[0]} disabled={getDisabilityEndTime(hoursEnd[0])}>
+                      {hoursEnd[0]}:00
+                  </MenuItem>
+                  {hoursEnd.slice(1, hoursEnd.length).map(h => <MenuItem value={h} disabled={getDisabilityEndTime(h)}>{h}:00</MenuItem> 
                   )}
               </Select>
             {!validateCountHours() ? <FormHelperText color="red">{getTextHelper()}</FormHelperText> : null}

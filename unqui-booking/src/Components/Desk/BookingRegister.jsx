@@ -53,15 +53,16 @@ const BookingRegister = ({
 
   const handleChangeStartHours = (event) => {
     setSelectedStartHour(event.target.value);
-    console.log("INICIO: "+startTime)
+    if(desk != null){ //si selecciono el cambio de fecha en el paso 2 o en el paso 1 una vez que se seleccionó un desk
+      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], event.target.value, endTime);
+    }
   }
 
   const handleChangeEndHours = (event) => {
     setSelectedEndHour(event.target.value);
-    if(desk != null){ //si selecciono el cambio de fecha en el paso 2
-      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, endTime);
-  }
-    console.log("FIN " +endTime)
+    if(desk != null){ //si selecciono el cambio de fecha en el paso 2 o en el paso 1 una vez que se seleccionó un desk
+      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, event.target.value);
+    }
   }
 
   const validateCountHours = () => {

@@ -54,7 +54,7 @@ export default function(state = initialState, action){
         case GET_MAP_AVAILABILY_SEATS:
             return {
                 ...state,
-                mapAvailabilySeats: action.payload,
+                mapAvailabilySeats: Object.entries(action.payload),
                 
             }
         default: return state

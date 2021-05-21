@@ -79,12 +79,12 @@ const SelectChair = ({
     setActiveStep }) => {
 
     const classes = useStyles();
-    const [iterableMapSeats, setIterableMapSeats] = useState(Object.entries(mapAvailabilySeats))
+    //const [iterableMapSeats, setIterableMapSeats] = useState(Object.entries(mapAvailabilySeats))
 
-    useEffect( () => {
+    /* useEffect( () => {
         setIterableMapSeats(Object.entries(mapAvailabilySeats));
     }, [])
-
+ */
       const handleClick = (seatid, available) => {
         if(available){
             setSelectedSeat(seatid);
@@ -112,7 +112,7 @@ const SelectChair = ({
         <Grid container justify="center" className={classes.flex}>
             
             <Grid item xs={12} sm={12} justify="center" className={classes.flex}>
-                {iterableMapSeats.map((cl) => (
+                {mapAvailabilySeats.map((cl) => (
                     <Grid xs={2} className={classes.chairTop}>
                         <Button variant="contained"  color="default" onClick={() => handleClick(cl[0], cl[1])} className={getStyleBox(cl[1])}>
                         <Grid className={classes.column}>
@@ -128,7 +128,7 @@ const SelectChair = ({
                 <p className={classes.text}>[ Escritorio seleccionado ]</p>
             </Grid>
             <Grid item xs={12} sm={12} justify="center" className={classes.flex}> 
-                {iterableMapSeats.map((cr) => (
+                {mapAvailabilySeats.map((cr) => (
                     <Grid xs={2} justify="center" className={classes.chairBottom}>
                         <Button variant="contained"  color="default"  onClick={() => handleClick(cr[0], cr[1])} className={getStyleBox(cr[1])}>
                             <Grid className={classes.column}>

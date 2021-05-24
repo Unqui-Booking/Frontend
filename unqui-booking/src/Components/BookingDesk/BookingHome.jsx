@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 const BookingHome = ({
     deskReducer: {
-        desk
+        desk,
     },
     chairReducer: {
         seatId
@@ -51,4 +51,4 @@ const mapStateToProps = state => ({
     chairReducer: state.chairReducer,
 });
  
-export default BookingHome
+export default connect(mapStateToProps, { })(BookingHome)

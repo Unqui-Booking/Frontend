@@ -25,7 +25,7 @@ const AlertMessage = ({
             case 1:
               return `Asiento seleccionado: ${seatId}`;
             default:
-              return 'Sin seleccióm';
+              return 'Sin selección';
           }
     }
 

@@ -32,7 +32,8 @@ export default function(state = initialState, action){
             return{
                 ...state,
                 startTime: action.payload,
-                timeDisabled: [action.payload + 1, action.payload + 2, action.payload + 3]
+                timeDisabled: [action.payload + 1, action.payload + 2, action.payload + 3],
+                endTime: action.payload + 1,
             }    
         case SELECTED_END_TIME:
             return{

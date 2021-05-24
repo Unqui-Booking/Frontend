@@ -94,7 +94,6 @@ const BookingList = ({
                             <Grid item className={classes.spacing}>
                                 <Chip size="small" key={b.id} label={`${b.startTime}hs - ${b.endTime}hs`} color="primary" variant="outline" className={classes.chip} />
                             </Grid>                       
-                            
                         )}
                     </Grid>
 
@@ -107,7 +106,6 @@ const BookingList = ({
                 </Grid>
             </CardContent>
         )
-        
     }
 
 const mapStateToProps = state => ({

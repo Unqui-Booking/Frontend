@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Button, Chip } from '@material-ui/core'
 import { GiOfficeChair } from 'react-icons/gi';
-import { setSelectedSeat } from '../../Actions/chairActions';
-import { setActiveStep } from '../../Actions/alertMessageActions'
+import { Grid, Button, Chip } from '@material-ui/core';
+import { setSelectedSeat } from '../../../Actions/chairActions';
+import { setActiveStep } from '../../../Actions/alertMessageActions';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -68,10 +68,6 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const SelectChair = ({
-    chairReducer: {
-        chairs,
-        seatId,
-    },
     bookingReducer: {
         mapAvailabilySeats,
     },
@@ -79,13 +75,8 @@ const SelectChair = ({
     setActiveStep }) => {
 
     const classes = useStyles();
-    //const [iterableMapSeats, setIterableMapSeats] = useState(Object.entries(mapAvailabilySeats))
 
-    /* useEffect( () => {
-        setIterableMapSeats(Object.entries(mapAvailabilySeats));
-    }, [])
- */
-      const handleClick = (seatid, available) => {
+    const handleClick = (seatid, available) => {
         if(available){
             setSelectedSeat(seatid);
             setActiveStep(1);
@@ -126,7 +117,7 @@ const SelectChair = ({
             </Grid>
             <Grid item xs={12} sm={12} className={classes.desk}>
                 <p className={classes.text}>[ Escritorio seleccionado ]</p>
-            </Grid>
+            </Grid> 
             <Grid item xs={12} sm={12} justify="center" className={classes.flex}> 
                 {mapAvailabilySeats.map((cr) => (
                     <Grid xs={2} justify="center" className={classes.chairBottom}>
@@ -140,11 +131,10 @@ const SelectChair = ({
                 ))}
             </Grid>
         </Grid>
-    )
+    ) 
 }
 
 const mapStateToProps = state => ({
-    chairReducer: state.chairReducer,
     bookingReducer: state.bookingReducer,
 });
 

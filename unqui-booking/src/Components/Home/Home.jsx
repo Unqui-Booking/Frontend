@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Grid, Container, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import SelectPlace from './SelectPlace'
-import BookingRegister from '../Desk/BookingRegister';
+import SelectPlace from './SelectPlace/SelectPlace';
+import BookingRegister from './BookingRegister';
 import { setSelectedDate } from  '../../Actions/dateHoursActions';
 import { getMapAvailabilySeats } from '../../Actions/bookingActions';
 
@@ -55,10 +55,6 @@ const Home = ({
 
     }) => {
 
-       /*  useEffect( () => {
-            setSelectedDate(new Date());
-        }, []) */
-
     const classes = useStyles();
 
     const filterDays = (date) => {
@@ -96,8 +92,8 @@ const Home = ({
                                 'aria-label': 'change date',
                             }}
                             onChange={handleOnChange}
-                            //disablePast={true}
-                            //shouldDisableDate={filterDays}
+                            disablePast={true}
+                            shouldDisableDate={filterDays}
                         />
                     </MuiPickersUtilsProvider>
                 </Grid>
@@ -105,7 +101,7 @@ const Home = ({
                     <BookingRegister/>
                 </Grid>
                 <Grid item xs={12}>
-                    <SelectPlace></SelectPlace>
+                    <SelectPlace/>
                 </Grid>
         </Grid>
         </Container>  
@@ -117,4 +113,4 @@ const mapStateToProps = state => ({
     deskReducer: state.deskReducer
 });
     
-export default connect(mapStateToProps, { setSelectedDate, getMapAvailabilySeats })(Home)
+export default connect(mapStateToProps, { setSelectedDate, getMapAvailabilySeats })(Home);

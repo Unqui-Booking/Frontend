@@ -1,10 +1,11 @@
-import BookingHome from "./Components/Desk/BookingHome";
+import BookingHome from "./Components/BookingDesk/BookingHome";
 import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
 import { BrowserRouter as  HashRouter, Switch, Route  } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/core/styles'
-import theme from './themeConfig'
-import NavBar from "./Components/Home/NavBar"
-import store from './store'
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from './themeConfig';
+import NavBar from "./Components/Home/NavBar";
+import store from './store';
 import {Provider} from 'react-redux';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <NavBar></NavBar>
         <HashRouter>
           <Switch>
+            {/* <Route exact path='/' component={Login} /> */}
               <Route exact path='/' component={Home} />
               <Route path='/desk' component={BookingHome} />
           </Switch>

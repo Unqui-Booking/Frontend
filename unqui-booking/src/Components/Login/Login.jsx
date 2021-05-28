@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Container, Grid, IconButton, Input, InputAdornment, Button, TextField, Avatar } from '@material-ui/core';
-import { AccountCircle, Visibility, VisibilityOff } from '@material-ui/icons';
+import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import logo from '../../Img/logo.png';
 
@@ -98,9 +98,6 @@ const Login = () => {
                             <Button variant="contained" color="primary" className={classes.textFild}>
                                 Ingresar
                             </Button>
-
-                        
-
                     </CardContent>
                 </Card>
             </Grid>

@@ -59,7 +59,8 @@ const Home = ({
 
     const filterDays = (date) => {
         const today = new Date();
-        return date.getDay() === 0 || date.getDay() === 6 || date.getDate() > (today.getDate() + 14);
+        //|| date.getDay() === 6 
+        return date.getDay() === 0 || date.getDate() > (today.getDate() + 14);
       }
     
     const handleOnChange = (date) => {

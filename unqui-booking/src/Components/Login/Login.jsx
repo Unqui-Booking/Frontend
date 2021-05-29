@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar } from '@material-ui/core';
+import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar, FormHelperText } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import logo from '../../Img/logo.png';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -40,18 +42,27 @@ const Login = () => {
         password: '',
         showPassword: false,
       });
+    const history = useHistory();
     
-      const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-      };
-    
-      const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
-      };
-    
-      const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-      };
+    const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+    };
+
+    const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+    };
+
+    const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+    };
+
+    const login = () => {
+        history.push("/home");
+    }
+
+    const goToRegister = () => {
+        history.push("/register");
+    }
 
     return (
         
@@ -62,7 +73,7 @@ const Login = () => {
                     <CardContent className={classes.cardContent}>
                             <TextField
                                 id="input-with-icon-textfield"
-                                label="Usuario"
+                                label="Email"
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="start">
@@ -95,9 +106,10 @@ const Login = () => {
                                 className={classes.textFild}
                             />
 
-                            <Button variant="contained" color="primary" className={classes.textFild}>
+                            <Button variant="contained" color="primary" onClick={login} className={classes.textFild}>
                                 Ingresar
                             </Button>
+                            <Link href="#" onClick={goToRegister}>Registrarse</Link>
                     </CardContent>
                 </Card>
             </Grid>

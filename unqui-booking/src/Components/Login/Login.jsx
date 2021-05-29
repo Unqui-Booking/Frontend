@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar, FormHelperText } from '@material-ui/core';
@@ -6,6 +7,7 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import logo from '../../Img/logo.png';
 import { Link } from 'react-router-dom';
+import { setUserLogged } from '../../Actions/userActions'
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -35,7 +37,10 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const Login = () => {
+const Login = ({
+    userReducer: { },
+    setUserLogged
+}) => {
 
     const classes = useStyles();
     const [values, setValues] = useState({
@@ -57,6 +62,7 @@ const Login = () => {
     };
 
     const login = () => {
+        setUserLogged(true);
         history.push("/home");
     }
 
@@ -117,4 +123,8 @@ const Login = () => {
     )
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    userReducer: state.userReducer,
+  });
+  
+  export default connect(mapStateToProps, { setUserLogged })(Login)

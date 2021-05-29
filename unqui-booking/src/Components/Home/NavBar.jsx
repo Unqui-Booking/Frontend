@@ -1,71 +1,65 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-import { AppBar, Toolbar, Typography, Fab } from  '@material-ui/core';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded';
-import Zoom from '@material-ui/core/Zoom';
+import { IconButton, AppBar, Toolbar, Typography } from  '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
   },
 }));
 
-function ScrollTop(props) {
-
-  const { children, window } = props;
-  const classes = useStyles();
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: true,
-    threshold: 100,
-  });
-
-  const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
-
-    if (anchor) {
-      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  };
-
-  return (
-    <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.root}>
-        {children}
-      </div>
-    </Zoom>
-  );
-}
-
-ScrollTop.propTypes = {
-  children: PropTypes.element.isRequired,
-  window: PropTypes.func,
-};
-
 const NavBar = (props) => {
+
+  const classes = useStyles();
+  const history = useHistory(); 
+
+  const handleLogOut = () => {
+    console.log("SALIR")
+  }
+
+  const handleProfile = () => {
+    console.log("profile")
+  }
   
     return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar>
+    <div className={classes.root}>
+      <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6">UNQui-Booking</Typography>
+          <Typography variant="h6" className={classes.title}>
+            UNQui-Booking
+          </Typography>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleProfile}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleLogOut}
+              color="inherit"
+            >
+              <ExitToAppIcon/>
+            </IconButton>
         </Toolbar>
       </AppBar>
-      <Toolbar id="back-to-top-anchor" />
-
-      <ScrollTop {...props}>
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
-          <ArrowDropUpRoundedIcon />
-        </Fab>
-      </ScrollTop>
-    </React.Fragment>
+    </div>
   );
+
 }
 
 export default NavBar

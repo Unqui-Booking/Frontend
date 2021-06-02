@@ -6,8 +6,6 @@ import { IconButton, AppBar, Toolbar, Typography } from  '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { setFailedLogin } from '../../Actions/userActions';
-import { propTypes } from 'react-bootstrap/esm/Image';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = ({
   userReducer: {
-    failedLogin,
     user
   },
   setFailedLogin
@@ -47,7 +44,7 @@ const NavBar = ({
             UNQui-Booking
           </Typography>
           
-          {!failedLogin ?
+          {user != undefined ?
             <div>
               <IconButton
                 aria-label="account of current user"

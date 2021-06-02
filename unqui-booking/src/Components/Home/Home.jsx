@@ -50,6 +50,9 @@ const Home = ({
     deskReducer: {
         desk
     },
+    userReducer: {
+        user
+    },
     setSelectedDate,
     getMapAvailabilySeats,
 
@@ -73,6 +76,7 @@ const Home = ({
   
     return (
         <Container maxWidth="md">
+            
             <Grid container className={classes.root} justify="center" > 
                 <Grid item xs={12}>
                     <Typography variant='h4' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
@@ -111,7 +115,8 @@ const Home = ({
 const mapStateToProps = state => ({
     dateHoursReducer: state.dateHoursReducer,
     alertMessageReducer: state.alertMessageReducer,
-    deskReducer: state.deskReducer
+    deskReducer: state.deskReducer,
+    userReducer: state.userReducer,
 });
     
 export default connect(mapStateToProps, { setSelectedDate, getMapAvailabilySeats })(Home);

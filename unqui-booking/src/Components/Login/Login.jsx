@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar, FormHelperText } from '@material-ui/core';
+import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar, FormHelperText, FormControl, Snackbar } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import logo from '../../Img/logo.png';
 import { Link } from 'react-router-dom';
-import { setUserLogged } from '../../Actions/userActions'
+import { setFailedLogin, getUser, setUserExists } from '../../Actions/userActions'
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -38,8 +39,16 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const Login = ({
-    userReducer: { },
-    setUserLogged
+    userReducer: { 
+        user,
+        userExists,
+        userRegistered,
+        failedLogin
+    },
+    setFailedLogin,
+    getUser,
+    setUserExists,
+
 }) => {
 
     const classes = useStyles();
@@ -48,7 +57,13 @@ const Login = ({
         showPassword: false,
       });
     const history = useHistory();
-    
+    const [email, setEmail] = useState('');
+    const[open, setOpen] = useState(userRegistered);
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
     const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
     };
@@ -61,13 +76,23 @@ const Login = ({
     event.preventDefault();
     };
 
-    const login = () => {
-        setUserLogged(true);
-        history.push("/home");
+    const login = async (event) => {
+        event.preventDefault();
+        let resUser = await getUser(email, values.password);
+        if(typeof resUser == 'object'){
+            setFailedLogin(false);
+            history.push("/home");
+        }else{
+            setFailedLogin(true);
+        }
     }
 
     const goToRegister = () => {
         history.push("/register");
+    }
+
+    const handleEmail = (event) => {
+        setEmail(event.target.value.trim());
     }
 
     return (
@@ -76,7 +101,9 @@ const Login = ({
             <Grid container spacing={3} className={classes.container}>
                 <Avatar alt="Remy Sharp" src={logo} className={classes.avatar} />
                 <Card className={classes.card}>
-                    <CardContent className={classes.cardContent}>
+                    <CardContent>
+                        <form>
+                        <FormControl className={classes.cardContent}>
                             <TextField
                                 id="input-with-icon-textfield"
                                 label="Email"
@@ -88,6 +115,7 @@ const Login = ({
                                     ),
                                 }}
                                 className={classes.textFild}
+                                onChange={handleEmail}
                             />
                             
                             <TextField
@@ -111,14 +139,24 @@ const Login = ({
                                 }}
                                 className={classes.textFild}
                             />
-
-                            <Button variant="contained" color="primary" onClick={login} className={classes.textFild}>
+                            { failedLogin ?
+                                 <FormHelperText>Usuario o contraseña incorrectos</FormHelperText> : null
+                            }
+                           
+                            <Button variant="contained" color="primary" onClick={(event)=>login(event)} className={classes.textFild}>
                                 Ingresar
                             </Button>
                             <Link href="#" onClick={goToRegister}>Registrarse</Link>
+                        </FormControl>
+                        </form>    
                     </CardContent>
                 </Card>
             </Grid>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+                <Alert onClose={handleClose} severity="success">
+                    Usuario registrado correctamente.
+                </Alert>
+            </Snackbar>
         </Container> 
     )
 }
@@ -127,4 +165,4 @@ const mapStateToProps = state => ({
     userReducer: state.userReducer,
   });
   
-  export default connect(mapStateToProps, { setUserLogged })(Login)
+  export default connect(mapStateToProps, { setFailedLogin, getUser, setUserExists })(Login)

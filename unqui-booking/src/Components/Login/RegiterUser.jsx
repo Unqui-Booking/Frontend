@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar, FormControl } from '@material-ui/core';
+import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar, FormControl, Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import logo from '../../Img/logo.png';
+import { registerUser, setFailedLogin } from '../../Actions/userActions';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -38,7 +42,14 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const RegiterUser = () => {
+const RegiterUser = ({
+    userReducer: {
+        userRegistered
+    },
+    registerUser,
+    setFailedLogin
+
+}) => {
 
     const classes = useStyles();
     const [values, setValues] = useState({
@@ -49,6 +60,7 @@ const RegiterUser = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const history = useHistory();
+    
 
     const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -62,22 +74,21 @@ const RegiterUser = () => {
     event.preventDefault();
     };
 
-    const getvalues = () => {
-        //return name.length == 0 || email.length == 0 || values.password.length == 0 ;
+    const getValidations = () => {
         return !validateName() || !validateEmail() || !validatePassword() ;
     }
     
     const handleName = (event) => {
-        setName(event.target.value)
+        setName(event.target.value.trim());
     }
 
     const handleEmail = (event) => {
-        setEmail(event.target.value)
+        setEmail(event.target.value.trim());
     }
 
     const validateName = () => {
         let exp = /^(?=.*\d)/;
-        return name.length > 3 && name.split(' ').length >=2 && name.split('').length == name.length && !exp.test(name); 
+        return name.length > 3 && name.split(' ').length >=2 && !exp.test(name); 
     }
 
     const showTextHelperName = () => {
@@ -111,7 +122,17 @@ const RegiterUser = () => {
     }
 
     const saveUser = () => {
-        //save user
+        registerUser(name, email, values.password);
+        if(userRegistered){
+            history.push("/");
+        }else{
+            console.log("no se pudo registrar el usuario");
+        }
+        
+    }
+
+    const goToLogin = () => {
+        setFailedLogin(false);
         history.push("/");
     }
 
@@ -121,60 +142,62 @@ const RegiterUser = () => {
             <Grid container spacing={3} className={classes.container}>
                 <Avatar alt="Remy Sharp" src={logo} className={classes.avatar} />
                 <Card className={classes.card}>
-                    <CardContent className={classes.cardContent}>
-                        <FormControl >
-                            <Grid item className={classes.nameMail} sm={12}>
-                                <TextField
-                                    id="input-with-icon-textfield"
-                                    label="Nombre y apellido"
-                                    className={classes.textFild}
-                                    helperText= {showTextHelperName()}
-                                    value={name}
-                                    onChange={handleName}
-                                />
-                                <TextField
-                                    id="input-with-icon-textfield"
-                                    label="Email"
-                                    className={classes.textFild}
-                                    helperText= {showTextHelperEmail()}
-                                    value={email}
-                                    onChange={handleEmail}
-                                    
-                                />
-                            </Grid>
-                            <Grid item sm={12} xs={12}>
-                                <TextField
-                                    id="input-with-icon-textfield"
-                                    label="Contraseña"
-                                    type={values.showPassword ? 'text' : 'password'}
-                                    value={values.password}
-                                    onChange={handleChange('password')}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="start">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                >
-                                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                    className={classes.textFild}
-                                    helperText= {showTextHelperPassword()}
-                                />
-                            </Grid>
-                            <Button variant="contained" color="primary" onClick={saveUser} className={classes.textFild} disabled={getvalues()}>
+                    <CardContent>
+                        <FormControl className={classes.cardContent}>
+                            <TextField
+                                id="input-with-icon-textfield"
+                                label="Nombre y apellido"
+                                className={classes.textFild}
+                                helperText= {showTextHelperName()}
+                                value={name}
+                                onChange={handleName}
+                            />
+                            <TextField
+                                id="input-with-icon-textfield"
+                                label="Email"
+                                className={classes.textFild}
+                                helperText= {showTextHelperEmail()}
+                                value={email}
+                                onChange={handleEmail}
+                                
+                            />
+                            <TextField
+                                id="input-with-icon-textfield"
+                                label="Contraseña"
+                                type={values.showPassword ? 'text' : 'password'}
+                                value={values.password}
+                                onChange={handleChange('password')}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="start">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                            >
+                                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                className={classes.textFild}
+                                helperText= {showTextHelperPassword()}
+                            />
+                            <Button variant="contained" color="primary" onClick={saveUser} className={classes.textFild} disabled={getValidations()}>
                                 Registrarse
                             </Button>
+                            <Link href="#" onClick={goToLogin}>Ya tengo una cuenta</Link>
                         </FormControl>
                     </CardContent>
                 </Card>
             </Grid>
+            
         </Container> 
     )
 }
 
-export default RegiterUser;
+const mapStateToProps = state => ({
+    userReducer: state.userReducer,
+});
+
+export default connect(mapStateToProps, { registerUser, setFailedLogin })(RegiterUser)

@@ -1,12 +1,11 @@
-import { SET_LOADING, LOGS_ERROR, FAILED_LOGIN, GET_USER, USER_EXISTS, ADD_USER } from '../Actions/types'
+import { SET_LOADING, LOGS_ERROR, FAILED_LOGIN, GET_USER, ADD_USER } from '../Actions/types'
 
 const initialState = {
     loading: true,
     error: null,
     failedLogin: false,
     user: undefined,
-    userExists: false,
-    userRegistered: false,
+    successRegister: false,
 }
 
 export default function(state = initialState, action){
@@ -33,17 +32,11 @@ export default function(state = initialState, action){
             return {
             ...state,
             user: action.payload,
-            //userExists: action.payload.length > 0,
-            }
-        case USER_EXISTS:
-            return {
-            ...state,
-            userExists: action.payload,
             }
         case ADD_USER:
             return {
             ...state,
-            userRegistered: true,
+            successRegister: true,
             }
         default: return state
         

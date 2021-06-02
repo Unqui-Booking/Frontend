@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar, FormControl, Snackbar } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button, TextField, Avatar, FormControl } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import logo from '../../Img/logo.png';
 import { registerUser, setFailedLogin } from '../../Actions/userActions';
@@ -44,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 
 const RegiterUser = ({
     userReducer: {
-        userRegistered
     },
     registerUser,
     setFailedLogin
@@ -121,9 +119,10 @@ const RegiterUser = ({
         return text;
     }
 
-    const saveUser = () => {
-        registerUser(name, email, values.password);
-        if(userRegistered){
+    const saveUser = async () => {
+        let newUser = await registerUser(name, email, values.password);
+        if(newUser){
+            setFailedLogin(false);
             history.push("/");
         }else{
             console.log("no se pudo registrar el usuario");

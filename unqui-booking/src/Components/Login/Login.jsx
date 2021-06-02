@@ -7,7 +7,7 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import logo from '../../Img/logo.png';
 import { Link } from 'react-router-dom';
-import { setFailedLogin, getUser, setUserExists } from '../../Actions/userActions'
+import { setFailedLogin, getUser } from '../../Actions/userActions'
 import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,14 +40,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = ({
     userReducer: { 
-        user,
-        userExists,
-        userRegistered,
+        successRegister,
         failedLogin
     },
     setFailedLogin,
     getUser,
-    setUserExists,
 
 }) => {
 
@@ -58,7 +55,7 @@ const Login = ({
       });
     const history = useHistory();
     const [email, setEmail] = useState('');
-    const[open, setOpen] = useState(userRegistered);
+    const[open, setOpen] = useState(successRegister);
 
     const handleClose = () => {
         setOpen(false);
@@ -165,4 +162,4 @@ const mapStateToProps = state => ({
     userReducer: state.userReducer,
   });
   
-  export default connect(mapStateToProps, { setFailedLogin, getUser, setUserExists })(Login)
+  export default connect(mapStateToProps, { setFailedLogin, getUser })(Login)

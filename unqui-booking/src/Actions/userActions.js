@@ -1,12 +1,12 @@
-import { FAILED_LOGIN, GET_USER, LOGS_ERROR, USER_EXISTS, ADD_USER } from './types';
+import { FAILED_LOGIN, GET_USER, LOGS_ERROR, ADD_USER } from './types';
 import { USER_URL } from '../Api/base'
 import dataService from '../Services/service'
 
-export const setFailedLogin = (stateUser) => dispatch => {
+export const setFailedLogin = (failedLogin) => dispatch => {
     try{
         dispatch( {
             type: FAILED_LOGIN,
-            payload: stateUser
+            payload: failedLogin
         })
     }
     catch(err){
@@ -28,7 +28,6 @@ export const getUser = (mail, password) => async dispatch => {
             type: GET_USER,
             payload: resUser
         })
-        //window.location.href = "http://localhost:3000/home";
         return resUser;
     }
     catch(err){
@@ -41,40 +40,6 @@ export const getUser = (mail, password) => async dispatch => {
     }
 }
 
-// export const setUser = (user) => dispatch => {
-//     try{
-//         dispatch( {
-//             type: SET_USER,
-//             payload: user,
-//         })
-//     }
-//     catch(err){
-//         dispatch( {
-//             type: LOGS_ERROR,
-//             payload: console.log(err),
-//         })
-//         console.log(err);
-//     }
-    
-// }
-
-
-export const setUserExists = (arrayUser) => dispatch => {
-    try{
-        dispatch( {
-            type: USER_EXISTS,
-            payload: arrayUser.length > 0,
-        })
-    }
-    catch(err){
-        dispatch( {
-            type: LOGS_ERROR,
-            payload: console.log(err),
-        })
-        console.log(err);
-    }
-}
-
 export const registerUser = (name, mail, password) => async dispatch => {
     const payloadUser = {
         name,
@@ -82,11 +47,14 @@ export const registerUser = (name, mail, password) => async dispatch => {
         password,
     }
     try{
+        let userRegistered;
         const res = await dataService.register(USER_URL, payloadUser);
+        userRegistered = res.data
         dispatch( {
             type: ADD_USER,
-            payload: res.data
+            payload: userRegistered
         })
+        return userRegistered;
     }
     catch(err){
         dispatch({

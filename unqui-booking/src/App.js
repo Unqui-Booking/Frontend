@@ -9,6 +9,7 @@ import NavBar from "./Components/Home/NavBar";
 import store from './store';
 import { Provider } from 'react-redux';
 import Student from "./Components/ProfileStudent/Student";
+import HomeAdmin from "./Components/Admin/HomeAdmin";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path='/desk' component={BookingHome} />
               <Route path='/register' component={RegiterUser}/>
               <Route path='/student' component={Student}/>
+              <Route path='/admin' component={HomeAdmin}/>
               <Route path='/' component={Login} />
           </Switch>
           </HashRouter>

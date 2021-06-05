@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 const ListBookingStudent = (props) => {
 
     const classes = useStyles();
-    const {listBooking, listCopyBooking, setCopy} = props
+    const {listBooking, listCopyBooking, setCopy, admin} = props
     const [dateFilter, setDateFilter] = useState(null);
     const [deskFiltered, setDeskFiltered] = useState(null);
     const [seatFiltered, setSeatFiltered] = useState(null);
@@ -108,31 +108,53 @@ const ListBookingStudent = (props) => {
 
     return (
         <Grid container>
-            <Grid container xs={12} sm={12} row className={classes.containerFilter}>
-                <Grid item xs={12} sm={3} >
-                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                        <KeyboardDatePicker
-                            className={classes.dateSelect}
-                            disableToolbar
-                            variant="inline"
-                            format="dd/MM/yyyy"
-                            margin="normal"
-                            id="filterDate"
-                            value={dateFilter}
-                            label="Filtrar historicos por fecha"
-                            KeyboardButtonProps={{
-                                'aria-label': 'change date',
+            <Grid container xs={12} sm={12} className={classes.containerFilter}>
+
+                { !admin ?
+                    <Grid item xs={12} sm={3} >
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                            <KeyboardDatePicker
+                                className={classes.dateSelect}
+                                disableToolbar
+                                variant="inline"
+                                format="dd/MM/yyyy"
+                                margin="normal"
+                                id="filterDate"
+                                value={dateFilter}
+                                label="Filtrar por fecha"
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                                onChange={handleFilterDate}
+                                InputLabelProps={{style: {fontSize: 15}}} 
+                            />
+                        </MuiPickersUtilsProvider>
+                    </Grid> : 
+                    <Grid item xs={12} sm={3} className={classes.marginTop}>
+                        <TextField
+                            id="filterdDesk"
+                            label="Filtrar por estudiante"
+                            type="text"
+                            className={classes.width}
+                            value={deskFiltered}
+                            onChange={handleFilterDesk}
+                            InputProps={{
+                                inputProps: { 
+                                    max: null, min: 1 
+                                },
+                                shrink: true,
                             }}
-                            onChange={handleFilterDate}
                             InputLabelProps={{style: {fontSize: 15}}} 
                         />
-                    </MuiPickersUtilsProvider>
-                </Grid>
+                    </Grid>
+                }
+
+                
 
                 <Grid item xs={12} sm={3} className={classes.marginTop}>
                     <TextField
                         id="filterdDesk"
-                        label="Filtrar historicos por escritorio"
+                        label="Filtrar por escritorio"
                         type="number"
                         className={classes.width}
                         value={deskFiltered}
@@ -150,7 +172,7 @@ const ListBookingStudent = (props) => {
                 <Grid item xs={12} sm={3} className={classes.marginTop}>
                     <TextField
                         id="filterdSeat"
-                        label="Filtrar historicos por asiento"
+                        label="Filtrar por asiento"
                         type="number"
                         value={seatFiltered}
                         InputProps={{

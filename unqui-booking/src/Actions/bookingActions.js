@@ -7,7 +7,9 @@ import { GET_BOOKINGS,
          GET_BOOKINGS_BY_USER,
          GET_HISTORICAL_BOOKINGS_BY_USER,
          GET_CURRENTS_BOOKINGS_BY_USER,
-         SET_COPY_HISTORICAL_BOOKINGS,} from './types';
+         SET_COPY_HISTORICAL_BOOKINGS,
+         GET_BOOKINGS_TODAY,
+         SET_COPY_BOOKINGS_TODAY} from './types';
 import { BOOKING_URL } from '../Api/base'
 import dataService from '../Services/service'
 
@@ -168,6 +170,40 @@ export const setCopyHistoricalBookings = (copyBookings) => dispatch => {
     try{
         dispatch({
             type: SET_COPY_HISTORICAL_BOOKINGS,
+            payload: copyBookings,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const getBookingsToday = (date) => async dispatch => {
+    try{
+        console.log(`${BOOKING_URL}/bydate?date=${date}`);
+        const res = await dataService.get(`${BOOKING_URL}/bydate?date=${date}`);
+        dispatch({
+            type: GET_BOOKINGS_TODAY,
+            payload: res.data
+        })
+    }
+    catch(err){
+        dispatch( {
+            type: LOGS_ERROR,
+            payload: console.log(err),
+        })
+        console.log(err);
+    }
+}
+
+export const setCopyBookingsToday = (copyBookings) => dispatch => {
+    try{
+        dispatch({
+            type: SET_COPY_BOOKINGS_TODAY,
             payload: copyBookings,
         })
     }

@@ -1,5 +1,4 @@
-import { SET_LOADING,
-         LOGS_ERROR, 
+import { LOGS_ERROR, 
          GET_BOOKINGS, 
          ADD_BOOKING, 
          GET_SPECIFIC_BOOKING, 
@@ -8,7 +7,9 @@ import { SET_LOADING,
          GET_BOOKINGS_BY_USER,
          GET_HISTORICAL_BOOKINGS_BY_USER,
          GET_CURRENTS_BOOKINGS_BY_USER,
-         SET_COPY_HISTORICAL_BOOKINGS,} from '../Actions/types'
+         SET_COPY_HISTORICAL_BOOKINGS,
+         GET_BOOKINGS_TODAY,
+         SET_COPY_BOOKINGS_TODAY} from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -22,6 +23,8 @@ const initialState = {
     bookingsHistoricalByUser: [],
     bookingsCurrentsByUser: [],
     copyHistoricalBookings: [],
+    bookingsToday: [],
+    copyBookingsToday: []
 }
 
 export default function(state = initialState, action){
@@ -82,6 +85,18 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 copyHistoricalBookings: action.payload,
+            }
+
+        case GET_BOOKINGS_TODAY:
+            return {
+                ...state,
+                bookingsToday: action.payload,
+                copyBookingsToday: action.payload,
+            }
+        case SET_COPY_BOOKINGS_TODAY:
+            return {
+                ...state,
+                copyBookingsToday: action.payload,
             }
         default: return state
     }

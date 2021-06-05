@@ -139,12 +139,13 @@ export const getMapAvailabilySeats = (deskId, date, startTime, endTime) => async
     }
 }
 
-export const registerBooking = (seatId, date, startTime, endTime) => async dispatch => {
+export const registerBooking = (seatId, date, startTime, endTime, userId) => async dispatch => {
     const payloadBooking = {
         seat: {id: seatId},
         date,
         startTime,
         endTime,
+        user: {id: userId}
       }
     try{
         const res = await dataService.register(BOOKING_URL, payloadBooking);

@@ -43,6 +43,9 @@ const SelectPlace = ({
     startTime,
     endTime
   },
+  userReducer: {
+    user
+  },
   setActiveStep,
   registerBooking,
   getBookingBySeatDateHours,
@@ -95,7 +98,7 @@ const SelectPlace = ({
 
   const onSaveRegister = () => {
     if (startTime != null && endTime != null) {
-      registerBooking(seatId, moment(date).format().split('T')[0].toString(), startTime, endTime);
+      registerBooking(seatId, moment(date).format().split('T')[0].toString(), startTime, endTime, user.id);
       getBookingBySeatAndDate(seatId, moment(date).format().split('T')[0].toString());
       handleOpen(true);
     } else {
@@ -167,6 +170,7 @@ const mapStateToProps = state => ({
   deskReducer: state. deskReducer,
   chairReducer: state.chairReducer,
   dateHoursReducer: state.dateHoursReducer,
+  userReducer: state.userReducer,
 });
 
 export default connect(mapStateToProps, { setActiveStep, getBookingBySeatDateHours, registerBooking, getBookingBySeatAndDate, handleOpen })(SelectPlace)

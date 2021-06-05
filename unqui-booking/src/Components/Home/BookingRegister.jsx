@@ -29,7 +29,9 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 
 
 const BookingRegister = ({
-  bookingReducer: {},
+  bookingReducer: {
+    mapAvailabilySeats
+  },
   dateHoursReducer: {
     date,
     startTime,
@@ -53,9 +55,11 @@ const BookingRegister = ({
 
   const handleChangeStartHours = (event) => { 
     setSelectedStartHour(event.target.value);
+    console.log("MAP ANTES: "+mapAvailabilySeats);
     if(desk != null){ //si selecciono el cambio de fecha en el paso 2 o en el paso 1 una vez que se seleccionó un desk
       getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], event.target.value, endTime);
     }
+    console.log("MAP ahora: "+mapAvailabilySeats);
   }
 
   const handleChangeEndHours = (event) => {

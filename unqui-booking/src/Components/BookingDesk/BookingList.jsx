@@ -96,7 +96,7 @@ const BookingList = ({
 
                     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                         <Alert onClose={handleClose} severity="success">
-                            Reserva registrada exitosamente.
+                        <strong>Reserva registrada exitosamente.</strong>
                         </Alert>
                     </Snackbar>
 

@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 
 const ModalCancelBooking = (props) => { 
 
-  const { booking, openModalCancel, setOpenModalCancel, cancelBooking, getCurrentsBookingsByUser, user, bookingsCurrentsByUser } = props;
+  const { booking, openModalCancel, setOpenModalCancel, cancelBooking, getCurrentsBookingsByUser, user, setOpenSuccessCancel } = props;
 
   const handleClose = () => { 
     setOpenModalCancel(false);
@@ -12,6 +12,7 @@ const ModalCancelBooking = (props) => {
   const handleCancelBooking = async ()  => {
     await cancelBooking(booking);
     await getCurrentsBookingsByUser(user.id);
+    setOpenSuccessCancel(true);
   }
  
   return (

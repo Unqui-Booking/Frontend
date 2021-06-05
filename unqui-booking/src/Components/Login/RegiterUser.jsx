@@ -149,6 +149,7 @@ const RegiterUser = ({
                                 helperText= {showTextHelperName()}
                                 value={name}
                                 onChange={handleName}
+                                autoComplete='off'
                             />
                             <TextField
                                 id="input-email"
@@ -157,7 +158,7 @@ const RegiterUser = ({
                                 helperText= {showTextHelperEmail()}
                                 value={email}
                                 onChange={handleEmail}
-                                
+                                autoComplete='off'
                             />
                             <TextField
                                 id="input-passqord-register"

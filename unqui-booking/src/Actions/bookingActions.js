@@ -11,7 +11,8 @@ import { GET_BOOKINGS,
          GET_BOOKINGS_TODAY,
          SET_COPY_BOOKINGS_TODAY,
          OPEN_MODAL_CANCEL,
-         CANCEL_BOOKING, } from './types';
+         CANCEL_BOOKING,
+         OPEN_SUCCESS_CANCEL } from './types';
 import { BOOKING_URL } from '../Api/base'
 import dataService from '../Services/service'
 
@@ -222,6 +223,22 @@ export const setOpenModalCancel = (open) => dispatch => {
     try{
         dispatch({
             type: OPEN_MODAL_CANCEL,
+            payload: open,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const setOpenSuccessCancel = (open) => dispatch => {
+    try{
+        dispatch({
+            type: OPEN_SUCCESS_CANCEL,
             payload: open,
         })
     }

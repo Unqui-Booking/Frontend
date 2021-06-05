@@ -1,11 +1,12 @@
-import { Avatar, Card, CardContent, Container, Grid, IconButton, Typography } from '@material-ui/core';
+import { Avatar, Card, CardContent, Container, Grid, IconButton, Typography, Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab'
 import React, { useState, useEffect }  from 'react'
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import { FaUser } from 'react-icons/fa';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { setCopyHistoricalBookings, getHistoricalBookingsByUser, getCurrentsBookingsByUser, setOpenModalCancel, cancelBooking } from '../../Actions/bookingActions';
+import { setCopyHistoricalBookings, getHistoricalBookingsByUser, getCurrentsBookingsByUser, setOpenModalCancel, cancelBooking, setOpenSuccessCancel } from '../../Actions/bookingActions';
 import ListBookingStudent from './ListBookingStudent';
 import ModalCancelBooking from './ModalCancelBooking';
 
@@ -67,13 +68,15 @@ const Student = ({
         bookingsHistoricalByUser,
         copyHistoricalBookings,
         bookingsCurrentsByUser,
-        openModalCancel
+        openModalCancel,
+        succesCancel,
     },
     setCopyHistoricalBookings,
     getHistoricalBookingsByUser,
     getCurrentsBookingsByUser,
     setOpenModalCancel,
     cancelBooking,
+    setOpenSuccessCancel
 
 }) => {
 
@@ -88,6 +91,10 @@ const Student = ({
     const handleOpenModal = (booking) => {
         setBookingToCancel(booking);
         setOpenModalCancel(true);
+    }
+
+    const handleCloseSuccesCancel = () => {
+        setOpenSuccessCancel(false);
     }
 
     return (
@@ -145,14 +152,18 @@ const Student = ({
                                         <Typography variant='body2' color='#00000082'>Sin reservas</Typography>
                                     </Grid>
                                     }
-                                    <ModalCancelBooking booking={bookingToCancel} openModalCancel={openModalCancel} setOpenModalCancel={setOpenModalCancel} cancelBooking={cancelBooking} getCurrentsBookingsByUser={getCurrentsBookingsByUser} user={user} bookingsCurrentsByUser={bookingsCurrentsByUser}/>
+                                    <ModalCancelBooking booking={bookingToCancel} openModalCancel={openModalCancel} setOpenModalCancel={setOpenModalCancel} cancelBooking={cancelBooking} getCurrentsBookingsByUser={getCurrentsBookingsByUser} user={user} setOpenSuccessCancel={setOpenSuccessCancel}/>
                                 </Grid>
                             </Grid>
                         </CardContent>
                     </Card>
                     
                     <ListBookingStudent listBooking={bookingsHistoricalByUser} listCopyBooking={copyHistoricalBookings} setCopy={setCopyHistoricalBookings} admin={false}/>
-
+                    <Snackbar open={succesCancel} autoHideDuration={3000} onClose={handleCloseSuccesCancel} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+                        <Alert onClose={handleCloseSuccesCancel} severity="success">
+                            <strong>Reserva cancelada exitosamente.</strong>
+                        </Alert>
+                    </Snackbar>                   
                 </Grid>
             </Grid>
         </Container>
@@ -165,4 +176,4 @@ const mapStateToProps = state => ({
     bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, { setCopyHistoricalBookings, getHistoricalBookingsByUser, setOpenModalCancel, getCurrentsBookingsByUser, cancelBooking })(Student);
+export default connect(mapStateToProps, { setCopyHistoricalBookings, getHistoricalBookingsByUser, setOpenModalCancel, getCurrentsBookingsByUser, cancelBooking, setOpenSuccessCancel })(Student);

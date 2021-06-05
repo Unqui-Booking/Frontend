@@ -11,7 +11,8 @@ import { LOGS_ERROR,
          GET_BOOKINGS_TODAY,
          SET_COPY_BOOKINGS_TODAY,
          OPEN_MODAL_CANCEL,
-         CANCEL_BOOKING,} from '../Actions/types'
+         CANCEL_BOOKING,
+         OPEN_SUCCESS_CANCEL} from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -29,6 +30,7 @@ const initialState = {
     copyBookingsToday: [],  
     openModalCancel: false,
     bookingCanceled: false,
+    succesCancel: false,
 }
 
 export default function reducerBooking (state = initialState, action){
@@ -112,6 +114,11 @@ export default function reducerBooking (state = initialState, action){
                 ...state,
                 bookingCanceled: action.payload,
                 openModalCancel: false,
+            }
+        case OPEN_SUCCESS_CANCEL:
+            return {
+                ...state,
+                succesCancel: action.payload,
             }
         default: return state
     }

@@ -146,9 +146,9 @@ const Login = ({
                     </CardContent>
                 </Card>
             </Grid>
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
                 <Alert onClose={handleClose} severity="success">
-                    Usuario registrado correctamente.
+                    <strong>Usuario registrado correctamente.</strong>
                 </Alert>
             </Snackbar>
         </Container> 

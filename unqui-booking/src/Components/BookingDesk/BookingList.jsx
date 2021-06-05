@@ -41,12 +41,9 @@ const BookingList = ({
     
     bookingReducer:{
         bookingsFilteredBySeatDate,
-        success,
     },
     dateHoursReducer: {
         date,
-        startTime,
-        endTime
     },
     chairReducer: {
         seatId

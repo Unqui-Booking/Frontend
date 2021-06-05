@@ -3,7 +3,10 @@ import { GET_BOOKINGS,
          ADD_BOOKING, 
          GET_SPECIFIC_BOOKING, 
          GET_SPECIFIC_BOOKING_BY_SEAT_DATE,
-         GET_MAP_AVAILABILY_SEATS } from './types';
+         GET_MAP_AVAILABILY_SEATS,
+         GET_BOOKINGS_BY_USER,
+         GET_HISTORICAL_BOOKINGS_BY_USER,
+         GET_CURRENTS_BOOKINGS_BY_USER } from './types';
 import { BOOKING_URL } from '../Api/base'
 import dataService from '../Services/service'
 
@@ -32,6 +35,61 @@ export const getBookingBySeatDateHours = (seatId, date, startTime, endTime ) => 
         {console.log(`${BOOKING_URL}/details?seat=${seatId}&date=${date}&startTime=${startTime}&endTime=${endTime}`)}
         dispatch( {
             type: GET_SPECIFIC_BOOKING,
+            payload: res.data
+        })
+    }
+    catch(err){
+        dispatch( {
+            type: LOGS_ERROR,
+            payload: console.log(err),
+        })
+        console.log(err);
+    }
+}
+
+//TODO >>> Borrar: yA no se usa en el front sino en el back BORRAR
+export const getBookingsByUser = (userId) => async dispatch => {
+    console.log(`${BOOKING_URL}/user?user=${userId}`);
+    const res = await dataService.get(`${BOOKING_URL}/user?user=${userId}`);
+    try{
+        dispatch( {
+            type: GET_BOOKINGS_BY_USER,
+            payload: res.data
+        })
+    }
+    catch(err){
+        dispatch( {
+            type: LOGS_ERROR,
+            payload: console.log(err),
+        })
+        console.log(err);
+    }
+}
+
+export const getHistoricalBookingsByUser = (userId) => async dispatch => {
+    console.log(`${BOOKING_URL}/historical?user=${userId}`);
+    const res = await dataService.get(`${BOOKING_URL}/historical?user=${userId}`);
+    try{
+        dispatch( {
+            type: GET_HISTORICAL_BOOKINGS_BY_USER,
+            payload: res.data
+        })
+    }
+    catch(err){
+        dispatch( {
+            type: LOGS_ERROR,
+            payload: console.log(err),
+        })
+        console.log(err);
+    }
+}
+
+export const getCurrentsBookingsByUser = (userId) => async dispatch => {
+    console.log(`${BOOKING_URL}/current?user=${userId}`);
+    const res = await dataService.get(`${BOOKING_URL}/current?user=${userId}`);
+    try{
+        dispatch( {
+            type: GET_CURRENTS_BOOKINGS_BY_USER,
             payload: res.data
         })
     }
@@ -103,4 +161,6 @@ export const registerBooking = (seatId, date, startTime, endTime) => async dispa
           console.log(err);
     }
 }
+
+
 

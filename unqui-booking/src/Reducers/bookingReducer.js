@@ -4,7 +4,10 @@ import { SET_LOADING,
          ADD_BOOKING, 
          GET_SPECIFIC_BOOKING, 
          GET_SPECIFIC_BOOKING_BY_SEAT_DATE,
-         GET_MAP_AVAILABILY_SEATS } from '../Actions/types'
+         GET_MAP_AVAILABILY_SEATS,
+         GET_BOOKINGS_BY_USER,
+         GET_HISTORICAL_BOOKINGS_BY_USER,
+         GET_CURRENTS_BOOKINGS_BY_USER } from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -13,7 +16,10 @@ const initialState = {
     bookings:[],
     bookingsFiltered: [],
     bookingsFilteredBySeatDate: [],
-    mapAvailabilySeats: null
+    mapAvailabilySeats: null,
+    bookingsByUSer: [],
+    bookingsHistoricalByUser: [],
+    bookingsCurrentsByUser: []
 }
 
 export default function(state = initialState, action){
@@ -56,6 +62,22 @@ export default function(state = initialState, action){
                 ...state,
                 mapAvailabilySeats: Object.entries(action.payload),
                 
+            }
+        case GET_BOOKINGS_BY_USER:
+            return {
+                ...state,
+                bookingsByUSer: action.payload,
+                
+            }
+        case GET_HISTORICAL_BOOKINGS_BY_USER:
+            return {
+                ...state,
+                bookingsHistoricalByUser: action.payload,
+            }
+        case GET_CURRENTS_BOOKINGS_BY_USER:
+            return {
+                ...state,
+                bookingsCurrentsByUser: action.payload,
             }
         default: return state
     }

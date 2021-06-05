@@ -6,6 +6,7 @@ import { IconButton, AppBar, Toolbar, Typography } from  '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { setFailedLogin } from '../../Actions/userActions';
+import { getBookingsByUser, getHistoricalBookingsByUser, getCurrentsBookingsByUser } from '../../Actions/bookingActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +21,13 @@ const NavBar = ({
   userReducer: {
     user
   },
-  setFailedLogin
+  bookingReducer: {
+
+  },
+  setFailedLogin,
+  getBookingsByUser,
+  getHistoricalBookingsByUser,
+  getCurrentsBookingsByUser
 
 }) => {
 
@@ -29,10 +36,12 @@ const NavBar = ({
 
   const handleLogOut = () => {
     setFailedLogin(false);
-    window.location.href = "http://localhost:3000/";
+    history.push("/");
   }
 
   const handleProfile = () => {
+    getHistoricalBookingsByUser(user.id);
+    getCurrentsBookingsByUser(user.id);
     history.push("/student");
   }
   
@@ -76,6 +85,7 @@ const NavBar = ({
 
 const mapStateToProps = state => ({
   userReducer: state.userReducer,
+  bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, { setFailedLogin })(NavBar)
+export default connect(mapStateToProps, { setFailedLogin, getBookingsByUser, getHistoricalBookingsByUser, getCurrentsBookingsByUser })(NavBar)

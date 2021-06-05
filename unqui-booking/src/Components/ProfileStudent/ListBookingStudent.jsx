@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Grid, IconButton, TextField, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core';
 import React, { useState }  from 'react'
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
@@ -46,7 +46,12 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         justify:'center',
         justifyContent: 'space-evenly',
-    }
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 220,
+        marginTop: '9px',
+      },
   }));
 
 const ListBookingStudent = (props) => {
@@ -131,21 +136,21 @@ const ListBookingStudent = (props) => {
                         </MuiPickersUtilsProvider>
                     </Grid> : 
                     <Grid item xs={12} sm={3} className={classes.marginTop}>
-                        <TextField
-                            id="filterdDesk"
-                            label="Filtrar por estudiante"
-                            type="text"
-                            className={classes.width}
-                            value={deskFiltered}
-                            onChange={handleFilterDesk}
-                            InputProps={{
-                                inputProps: { 
-                                    max: null, min: 1 
-                                },
-                                shrink: true,
-                            }}
-                            InputLabelProps={{style: {fontSize: 15}}} 
-                        />
+                        <FormControl className={classes.formControl}>
+                             <InputLabel id="demo-simple-select-label">Filtrar por estado</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={null}
+                                onChange={console.log("estado")}
+                                >
+                                <MenuItem value={10}>Vencida</MenuItem>
+                                <MenuItem value={20}>Por confirmar</MenuItem>
+                                <MenuItem value={20}>Confirmada</MenuItem>
+                            </Select>
+                        </FormControl>
+                       
+
                     </Grid>
                 }
 
@@ -205,12 +210,13 @@ const ListBookingStudent = (props) => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography className={classes.heading}><strong>Históricos</strong></Typography>
+                    { !admin ?    <Typography className={classes.heading}><strong>Históricos</strong></Typography>: null }
                     </AccordionSummary>
                     <AccordionDetails className={classes.accordionDetails}>
                             {listCopyBooking.length > 0 ? listCopyBooking.slice((page - 1) * bookingsPerPage, page * bookingsPerPage).map(b => 
                                     
                                     <Grid container column xs={12} sm={12} className={classes.containerHistorical}>
+                                        { admin ? <Typography variant='body2'>{b.user.name}</Typography>: null }
                                         <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
                                         <Typography variant='body2'>Asiento {b.seat.id}</Typography>
                                         <Typography variant='body2'>{moment(b.date).format('LL')}</Typography>

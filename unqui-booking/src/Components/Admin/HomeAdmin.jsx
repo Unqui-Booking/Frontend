@@ -44,7 +44,7 @@ const HomeAdmin = ({
         <Container maxWidth="lg">
             <Grid container spacing={3} justify="center"> 
                 <Grid item xs={12} sm={12}>
-                    <Typography variant='h5' className={classes.title}> <strong>Reservas registradas del día</strong></Typography>
+                    <Typography variant='h5' className={classes.title}> <strong>Reservas del día</strong></Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <ListBookingStudent listBooking={bookingsToday} listCopyBooking={copyBookingsToday} setCopy={setCopyBookingsToday} admin={true} />

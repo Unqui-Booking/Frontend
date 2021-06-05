@@ -140,7 +140,7 @@ const Student = ({
                         </CardContent>
                     </Card>
                     
-                    <ListBookingStudent listBooking={bookingsHistoricalByUser} listCopyBooking={copyHistoricalBookings} setCopy={setCopyHistoricalBookings}/>
+                    <ListBookingStudent listBooking={bookingsHistoricalByUser} listCopyBooking={copyHistoricalBookings} setCopy={setCopyHistoricalBookings} admin={false}/>
 
                 </Grid>
             </Grid>

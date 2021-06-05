@@ -6,6 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FaUser } from 'react-icons/fa';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Pagination from '@material-ui/lab/Pagination';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -76,6 +79,11 @@ const useStyles = makeStyles((theme) => ({
     },
     nameUser: {
         margin: '12px 0px',
+    },
+    pagination: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '12px',
     }
   }));
 
@@ -92,12 +100,20 @@ const Student = ({
 
     const classes = useStyles();
     const [dateFilter, setDateFilter] = useState(new Date());
+    const countPages = Math.ceil(bookingsHistoricalByUser.length / 10);
+    console.log("cantidad de historical: "+ bookingsHistoricalByUser.length)
+    const itemsPerPage = 6;  
+    const [page, setPage] = useState(1);
 
-
+ 
     const handleFilterDate = (date) => {
         setDateFilter(date);
                                              
     }
+
+    const handleChangePagination = (event, newPage) => {
+        setPage(newPage);
+    }; 
 
     return (
 
@@ -128,7 +144,6 @@ const Student = ({
                     <Card className={classes.cardBookings}>
                         <CardContent>
                             <Grid container spacing={3} xs={12} sm={12} className={classes.containetPicture}>
-                                
                                 <Grid item xs={12} sm={12}>
                                     {bookingsCurrentsByUser.length > 0  ? bookingsCurrentsByUser.map(b =>  
                                         <Grid container row nowrap>
@@ -162,7 +177,7 @@ const Student = ({
                     </Card>
                     
                     {/* Filtros de historicos */}
-                    {/* <Grid container xs={12} sm={12} row justify='center'>
+                    <Grid container xs={12} sm={12} row justify='center'>
                         <Grid item xs={12} sm={4} >
                             <MuiPickersUtilsProvider utils={DateFnsUtils} >
                                 <KeyboardDatePicker
@@ -205,7 +220,7 @@ const Student = ({
                                 className={classes.width}
                             />
                         </Grid>
-                    </Grid> */}
+                    </Grid>
 
                     <Grid item xs={12} sm={12} className={classes.accordion}>
                         <Accordion expanded>
@@ -217,7 +232,7 @@ const Student = ({
                                 <Typography className={classes.heading}><strong>Históricos</strong></Typography>
                             </AccordionSummary>
                             <AccordionDetails className={classes.accordionDetails}>
-                                    {bookingsHistoricalByUser.length > 0 ? bookingsHistoricalByUser.map(b => 
+                                    {bookingsHistoricalByUser.length > 0 ? bookingsHistoricalByUser.slice((page - 1) * itemsPerPage, page * itemsPerPage).map(b => 
                                             
                                             <Grid container column xs={12} sm={12} className={classes.containerHistorical}>
                                                 
@@ -231,6 +246,21 @@ const Student = ({
                                             <Typography variant='body2' color='#00000082'>Sin reservas</Typography>
                                         </Grid>
                                     }
+                                    {bookingsHistoricalByUser.length > 6 ?
+                                        <Pagination 
+                                            count={countPages}
+                                            color="primary"
+                                            page={page}
+                                            onChange={handleChangePagination}
+                                            defaultPage={1}
+                                            size="small"
+                                            showFirstButton
+                                            showLastButton
+                                            className={classes.pagination}
+                                        />
+                                        : null
+                                    }
+                                    
                             </AccordionDetails>
                         </Accordion>
                     </Grid>

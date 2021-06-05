@@ -5,7 +5,7 @@ import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import { FaUser } from 'react-icons/fa';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { setCopyHistoricalBookings, getHistoricalBookingsByUser, getCurrentsBookingsByUser, setOpenModalCancel } from '../../Actions/bookingActions';
+import { setCopyHistoricalBookings, getHistoricalBookingsByUser, getCurrentsBookingsByUser, setOpenModalCancel, cancelBooking } from '../../Actions/bookingActions';
 import ListBookingStudent from './ListBookingStudent';
 import ModalCancelBooking from './ModalCancelBooking';
 
@@ -73,6 +73,7 @@ const Student = ({
     getHistoricalBookingsByUser,
     getCurrentsBookingsByUser,
     setOpenModalCancel,
+    cancelBooking,
 
 }) => {
 
@@ -144,7 +145,7 @@ const Student = ({
                                         <Typography variant='body2' color='#00000082'>Sin reservas</Typography>
                                     </Grid>
                                     }
-                                    <ModalCancelBooking booking={bookingToCancel} openModalCancel={openModalCancel} setOpenModalCancel={setOpenModalCancel}/>
+                                    <ModalCancelBooking booking={bookingToCancel} openModalCancel={openModalCancel} setOpenModalCancel={setOpenModalCancel} cancelBooking={cancelBooking} getCurrentsBookingsByUser={getCurrentsBookingsByUser} user={user} bookingsCurrentsByUser={bookingsCurrentsByUser}/>
                                 </Grid>
                             </Grid>
                         </CardContent>
@@ -164,4 +165,4 @@ const mapStateToProps = state => ({
     bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, { setCopyHistoricalBookings, getHistoricalBookingsByUser, setOpenModalCancel, getCurrentsBookingsByUser  })(Student);
+export default connect(mapStateToProps, { setCopyHistoricalBookings, getHistoricalBookingsByUser, setOpenModalCancel, getCurrentsBookingsByUser, cancelBooking })(Student);

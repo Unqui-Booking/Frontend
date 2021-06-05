@@ -10,7 +10,8 @@ import { GET_BOOKINGS,
          SET_COPY_HISTORICAL_BOOKINGS,
          GET_BOOKINGS_TODAY,
          SET_COPY_BOOKINGS_TODAY,
-         OPEN_MODAL_CANCEL} from './types';
+         OPEN_MODAL_CANCEL,
+         CANCEL_BOOKING, } from './types';
 import { BOOKING_URL } from '../Api/base'
 import dataService from '../Services/service'
 
@@ -222,6 +223,33 @@ export const setOpenModalCancel = (open) => dispatch => {
         dispatch({
             type: OPEN_MODAL_CANCEL,
             payload: open,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const cancelBooking = (booking) => async dispatch => {
+    try{
+        const payloadBooking = {
+            id: booking.id,
+            seat: {id: booking.seat.id},
+            date: booking.date,
+            startTime: booking.startTime,
+            endTime: booking.endTime,
+            user: {id: booking.user.id},
+            deleted: true
+          }
+        const res = await dataService.register(BOOKING_URL, payloadBooking);
+        console.log("CANCELADA: "+res.data.deleted);
+        dispatch({
+            type: CANCEL_BOOKING,
+            payload: res.data.deleted,
         })
     }
     catch(err){

@@ -1,5 +1,5 @@
 import { Avatar, Card, CardContent, Container, Grid, IconButton, Typography } from '@material-ui/core';
-import React, { useEffect }  from 'react'
+import React, { useState, useEffect }  from 'react'
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
@@ -77,13 +77,15 @@ const Student = ({
 }) => {
 
     const classes = useStyles();
+    const [bookingToCancel, setBookingToCancel] = useState(null);
 
     useEffect(() => {
        getHistoricalBookingsByUser(user.id);
        getCurrentsBookingsByUser(user.id);
     }, [])
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (booking) => {
+        setBookingToCancel(booking);
         setOpenModalCancel(true);
     }
 
@@ -106,7 +108,7 @@ const Student = ({
                         </Grid>
                         </CardContent>
                     </Card>
-                    
+                      
                 </Grid>
                 <Grid item xs={12} sm={9}>
                     <Grid item xs={12}>
@@ -125,12 +127,11 @@ const Student = ({
                                                 <Typography variant='body2'>{b.startTime}hs - {b.endTime}hs</Typography>
                                             </Grid>
                                             <Grid item xs={1} sm={1} >
-                                                <ModalCancelBooking booking={b} openModalCancel={openModalCancel} setOpenModalCancel={setOpenModalCancel}/>
                                                 <IconButton
                                                 aria-label="account of current user"
                                                 aria-controls="menu-appbar"
                                                 aria-haspopup="true"
-                                                onClick={handleOpenModal}
+                                                onClick={()=>handleOpenModal(b)}
                                                 color="primary"
                                                 >
                                                     <DeleteIcon />
@@ -143,6 +144,7 @@ const Student = ({
                                         <Typography variant='body2' color='#00000082'>Sin reservas</Typography>
                                     </Grid>
                                     }
+                                    <ModalCancelBooking booking={bookingToCancel} openModalCancel={openModalCancel} setOpenModalCancel={setOpenModalCancel}/>
                                 </Grid>
                             </Grid>
                         </CardContent>

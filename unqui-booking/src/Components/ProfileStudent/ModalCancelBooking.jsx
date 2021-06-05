@@ -1,12 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { setOpenModalCancel } from '../../Actions/bookingActions';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 
 const ModalCancelBooking = (props) => { 
 
@@ -26,11 +19,19 @@ const ModalCancelBooking = (props) => {
         <DialogTitle id="alert-dialog-title">{"Cancelar reserva"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            ¿Desea cancelar la reserva para el asiento {booking.seat.id} en el escritorio {booking.seat.desk.id} el día {booking.date} en el horario {booking.startTime}hs - {booking.endTime}hs?
+            {
+              booking != null ? 
+              <p>
+                ¿Desea cancelar la reserva para el <strong>asiento {booking.seat.id}</strong> en el <strong>escritorio {booking.seat.desk.id} </strong>   
+                el día <strong>{booking.date.split("-").reverse().join().replaceAll(",","/")} </strong>  
+                en el horario <strong>{booking.startTime}hs - {booking.endTime}hs</strong>?
+              </p> : null
+            }
+            
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
+        <DialogActions>  
+          <Button onClick={handleClose} color="primary"> 
             Sí
           </Button>
           <Button onClick={handleClose} color="primary" autoFocus>
@@ -41,8 +42,5 @@ const ModalCancelBooking = (props) => {
   );
 }
 
-const mapStateToProps = state => ({
-    bookingReducer: state.bookingReducer,
-});
 
-export default connect(mapStateToProps, { setOpenModalCancel  })(ModalCancelBooking);
+export default ModalCancelBooking;

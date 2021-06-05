@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import ListBookingStudent from '../../Components/ProfileStudent/ListBookingStudent';
 import { getBookingsToday , setCopyBookingsToday } from '../../Actions/bookingActions';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -49,6 +50,7 @@ const HomeAdmin = ({
                 <Grid item xs={12} sm={12}>
                     <ListBookingStudent listBooking={bookingsToday} listCopyBooking={copyBookingsToday} setCopy={setCopyBookingsToday} admin={true} />
                 </Grid>
+
             </Grid>
         </Container>
         

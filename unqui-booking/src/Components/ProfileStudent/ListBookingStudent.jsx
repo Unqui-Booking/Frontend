@@ -7,6 +7,8 @@ import Pagination from '@material-ui/lab/Pagination';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
+import GavelIcon from '@material-ui/icons/Gavel';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -28,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     },
     marginTop: {
         marginTop: '16px',
+    },
+    marginState: {
+        marginTop: '7px',
     },
     width: {
         width: '90%',
@@ -52,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 220,
         marginTop: '9px',
       },
+      colorConfirmation: {
+        color: '#4caf50',
+      } 
   }));
 
 const ListBookingStudent = (props) => {
@@ -135,22 +143,18 @@ const ListBookingStudent = (props) => {
                             />
                         </MuiPickersUtilsProvider>
                     </Grid> : 
-                    <Grid item xs={12} sm={3} className={classes.marginTop}>
+                    <Grid item xs={12} sm={3} className={classes.marginState}>
                         <FormControl className={classes.formControl}>
-                             <InputLabel id="demo-simple-select-label">Filtrar por estado</InputLabel>
+                             <InputLabel>Filtrar por estado</InputLabel>
                             <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
                                 value={null}
                                 onChange={console.log("estado")}
                                 >
-                                <MenuItem value={10}>Vencida</MenuItem>
-                                <MenuItem value={20}>Por confirmar</MenuItem>
                                 <MenuItem value={20}>Confirmada</MenuItem>
+                                <MenuItem value={20}>Por confirmar</MenuItem>
+                                <MenuItem value={10}>Vencida</MenuItem>
                             </Select>
                         </FormControl>
-                       
-
                     </Grid>
                 }
 
@@ -214,14 +218,34 @@ const ListBookingStudent = (props) => {
                     </AccordionSummary>
                     <AccordionDetails className={classes.accordionDetails}>
                             {listCopyBooking.length > 0 ? listCopyBooking.slice((page - 1) * bookingsPerPage, page * bookingsPerPage).map(b => 
-                                    
-                                    <Grid container column xs={12} sm={12} className={classes.containerHistorical}>
-                                        { admin ? <Typography variant='body2'>{b.user.name}</Typography>: null }
-                                        <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
-                                        <Typography variant='body2'>Asiento {b.seat.id}</Typography>
-                                        <Typography variant='body2'>{moment(b.date).format('LL')}</Typography>
-                                        <Typography variant='body2'>{b.startTime}hs - {b.endTime}hs</Typography>
+                                    <Grid container xs={12} sm={12}>
+                                        <Grid container xs={12} sm={11} className={classes.containerHistorical}>
+                                            { admin ? <Typography variant='body2'>{b.user.name}</Typography>: null }
+                                            <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
+                                            <Typography variant='body2'>Asiento {b.seat.id}</Typography>
+                                            <Typography variant='body2'>{moment(b.date).format('LL')}</Typography>
+                                            <Typography variant='body2'>{b.startTime}hs - {b.endTime}hs</Typography>
+                                        </Grid>
+                                        { admin ?
+                                            <Grid item >
+                                                <IconButton
+                                                    aria-haspopup="true"
+                                                    //onClick={handleLogOut}
+                                                    color="primary"
+                                                >
+                                                    <GavelIcon/>
+                                                </IconButton>
+                                                <IconButton
+                                                    aria-haspopup="true"
+                                                    //onClick={handleLogOut}
+                                                    className={classes.colorConfirmation}
+                                                >
+                                                    <CheckCircleIcon/>
+                                                </IconButton>
+                                            </Grid>
+                                        : null }
                                     </Grid>
+                                        
                                 ) : 
                                 <Grid container xs={12} sm={12} justify='center'>
                                     <Typography variant='body2' color='#00000082'>Sin reservas</Typography>

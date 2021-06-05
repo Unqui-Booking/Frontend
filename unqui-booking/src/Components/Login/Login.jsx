@@ -84,10 +84,6 @@ const Login = ({
         }
     }
 
-    const goToRegister = () => {
-        history.push("/register");
-    }
-
     const handleEmail = (event) => {
         setEmail(event.target.value.trim());
     }
@@ -102,7 +98,7 @@ const Login = ({
                         <form>
                         <FormControl className={classes.cardContent}>
                             <TextField
-                                id="input-with-icon-textfield"
+                                id="input-person"
                                 label="Email"
                                 InputProps={{
                                     endAdornment: (
@@ -117,7 +113,7 @@ const Login = ({
                             />
                             
                             <TextField
-                                id="input-with-icon-textfield"
+                                id="input-password"
                                 label="Contraseña"
                                 type={values.showPassword ? 'text' : 'password'}
                                 value={values.password}
@@ -144,7 +140,7 @@ const Login = ({
                             <Button variant="contained" color="primary" onClick={(event)=>login(event)} className={classes.textFild}>
                                 Ingresar
                             </Button>
-                            <Link href="#" onClick={goToRegister}>Registrarse</Link>
+                            <Link href="#" to={"/register"}>Registrarse</Link>
                         </FormControl>
                         </form>    
                     </CardContent>

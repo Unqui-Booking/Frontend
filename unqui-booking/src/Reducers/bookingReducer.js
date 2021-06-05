@@ -29,7 +29,7 @@ const initialState = {
     openModalCancel: false,
 }
 
-export default function(state = initialState, action){
+export default function reducerBooking (state = initialState, action){
 
     switch(action.type){
 

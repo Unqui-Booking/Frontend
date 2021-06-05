@@ -91,7 +91,7 @@ const BookingRegister = ({
                   IconComponent= {ScheduleIcon}
                   >
                     <MenuItem value={hoursStart[0]}>{hoursStart[0]}:00</MenuItem>
-                    {hoursStart.slice(1, hoursStart.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                    {hoursStart.slice(1, hoursStart.length).map(h => <MenuItem key={h} value={h}>{h}:00</MenuItem> 
                     )}
                 </Select>
               </Grid>
@@ -113,7 +113,7 @@ const BookingRegister = ({
                   <MenuItem value={hoursEnd[0]} disabled={getDisabilityEndTime(hoursEnd[0])}>
                       {hoursEnd[0]}:00
                   </MenuItem>
-                  {hoursEnd.slice(1, hoursEnd.length).map(h => <MenuItem value={h} disabled={getDisabilityEndTime(h)}>{h}:00</MenuItem> 
+                  {hoursEnd.slice(1, hoursEnd.length).map(h => <MenuItem key={h} value={h} disabled={getDisabilityEndTime(h)}>{h}:00</MenuItem> 
                   )}
               </Select>
           </FormControl>

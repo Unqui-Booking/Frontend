@@ -8,13 +8,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { setOpenModalCancel } from '../../Actions/bookingActions';
 
-const ModalCancelBooking = ({
-    bookingReducer: {
-        openModalCancel,
-    },
-    setOpenModalCancel,
+const ModalCancelBooking = (props) => { 
 
-}) => {
+  const { booking, openModalCancel, setOpenModalCancel } = props;
 
   const handleClose = () => { 
     setOpenModalCancel(false);
@@ -30,16 +26,15 @@ const ModalCancelBooking = ({
         <DialogTitle id="alert-dialog-title">{"Cancelar reserva"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
+            ¿Desea cancelar la reserva para el asiento {booking.seat.id} en el escritorio {booking.seat.desk.id} el día {booking.date} en el horario {booking.startTime}hs - {booking.endTime}hs?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Disagree
+            Sí
           </Button>
           <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
+            No
           </Button>
         </DialogActions>
       </Dialog>

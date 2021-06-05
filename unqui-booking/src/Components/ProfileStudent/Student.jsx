@@ -7,6 +7,7 @@ import { FaUser } from 'react-icons/fa';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { setCopyHistoricalBookings, getHistoricalBookingsByUser, getCurrentsBookingsByUser, setOpenModalCancel } from '../../Actions/bookingActions';
 import ListBookingStudent from './ListBookingStudent';
+import ModalCancelBooking from './ModalCancelBooking';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -66,11 +67,12 @@ const Student = ({
         bookingsHistoricalByUser,
         copyHistoricalBookings,
         bookingsCurrentsByUser,
+        openModalCancel
     },
     setCopyHistoricalBookings,
     getHistoricalBookingsByUser,
     getCurrentsBookingsByUser,
-    setOpenModalCancel
+    setOpenModalCancel,
 
 }) => {
 
@@ -115,7 +117,7 @@ const Student = ({
                             <Grid container spacing={3} xs={12} sm={12} className={classes.containetPicture}>
                                 <Grid item xs={12} sm={12}>
                                     {bookingsCurrentsByUser.length > 0  ? bookingsCurrentsByUser.map(b =>  
-                                        <Grid container row nowrap>
+                                        <Grid container >
                                             <Grid item xs={11} sm={11} className={classes.containerBooking}>
                                                 <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
                                                 <Typography variant='body2'>Asiento {b.seat.id}</Typography>
@@ -123,6 +125,7 @@ const Student = ({
                                                 <Typography variant='body2'>{b.startTime}hs - {b.endTime}hs</Typography>
                                             </Grid>
                                             <Grid item xs={1} sm={1} >
+                                                <ModalCancelBooking booking={b} openModalCancel={openModalCancel} setOpenModalCancel={setOpenModalCancel}/>
                                                 <IconButton
                                                 aria-label="account of current user"
                                                 aria-controls="menu-appbar"

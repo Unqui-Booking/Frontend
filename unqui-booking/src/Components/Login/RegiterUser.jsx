@@ -132,7 +132,6 @@ const RegiterUser = ({
 
     const goToLogin = () => {
         setFailedLogin(false);
-        history.push("/");
     }
 
     return (
@@ -144,7 +143,7 @@ const RegiterUser = ({
                     <CardContent>
                         <FormControl className={classes.cardContent}>
                             <TextField
-                                id="input-with-icon-textfield"
+                                id="input-name"
                                 label="Nombre y apellido"
                                 className={classes.textFild}
                                 helperText= {showTextHelperName()}
@@ -152,7 +151,7 @@ const RegiterUser = ({
                                 onChange={handleName}
                             />
                             <TextField
-                                id="input-with-icon-textfield"
+                                id="input-email"
                                 label="Email"
                                 className={classes.textFild}
                                 helperText= {showTextHelperEmail()}
@@ -161,7 +160,7 @@ const RegiterUser = ({
                                 
                             />
                             <TextField
-                                id="input-with-icon-textfield"
+                                id="input-passqord-register"
                                 label="Contraseña"
                                 type={values.showPassword ? 'text' : 'password'}
                                 value={values.password}
@@ -185,7 +184,7 @@ const RegiterUser = ({
                             <Button variant="contained" color="primary" onClick={saveUser} className={classes.textFild} disabled={getValidations()}>
                                 Registrarse
                             </Button>
-                            <Link href="#" onClick={goToLogin}>Ya tengo una cuenta</Link>
+                            <Link href="#" onClick={goToLogin} to={"/"}>Ya tengo una cuenta</Link>
                         </FormControl>
                     </CardContent>
                 </Card>

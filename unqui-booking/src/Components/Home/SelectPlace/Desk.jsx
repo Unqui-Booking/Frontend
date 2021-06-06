@@ -1,7 +1,8 @@
-import React from 'react'
-import { Grid, Container, Button, Chip } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import imgDesk from '../../Img/desk.png'
+import React from 'react';
+import moment from 'moment';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Container, Button, Chip } from '@material-ui/core';
+import imgDesk from '../../../Img/desk.png';
 
 const useStyles = makeStyles((theme) => ({
     flex: {
@@ -43,13 +44,14 @@ const useStyles = makeStyles((theme) => ({
 const Desk = (props) =>{
 
     const classes = useStyles();
-    const {desk, setSelectedDesk, getChairByDesk, setActiveStep } = props 
+    const { desk, setSelectedDesk, getChairByDesk, setActiveStep, getMapAvailabilySeats, date, startTime, endTime } = props 
     
     const handleClick = (available) => {      
         if(available){
             setSelectedDesk(desk);
             getChairByDesk(desk.id);
             setActiveStep(0);
+            getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, endTime);
         }          
       }
 
@@ -67,8 +69,6 @@ const Desk = (props) =>{
         }
     }
 
-    
-
     return (
         <Container maxWidth="md">
             <Grid container className={classes.root} justify="center" spacing={2}> 
@@ -82,9 +82,7 @@ const Desk = (props) =>{
                 </Grid>
             </Grid>
         </Container>
-        
     )
 }
  
-
 export default Desk;

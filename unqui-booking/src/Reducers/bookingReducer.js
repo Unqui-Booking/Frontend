@@ -1,4 +1,13 @@
-import { SET_LOADING, LOGS_ERROR, GET_BOOKINGS, ADD_BOOKING, GET_SPECIFIC_BOOKING, GET_SPECIFIC_BOOKING_BY_SEAT_DATE } from '../Actions/types'
+import { SET_LOADING,
+         LOGS_ERROR, 
+         GET_BOOKINGS, 
+         ADD_BOOKING, 
+         GET_SPECIFIC_BOOKING, 
+         GET_SPECIFIC_BOOKING_BY_SEAT_DATE,
+         GET_MAP_AVAILABILY_SEATS,
+         GET_BOOKINGS_BY_USER,
+         GET_HISTORICAL_BOOKINGS_BY_USER,
+         GET_CURRENTS_BOOKINGS_BY_USER } from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -6,7 +15,11 @@ const initialState = {
     error: null,
     bookings:[],
     bookingsFiltered: [],
-    bookingsFilteredBySeatDate: []
+    bookingsFilteredBySeatDate: [],
+    mapAvailabilySeats: null,
+    bookingsByUSer: [],
+    bookingsHistoricalByUser: [],
+    bookingsCurrentsByUser: []
 }
 
 export default function(state = initialState, action){
@@ -43,6 +56,28 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 bookingsFilteredBySeatDate: action.payload,
+            }
+        case GET_MAP_AVAILABILY_SEATS:
+            return {
+                ...state,
+                mapAvailabilySeats: Object.entries(action.payload),
+                
+            }
+        case GET_BOOKINGS_BY_USER:
+            return {
+                ...state,
+                bookingsByUSer: action.payload,
+                
+            }
+        case GET_HISTORICAL_BOOKINGS_BY_USER:
+            return {
+                ...state,
+                bookingsHistoricalByUser: action.payload,
+            }
+        case GET_CURRENTS_BOOKINGS_BY_USER:
+            return {
+                ...state,
+                bookingsCurrentsByUser: action.payload,
             }
         default: return state
     }

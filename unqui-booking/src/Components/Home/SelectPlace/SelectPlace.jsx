@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
+import { useHistory } from 'react-router';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Stepper, CardContent, Step, StepLabel, Button, Grid, Card, Divider } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import { useHistory } from 'react-router';
+import { Stepper, CardContent, Step, StepLabel, Button, Grid, Card, Typography } from '@material-ui/core';
 import SelectDesk from './SelectDesk'
 import SelectChair from './SelectChair'
 import AlertMessage from './AlertMessage';
-import { setActiveStep } from '../../Actions/alertMessageActions';
-import { registerBooking, getBookingBySeatDateHours, getBookingBySeatAndDate } from '../../Actions/bookingActions';
-import { handleOpen } from '../../Actions/snackbarAction';
+import { setActiveStep } from '../../../Actions/alertMessageActions';
+import { registerBooking, getBookingBySeatDateHours, getBookingBySeatAndDate } from '../../../Actions/bookingActions';
+import { handleOpen } from '../../../Actions/snackbarAction';
 import Confirmation from './Confirmation';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,8 +29,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 const SelectPlace = ({
   deskReducer: {
     deskSelected,
@@ -46,11 +43,8 @@ const SelectPlace = ({
     startTime,
     endTime
   },
-  bookingReducer: {
-    bookingsFiltered,
-  },
-  snackbarReducer:{
-    openSnackbar,
+  userReducer: {
+    user
   },
   setActiveStep,
   registerBooking,
@@ -62,7 +56,6 @@ const SelectPlace = ({
     return ['Seleccionar escritorio', 'Seleccionar asiento', 'Confirmación'];
   }
     
-
   const classes = useStyles();
   const [activeStep, setCurrentStep] = useState(0);
   const steps = getSteps();
@@ -76,7 +69,7 @@ const SelectPlace = ({
       case 1:
         return <SelectChair/>;
       case 2:
-        return <Confirmation desk={desk} seat={seatId} date={date} startTime={startTime} endTime={endTime} bookingsFiltered={bookingsFiltered}/>;
+        return <Confirmation desk={desk} seat={seatId} date={date} startTime={startTime} endTime={endTime} />;
       default:
         return 'Sin contenido';
     }
@@ -105,14 +98,13 @@ const SelectPlace = ({
 
   const onSaveRegister = () => {
     if (startTime != null && endTime != null) {
-      registerBooking(seatId, moment(date).format().split('T')[0].toString(), startTime, endTime);
+      registerBooking(seatId, moment(date).format().split('T')[0].toString(), startTime, endTime, user.id);
       getBookingBySeatAndDate(seatId, moment(date).format().split('T')[0].toString());
       handleOpen(true);
     } else {
       return console.log("error post booking")
     }
   }
-
 
   const handleBack = () => {
     setCurrentStep((prevActiveStep) => prevActiveStep - 1);
@@ -128,7 +120,7 @@ const SelectPlace = ({
         return !seatSelected; 
         break;
       case 2:
-        return !(bookingsFiltered.length == 0);
+        return !deskSelected && !seatSelected;
         break;
       default:
           return false;
@@ -178,8 +170,7 @@ const mapStateToProps = state => ({
   deskReducer: state. deskReducer,
   chairReducer: state.chairReducer,
   dateHoursReducer: state.dateHoursReducer,
-  bookingReducer: state.bookingReducer,
-  snackbarReducer: state.snackbarReducer,
+  userReducer: state.userReducer,
 });
 
 export default connect(mapStateToProps, { setActiveStep, getBookingBySeatDateHours, registerBooking, getBookingBySeatAndDate, handleOpen })(SelectPlace)

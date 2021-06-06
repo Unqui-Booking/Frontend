@@ -1,12 +1,14 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { Grid, Container, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import SelectPlace from './SelectPlace'
-import BookingRegister from '../Desk/BookingRegister';
-import { setSelectedDate } from  '../../Actions/dateHoursActions'
+import SelectPlace from './SelectPlace/SelectPlace';
+import BookingRegister from './BookingRegister';
+import { setSelectedDate } from  '../../Actions/dateHoursActions';
+import { getMapAvailabilySeats } from '../../Actions/bookingActions';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -39,31 +41,42 @@ const Home = ({
 
     dateHoursReducer: {
         date,
+        startTime,
+        endTime
     },
     alertMessageReducer: {
         activeStep,
     },
+    deskReducer: {
+        desk
+    },
+    userReducer: {
+        user
+    },
     setSelectedDate,
+    getMapAvailabilySeats,
 
     }) => {
-
-       /*  useEffect( () => {
-            setSelectedDate(new Date());
-        }, []) */
 
     const classes = useStyles();
 
     const filterDays = (date) => {
         const today = new Date();
-        return date.getDay() === 0 || date.getDay() === 6 || date.getDate() > (today.getDate() + 14);
+        //|| date.getDay() === 6 
+        return date.getDay() === 0 || date.getDate() > (today.getDate() + 14);
       }
     
     const handleOnChange = (date) => {
         setSelectedDate(date);
+        if(desk != null){ //si selecciono el cambio de fecha en el paso 2
+            getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, endTime);
+        }
+        
     }
   
     return (
         <Container maxWidth="md">
+            
             <Grid container className={classes.root} justify="center" > 
                 <Grid item xs={12}>
                     <Typography variant='h4' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
@@ -93,7 +106,7 @@ const Home = ({
                     <BookingRegister/>
                 </Grid>
                 <Grid item xs={12}>
-                    <SelectPlace></SelectPlace>
+                    <SelectPlace/>
                 </Grid>
         </Grid>
         </Container>  
@@ -101,7 +114,9 @@ const Home = ({
 
 const mapStateToProps = state => ({
     dateHoursReducer: state.dateHoursReducer,
-    alertMessageReducer: state.alertMessageReducer
+    alertMessageReducer: state.alertMessageReducer,
+    deskReducer: state.deskReducer,
+    userReducer: state.userReducer,
 });
     
-export default connect(mapStateToProps, { setSelectedDate })(Home)
+export default connect(mapStateToProps, { setSelectedDate, getMapAvailabilySeats })(Home);

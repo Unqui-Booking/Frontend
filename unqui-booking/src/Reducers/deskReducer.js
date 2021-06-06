@@ -6,7 +6,7 @@ const initialState = {
     desks:[],
     desksSilent: [],
     desksGeneral: [],
-    desk: {},
+    desk: null,
     deskSelected: false,
 }
 

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react'
 import { connect } from "react-redux";
-import { Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Grid} from '@material-ui/core';
+import moment from 'moment';
+import { FormControl, InputLabel, Select, MenuItem, Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { registerBooking , getAllBookings} from '../../Actions/bookingActions';
+import { getMapAvailabilySeats} from '../../Actions/bookingActions';
 import { setSelectedStartHour, setSelectedEndHour } from '../../Actions/dateHoursActions';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
@@ -28,51 +29,49 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 
 
 const BookingRegister = ({
-  bookingReducer: {},
+  bookingReducer: {
+    mapAvailabilySeats
+  },
   dateHoursReducer: {
     date,
     startTime,
     endTime,
+    timeDisabled,
   },
   alertMessageReducer: {
     activeStep,
   },
-  registerBooking, 
-  getAllBookings,
+  deskReducer: {
+    desk,
+  },
   setSelectedStartHour,
   setSelectedEndHour,
+  getMapAvailabilySeats,
 }) => {
 
   const classes = useStyles();
-  const hours = [9,10,11,12,13,14,15,16,17,18,19,20]
+  const hoursStart = [9,10,11,12,13,14,15,16,17,18,19]
+  const hoursEnd = [9,10,11,12,13,14,15,16,17,18,19,20]
 
-  const handleChangeStartHours = (event) => {
+  const handleChangeStartHours = (event) => { 
     setSelectedStartHour(event.target.value);
-    console.log("INICIO: "+startTime)
+    console.log("MAP ANTES: "+mapAvailabilySeats);
+    if(desk != null){ //si selecciono el cambio de fecha en el paso 2 o en el paso 1 una vez que se seleccionó un desk
+      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], event.target.value, endTime);
+    }
+    console.log("MAP ahora: "+mapAvailabilySeats);
   }
 
   const handleChangeEndHours = (event) => {
     setSelectedEndHour(event.target.value);
-    console.log("FIN " +endTime)
+    if(desk != null){ //si selecciono el cambio de fecha en el paso 2 o en el paso 1 una vez que se seleccionó un desk
+      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, event.target.value);
+    }
+    console.log(event.target.value);
   }
 
-  const validateCountHours = () => {
-      return (endTime - startTime <= 3) && (endTime > startTime) && (endTime != startTime)
-  }
-
-  const getTextHelper = () => {
-    let text = ''
-
-    if(endTime - startTime > 3) { text = "El rango horario no puede superar las tres horas" }
-      else{ 
-        if(startTime > endTime) { text = "La hora fin no puede ser menor a la hora inicio"}
-          else{
-            if(endTime == startTime) {text = "El rango horario no puede ser menor a una hora"}
-          }
-      }
-
-    return text;
-
+  const getDisabilityEndTime = (h) => {
+    return !timeDisabled.includes(h);
   }
 
   return (
@@ -91,8 +90,8 @@ const BookingRegister = ({
                   className={classes.selectTime}
                   IconComponent= {ScheduleIcon}
                   >
-                    <MenuItem value={hours[0]}>{hours[0]}:00</MenuItem>
-                    {hours.slice(1, hours.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                    <MenuItem value={hoursStart[0]}>{hoursStart[0]}:00</MenuItem>
+                    {hoursStart.slice(1, hoursStart.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
                     )}
                 </Select>
               </Grid>
@@ -102,7 +101,7 @@ const BookingRegister = ({
             
               <InputLabel id="endTime">Hora fin</InputLabel>
               <Select
-                disabled={activeStep == 2} 
+                disabled={activeStep == 2}
                 value={endTime}
                 labelId="endTime"
                 id="endTime"
@@ -111,12 +110,12 @@ const BookingRegister = ({
                 className={classes.selectTime}
                 IconComponent= {ScheduleIcon}
                 >
-                  <MenuItem value={hours[0]}>{hours[0]}:00</MenuItem>
-                  {hours.slice(1, hours.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                  <MenuItem value={hoursEnd[0]} disabled={getDisabilityEndTime(hoursEnd[0])}>
+                      {hoursEnd[0]}:00
+                  </MenuItem>
+                  {hoursEnd.slice(1, hoursEnd.length).map(h => <MenuItem value={h} disabled={getDisabilityEndTime(h)}>{h}:00</MenuItem> 
                   )}
               </Select>
-            {!validateCountHours() ? <FormHelperText color="red">{getTextHelper()}</FormHelperText> : null}
-            
           </FormControl>
       </Grid>
     </>
@@ -127,6 +126,7 @@ const mapStateToProps = state => ({
   bookingReducer: state.bookingReducer,
   dateHoursReducer: state.dateHoursReducer,
   alertMessageReducer: state.alertMessageReducer,
+  deskReducer: state.deskReducer,
 });
 
-export default connect(mapStateToProps, { registerBooking, getAllBookings, setSelectedStartHour, setSelectedEndHour })(BookingRegister)
+export default connect(mapStateToProps, { setSelectedStartHour, setSelectedEndHour, getMapAvailabilySeats })(BookingRegister)

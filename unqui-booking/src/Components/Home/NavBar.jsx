@@ -1,80 +1,91 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { connect } from 'react-redux';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Fab from '@material-ui/core/Fab';
-import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded';
-import Zoom from '@material-ui/core/Zoom';
+import { IconButton, AppBar, Toolbar, Typography } from  '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { setFailedLogin } from '../../Actions/userActions';
+import { getBookingsByUser, getHistoricalBookingsByUser, getCurrentsBookingsByUser } from '../../Actions/bookingActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    flexGrow: 1,
+  },
+  title: {
+    flexGrow: 1,
   },
 }));
 
-function ScrollTop(props) {
-  const { children, window } = props;
+const NavBar = ({
+  userReducer: {
+    user
+  },
+  bookingReducer: {
+
+  },
+  setFailedLogin,
+  getBookingsByUser,
+  getHistoricalBookingsByUser,
+  getCurrentsBookingsByUser
+
+}) => {
+
   const classes = useStyles();
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: true,
-    threshold: 100,
-  });
+  let history = useHistory(); 
 
-  const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
+  const handleLogOut = () => {
+    setFailedLogin(false);
+    history.push("/");
+  }
 
-    if (anchor) {
-      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  };
-
-  return (
-    <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.root}>
-        {children}
-      </div>
-    </Zoom>
-  );
-}
-
-ScrollTop.propTypes = {
-  children: PropTypes.element.isRequired,
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
-
-const NavBar = (props) => {
+  const handleProfile = () => {
+    getHistoricalBookingsByUser(user.id);
+    getCurrentsBookingsByUser(user.id);
+    history.push("/student");
+  }
   
     return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar>
+    <div className={classes.root}>
+      <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6">UNQui-Booking</Typography>
+          <Typography variant="h6" className={classes.title}>
+            UNQui-Booking
+          </Typography>
+          
+          {user != undefined ?
+            <div>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleProfile}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleLogOut}
+                color="inherit"
+              >
+                <ExitToAppIcon/>
+              </IconButton>
+            </div> : null
+          }
+          
         </Toolbar>
       </AppBar>
-      <Toolbar id="back-to-top-anchor" />
-
-      <ScrollTop {...props}>
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
-          <ArrowDropUpRoundedIcon />
-        </Fab>
-      </ScrollTop>
-    </React.Fragment>
+    </div>
   );
+
 }
 
-export default NavBar
+const mapStateToProps = state => ({
+  userReducer: state.userReducer,
+  bookingReducer: state.bookingReducer,
+});
+
+export default connect(mapStateToProps, { setFailedLogin, getBookingsByUser, getHistoricalBookingsByUser, getCurrentsBookingsByUser })(NavBar)

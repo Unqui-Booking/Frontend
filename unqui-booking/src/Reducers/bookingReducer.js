@@ -9,7 +9,8 @@ import { LOGS_ERROR,
          GET_CURRENTS_BOOKINGS_BY_USER,
          SET_COPY_HISTORICAL_BOOKINGS,
          GET_BOOKINGS_TODAY,
-         SET_COPY_BOOKINGS_TODAY} from '../Actions/types'
+         SET_COPY_BOOKINGS_TODAY,
+         OPEN_MODAL_CANCEL} from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -24,7 +25,8 @@ const initialState = {
     bookingsCurrentsByUser: [],
     copyHistoricalBookings: [],
     bookingsToday: [],
-    copyBookingsToday: []
+    copyBookingsToday: [],  
+    openModalCancel: false,
 }
 
 export default function(state = initialState, action){
@@ -98,6 +100,12 @@ export default function(state = initialState, action){
                 ...state,
                 copyBookingsToday: action.payload,
             }
+        case OPEN_MODAL_CANCEL:
+            return {
+                ...state,
+                openModalCancel: action.payload,
+            }
+
         default: return state
     }
 

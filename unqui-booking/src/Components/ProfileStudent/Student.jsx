@@ -5,7 +5,7 @@ import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import { FaUser } from 'react-icons/fa';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { setCopyHistoricalBookings, getHistoricalBookingsByUser, getCurrentsBookingsByUser } from '../../Actions/bookingActions';
+import { setCopyHistoricalBookings, getHistoricalBookingsByUser, getCurrentsBookingsByUser, setOpenModalCancel } from '../../Actions/bookingActions';
 import ListBookingStudent from './ListBookingStudent';
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +69,8 @@ const Student = ({
     },
     setCopyHistoricalBookings,
     getHistoricalBookingsByUser,
-    getCurrentsBookingsByUser
+    getCurrentsBookingsByUser,
+    setOpenModalCancel
 
 }) => {
 
@@ -79,6 +80,10 @@ const Student = ({
        getHistoricalBookingsByUser(user.id);
        getCurrentsBookingsByUser(user.id);
     }, [])
+
+    const handleOpenModal = () => {
+        setOpenModalCancel(true);
+    }
 
     return (
 
@@ -122,7 +127,7 @@ const Student = ({
                                                 aria-label="account of current user"
                                                 aria-controls="menu-appbar"
                                                 aria-haspopup="true"
-                                                //onClick={console.log("cancel")}
+                                                onClick={handleOpenModal}
                                                 color="primary"
                                                 >
                                                     <DeleteIcon />
@@ -154,4 +159,4 @@ const mapStateToProps = state => ({
     bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, { setCopyHistoricalBookings, getHistoricalBookingsByUser, getCurrentsBookingsByUser  })(Student);
+export default connect(mapStateToProps, { setCopyHistoricalBookings, getHistoricalBookingsByUser, setOpenModalCancel, getCurrentsBookingsByUser  })(Student);

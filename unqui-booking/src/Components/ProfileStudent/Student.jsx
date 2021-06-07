@@ -100,24 +100,33 @@ const Student = ({
 
     const classes = useStyles();
     const [dateFilter, setDateFilter] = useState(new Date());
-    const countPages = Math.ceil(bookingsHistoricalByUser.length / 10);
-    console.log("cantidad de historical: "+ bookingsHistoricalByUser.length)
-    const itemsPerPage = 6;  
+    const countPages = Math.ceil(bookingsHistoricalByUser.length / 6);
+    const bookingsPerPage = 6;  
     const [page, setPage] = useState(1);
+    const [copyHistoricalBookings, setCopyHistoricalBookings] = useState([]);
 
- 
+    console.log("cantidad de historical: "+ bookingsHistoricalByUser.length)
+
+    useEffect(() => {
+        setCopyHistoricalBookings(bookingsHistoricalByUser);
+    })
+
     const handleFilterDate = (date) => {
-        setDateFilter(date);
-                                             
+        setDateFilter(date);              
     }
 
     const handleChangePagination = (event, newPage) => {
         setPage(newPage);
     }; 
+    const handleFilterDesk = (event) => {
+        let filtrados = bookingsHistoricalByUser.filter(b => b.seat.desk.id == parseInt(event.target.value));
+        setCopyHistoricalBookings(filtrados);
+        console.log(filtrados);
+    }
 
     return (
 
-        <Container maxWidth="lg">
+        <Container maxWidth="lg"> 
             <Grid container spacing={3} className={classes.root} justify="center" >
                 <Grid item xs= {12} sm={3} className={classes.cardUser}>
 
@@ -158,7 +167,7 @@ const Student = ({
                                                 aria-label="account of current user"
                                                 aria-controls="menu-appbar"
                                                 aria-haspopup="true"
-                                                onClick={console.log("cancel")}
+                                                //onClick={console.log("cancel")}
                                                 color="primary"
                                                 >
                                                     <DeleteIcon />
@@ -206,6 +215,7 @@ const Student = ({
                                     shrink: true,
                                 }}
                                 className={classes.width}
+                                onChange={handleFilterDesk}
                             />
                         </Grid>
                         
@@ -232,7 +242,7 @@ const Student = ({
                                 <Typography className={classes.heading}><strong>Históricos</strong></Typography>
                             </AccordionSummary>
                             <AccordionDetails className={classes.accordionDetails}>
-                                    {bookingsHistoricalByUser.length > 0 ? bookingsHistoricalByUser.slice((page - 1) * itemsPerPage, page * itemsPerPage).map(b => 
+                                    {copyHistoricalBookings.length > 0 ? copyHistoricalBookings.slice((page - 1) * bookingsPerPage, page * bookingsPerPage).map(b => 
                                             
                                             <Grid container column xs={12} sm={12} className={classes.containerHistorical}>
                                                 
@@ -246,7 +256,7 @@ const Student = ({
                                             <Typography variant='body2' color='#00000082'>Sin reservas</Typography>
                                         </Grid>
                                     }
-                                    {bookingsHistoricalByUser.length > 6 ?
+                                    {copyHistoricalBookings.length > 6 ?
                                         <Pagination 
                                             count={countPages}
                                             color="primary"

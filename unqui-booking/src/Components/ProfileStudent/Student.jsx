@@ -110,7 +110,7 @@ const Student = ({
     console.log("cantidad de historical: "+ bookingsHistoricalByUser.length)
 
     useEffect(() => {
-       // setCopyHistoricalBookings(bookingsHistoricalByUser);
+        console.log("COPIAS :" +copyHistoricalBookings);
     })
 
     const handleFilterDate = (date) => {
@@ -218,11 +218,14 @@ const Student = ({
                                 id="standard-number"
                                 label="Filtrar historicos por escritorio"
                                 type="number"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 className={classes.width}
                                 onChange={handleFilterDesk}
+                                InputProps={{
+                                    inputProps: { 
+                                        max: null, min: 1 
+                                    },
+                                    shrink: true,
+                                }}
                             />
                         </Grid>
                         

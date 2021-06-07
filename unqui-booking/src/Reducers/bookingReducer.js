@@ -7,7 +7,8 @@ import { SET_LOADING,
          GET_MAP_AVAILABILY_SEATS,
          GET_BOOKINGS_BY_USER,
          GET_HISTORICAL_BOOKINGS_BY_USER,
-         GET_CURRENTS_BOOKINGS_BY_USER } from '../Actions/types'
+         GET_CURRENTS_BOOKINGS_BY_USER,
+         SET_COPY_HISTORICAL_BOOKINGS } from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -19,7 +20,8 @@ const initialState = {
     mapAvailabilySeats: null,
     bookingsByUSer: [],
     bookingsHistoricalByUser: [],
-    bookingsCurrentsByUser: []
+    bookingsCurrentsByUser: [],
+    copyHistoricalBookings: [],
 }
 
 export default function(state = initialState, action){
@@ -78,6 +80,12 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 bookingsCurrentsByUser: action.payload,
+                copyHistoricalBookings: action.payload,
+            }
+        case SET_COPY_HISTORICAL_BOOKINGS:
+            return {
+                ...state,
+                copyHistoricalBookings: action.payload,
             }
         default: return state
     }

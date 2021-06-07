@@ -6,7 +6,8 @@ import { GET_BOOKINGS,
          GET_MAP_AVAILABILY_SEATS,
          GET_BOOKINGS_BY_USER,
          GET_HISTORICAL_BOOKINGS_BY_USER,
-         GET_CURRENTS_BOOKINGS_BY_USER } from './types';
+         GET_CURRENTS_BOOKINGS_BY_USER,
+         SET_COPY_HISTORICAL_BOOKINGS } from './types';
 import { BOOKING_URL } from '../Api/base'
 import dataService from '../Services/service'
 
@@ -163,5 +164,20 @@ export const registerBooking = (seatId, date, startTime, endTime, userId) => asy
     }
 }
 
+export const setCopyHistoricalBookings = (copyBookings) => dispatch => {
+    try{
+        dispatch({
+            type: SET_COPY_HISTORICAL_BOOKINGS,
+            payload: copyBookings,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
 
 

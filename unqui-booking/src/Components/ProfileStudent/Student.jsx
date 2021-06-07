@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Pagination from '@material-ui/lab/Pagination';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { setCopyHistoricalBookings } from '../../Actions/bookingActions';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -93,8 +94,10 @@ const Student = ({
     },
     bookingReducer: {
         bookingsHistoricalByUser,
+        copyHistoricalBookings,
         bookingsCurrentsByUser
     },
+    setCopyHistoricalBookings
 
 }) => {
 
@@ -103,12 +106,11 @@ const Student = ({
     const countPages = Math.ceil(bookingsHistoricalByUser.length / 6);
     const bookingsPerPage = 6;  
     const [page, setPage] = useState(1);
-    const [copyHistoricalBookings, setCopyHistoricalBookings] = useState([]);
 
     console.log("cantidad de historical: "+ bookingsHistoricalByUser.length)
 
     useEffect(() => {
-        setCopyHistoricalBookings(bookingsHistoricalByUser);
+       // setCopyHistoricalBookings(bookingsHistoricalByUser);
     })
 
     const handleFilterDate = (date) => {
@@ -118,10 +120,15 @@ const Student = ({
     const handleChangePagination = (event, newPage) => {
         setPage(newPage);
     }; 
-    const handleFilterDesk = (event) => {
-        let filtrados = bookingsHistoricalByUser.filter(b => b.seat.desk.id == parseInt(event.target.value));
-        setCopyHistoricalBookings(filtrados);
-        console.log(filtrados);
+    const handleFilterDesk = (event) => {       
+        if(parseInt(event.target.value)>=0){
+            let filtrados = bookingsHistoricalByUser.filter(b => b.seat.desk.id == parseInt(event.target.value));
+            setCopyHistoricalBookings(filtrados);
+            console.log(filtrados);
+        }else{
+            setCopyHistoricalBookings(bookingsHistoricalByUser);
+        }
+        console.log("value default text: "+event.target.value);
     }
 
     return (
@@ -228,6 +235,7 @@ const Student = ({
                                     shrink: true,
                                 }}
                                 className={classes.width}
+                                
                             />
                         </Grid>
                     </Grid>
@@ -286,4 +294,4 @@ const mapStateToProps = state => ({
     bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, {  })(Student);
+export default connect(mapStateToProps, { setCopyHistoricalBookings })(Student);

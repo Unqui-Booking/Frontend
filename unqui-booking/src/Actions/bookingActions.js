@@ -7,7 +7,7 @@ import { GET_BOOKINGS,
          GET_BOOKINGS_BY_USER,
          GET_HISTORICAL_BOOKINGS_BY_USER,
          GET_CURRENTS_BOOKINGS_BY_USER,
-         SET_COPY_HISTORICAL_BOOKINGS } from './types';
+         SET_COPY_HISTORICAL_BOOKINGS,} from './types';
 import { BOOKING_URL } from '../Api/base'
 import dataService from '../Services/service'
 
@@ -179,5 +179,4 @@ export const setCopyHistoricalBookings = (copyBookings) => dispatch => {
           console.log(err);
     }
 }
-
 

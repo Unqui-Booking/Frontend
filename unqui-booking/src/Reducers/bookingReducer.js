@@ -8,7 +8,7 @@ import { SET_LOADING,
          GET_BOOKINGS_BY_USER,
          GET_HISTORICAL_BOOKINGS_BY_USER,
          GET_CURRENTS_BOOKINGS_BY_USER,
-         SET_COPY_HISTORICAL_BOOKINGS } from '../Actions/types'
+         SET_COPY_HISTORICAL_BOOKINGS,} from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -28,11 +28,6 @@ export default function(state = initialState, action){
 
     switch(action.type){
 
-        case SET_LOADING:
-            return {
-            ...state,
-            loading: true
-            };
         case LOGS_ERROR:
             return {
             ...state,
@@ -75,12 +70,13 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 bookingsHistoricalByUser: action.payload,
+                copyHistoricalBookings: action.payload,
             }
         case GET_CURRENTS_BOOKINGS_BY_USER:
             return {
                 ...state,
                 bookingsCurrentsByUser: action.payload,
-                copyHistoricalBookings: action.payload,
+                
             }
         case SET_COPY_HISTORICAL_BOOKINGS:
             return {

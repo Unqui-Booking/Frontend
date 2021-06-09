@@ -104,12 +104,10 @@ const Student = ({
 }) => {
 
     const classes = useStyles();
-    const [dateFilter, setDateFilter] = useState(new Date());
+    const [dateFilter, setDateFilter] = useState(null);
     const countPages = Math.ceil(bookingsHistoricalByUser.length / 6);
     const bookingsPerPage = 6;  
     const [page, setPage] = useState(1);
-
-    console.log("cantidad de historical: "+ bookingsHistoricalByUser.length)
 
     useEffect(() => {
        getHistoricalBookingsByUser(user.id);
@@ -117,7 +115,17 @@ const Student = ({
     }, [])
 
     const handleFilterDate = (date) => {
-        setDateFilter(date);              
+        if(date != null){
+            setDateFilter(date);    
+            let month = date.getMonth()+1 < 10 ? "0"+ (date.getMonth()+1).toString() : (date.getMonth()+1).toString();
+            let day = date.getDate() < 10 ? "0"+ date.getDate().toString() : date.getDate();
+            let selectedDate = date.getFullYear().toString() + "-" + month + "-" + day;
+            let filtrados = bookingsHistoricalByUser.filter(b => b.date ==  selectedDate);
+            setCopyHistoricalBookings(filtrados); 
+        }else{
+            setCopyHistoricalBookings(bookingsHistoricalByUser);
+        }
+                 
     }
 
     const handleChangePagination = (event, newPage) => {
@@ -128,7 +136,6 @@ const Student = ({
         if(parseInt(event.target.value)>=0){
             let filtrados = bookingsHistoricalByUser.filter(b => b.seat.desk.id ==  parseInt(event.target.value));
             setCopyHistoricalBookings(filtrados);
-            console.log("Filtrados Desk: "+filtrados);
         }else{
             setCopyHistoricalBookings(bookingsHistoricalByUser);
         }
@@ -140,7 +147,6 @@ const Student = ({
         if(parseInt(event.target.value)>=0){
             let filtrados = bookingsHistoricalByUser.filter(b => b.seat.id == parseInt(event.target.value) );
             setCopyHistoricalBookings(filtrados);
-            console.log("Filtrados Seat: "+filtrados);
         }else{
             setCopyHistoricalBookings(bookingsHistoricalByUser);
         }
@@ -274,11 +280,10 @@ const Student = ({
                                     {copyHistoricalBookings.length > 0 ? copyHistoricalBookings.slice((page - 1) * bookingsPerPage, page * bookingsPerPage).map(b => 
                                             
                                             <Grid container column xs={12} sm={12} className={classes.containerHistorical}>
-                                                
-                                                    <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
-                                                    <Typography variant='body2'>Asiento {b.seat.id}</Typography>
-                                                    <Typography variant='body2'>{moment(b.date).format('LL')}</Typography>
-                                                    <Typography variant='body2'>{b.startTime}hs - {b.endTime}hs</Typography>
+                                                <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
+                                                <Typography variant='body2'>Asiento {b.seat.id}</Typography>
+                                                <Typography variant='body2'>{moment(b.date).format('LL')}</Typography>
+                                                <Typography variant='body2'>{b.startTime}hs - {b.endTime}hs</Typography>
                                             </Grid>
                                         ) : 
                                         <Grid container xs={12} sm={12} justify='center'>

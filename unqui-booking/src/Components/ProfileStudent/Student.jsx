@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Card, CardContent, Container, Grid, IconButton, Paper, TextField, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Card, CardContent, Container, Grid, IconButton, TextField, Typography } from '@material-ui/core';
 import React, { useEffect, useState }  from 'react'
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -10,6 +10,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { setCopyHistoricalBookings, getHistoricalBookingsByUser, getCurrentsBookingsByUser } from '../../Actions/bookingActions';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -85,6 +86,16 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         marginTop: '12px',
+    },
+    clearFilter: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+    },
+    containerFilter: {
+        display:'flex',
+        justify:'center',
+        justifyContent: 'space-evenly',
     }
   }));
 
@@ -105,6 +116,8 @@ const Student = ({
 
     const classes = useStyles();
     const [dateFilter, setDateFilter] = useState(null);
+    const [deskFiltered, setDeskFiltered] = useState(null);
+    const [seatFiltered, setSeatFiltered] = useState(null);
     const countPages = Math.ceil(bookingsHistoricalByUser.length / 6);
     const bookingsPerPage = 6;  
     const [page, setPage] = useState(1);
@@ -134,6 +147,7 @@ const Student = ({
 
     const handleFilterDesk = (event) => {       
         if(parseInt(event.target.value)>=0){
+            setDeskFiltered(parseInt(event.target.value));
             let filtrados = bookingsHistoricalByUser.filter(b => b.seat.desk.id ==  parseInt(event.target.value));
             setCopyHistoricalBookings(filtrados);
         }else{
@@ -141,15 +155,21 @@ const Student = ({
         }
     }
 
-
-
     const handleFilterSeat = (event) => {       
         if(parseInt(event.target.value)>=0){
+            setSeatFiltered(parseInt(event.target.value));
             let filtrados = bookingsHistoricalByUser.filter(b => b.seat.id == parseInt(event.target.value) );
             setCopyHistoricalBookings(filtrados);
         }else{
             setCopyHistoricalBookings(bookingsHistoricalByUser);
         }
+    }
+
+    const clearFilter = () => {
+        setCopyHistoricalBookings(bookingsHistoricalByUser);
+        setDateFilter(null);
+        setDeskFiltered("");
+        setSeatFiltered("");
     }
 
     return (
@@ -162,11 +182,10 @@ const Student = ({
                         <CardContent>
                             <Grid container className={classes.containerUser}> 
                                 <Avatar className={classes.avatar}>
-                                <Grid item className={classes.containerIconUser}>
-                                    
+                                    <Grid item className={classes.containerIconUser}>
                                         <FaUser className={classes.iconUser}/>
-                                    
-                                </Grid></Avatar>
+                                    </Grid>
+                                </Avatar>
                                 <Typography variant='h9' className={classes.nameUser}><strong>{user.name}</strong></Typography>
                                 <Typography variant='body2'>{user.mail}</Typography>
                         </Grid>
@@ -214,8 +233,8 @@ const Student = ({
                     </Card>
                     
                     {/* Filtros de historicos */}
-                    <Grid container xs={12} sm={12} row justify='center'>
-                        <Grid item xs={12} sm={4} >
+                    <Grid container xs={12} sm={12} row className={classes.containerFilter}>
+                        <Grid item xs={12} sm={3} >
                             <MuiPickersUtilsProvider utils={DateFnsUtils} >
                                 <KeyboardDatePicker
                                     className={classes.dateSelect}
@@ -223,23 +242,25 @@ const Student = ({
                                     variant="inline"
                                     format="dd/MM/yyyy"
                                     margin="normal"
-                                    id="date-picker-inline"
+                                    id="filterDate"
                                     value={dateFilter}
                                     label="Filtrar historicos por fecha"
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
                                     onChange={handleFilterDate}
+                                    InputLabelProps={{style: {fontSize: 15}}} 
                                 />
                             </MuiPickersUtilsProvider>
                         </Grid>
 
-                        <Grid item xs={12} sm={4} className={classes.marginTop}>
+                        <Grid item xs={12} sm={3} className={classes.marginTop}>
                             <TextField
-                                id="standard-number"
+                                id="filterdDesk"
                                 label="Filtrar historicos por escritorio"
                                 type="number"
                                 className={classes.width}
+                                value={deskFiltered}
                                 onChange={handleFilterDesk}
                                 InputProps={{
                                     inputProps: { 
@@ -247,14 +268,16 @@ const Student = ({
                                     },
                                     shrink: true,
                                 }}
+                                InputLabelProps={{style: {fontSize: 15}}} 
                             />
                         </Grid>
                         
-                        <Grid item xs={12} sm={4} className={classes.marginTop}>
+                        <Grid item xs={12} sm={3} className={classes.marginTop}>
                             <TextField
-                                id="standard-number"
+                                id="filterdSeat"
                                 label="Filtrar historicos por asiento"
                                 type="number"
+                                value={seatFiltered}
                                 InputProps={{
                                     inputProps: { 
                                         max: null, min: 1 
@@ -263,8 +286,19 @@ const Student = ({
                                 }}
                                 className={classes.width}
                                 onChange={handleFilterSeat}
+                                InputLabelProps={{style: {fontSize: 15}}} 
                             />
                         </Grid>
+                       <Grid item xs={1} sm={1} className={classes.clearFilter}>
+                            <IconButton
+                                aria-haspopup="true"
+                                onClick={clearFilter}
+                                color="inherit"
+                            >
+                                <ClearAllIcon />
+                            </IconButton>
+                       </Grid>
+                        
                     </Grid>
 
                     <Grid item xs={12} sm={12} className={classes.accordion}>

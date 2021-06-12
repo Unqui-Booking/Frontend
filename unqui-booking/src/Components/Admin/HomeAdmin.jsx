@@ -41,16 +41,27 @@ const useStyles = makeStyles((theme) => ({
     },
     linksAdmin: {
         display: 'flex',
-        width: '12rem',
+        width: '13rem',
         margin: '30px 0px -15px 0px',
+        padding: '5px',
+        borderRadius: '10px',
+        background: 'transparent',
     },
     link: {
         display: 'flex',
         alignItems: 'center',
         fontWeight: 'bold',
         color: 'black',
-        
+    },
+    linksAdminSelected: {
+        display: 'flex',
+        width: '13rem',
+        margin: '30px 0px -15px 0px',
+        padding: '5px',
+        borderRadius: '10px',
+        background: '#d5d5d5d5'
     }
+
 }))
 
 const HomeAdmin = ({
@@ -73,6 +84,8 @@ const HomeAdmin = ({
 }) => {   
 
     const classes = useStyles();
+    const [selectTypeBooking, setSelectTypeBooking] = useState('todayBookings');
+    const [title, setTitle] = useState('Reservas del día');
 
     useEffect(() => {
         getBookingsToday(); 
@@ -92,6 +105,18 @@ const HomeAdmin = ({
         setSuccessFineBooking(false);
     }
 
+    const handleTypeBooking = (typeBoooking, title) => {
+        setSelectTypeBooking(typeBoooking);
+        setTitle(title);
+    }
+
+    // const getStyle = () => {
+    //     switch(selectTypeBooking){
+    //         case 'todayBookings':
+    //             return
+    //     }
+    // }
+
     return (
         <Container maxWidth="lg">
             <Grid container spacing={3} className={classes.root} justify="center" >
@@ -106,15 +131,18 @@ const HomeAdmin = ({
                                         <Avatar alt="Remy Sharp" src={logo} className={classes.avatar} />
                                     </Grid>
                                 </Avatar>
-                                <Grid item className={classes.linksAdmin}>
+                                <Grid item className={selectTypeBooking == 'todayBookings' ? classes.linksAdminSelected : classes.linksAdmin}>
                                     <LabelImportantIcon color='primary'/>
-                                    <Link href="#" to={"/"} className={classes.link}>Reservas confirmadas</Link>
+                                    <Link href="#" to={"/"} onClick={() => handleTypeBooking("todayBookings", "Reservas del día")} className={classes.link}>Reservas del día</Link>
                                 </Grid>
-                                <Grid item className={classes.linksAdmin}>
+                                <Grid item className={selectTypeBooking == 'finedBookings' ? classes.linksAdminSelected : classes.linksAdmin}>
                                     <LabelImportantIcon color='primary'/>
-                                    <Link href="#" to={"/"} className={classes.link}>Reservas multadas</Link>
+                                    <Link href="#" to={"/"} onClick={() => handleTypeBooking("finedBookings", "Reservas multadas")} className={classes.link}>Reservas multadas</Link>
                                 </Grid>
-                                
+                                <Grid item className={selectTypeBooking == 'confirmedBookings' ? classes.linksAdminSelected : classes.linksAdmin}>
+                                    <LabelImportantIcon color='primary'/>
+                                    <Link href="#" to={"/"} onClick={() => handleTypeBooking("confirmedBookings", "Reservas confirmadas")} className={classes.link}>Reservas confirmadas</Link>
+                                </Grid>
                             </Grid>
                         </CardContent>
                     </Card>
@@ -122,20 +150,31 @@ const HomeAdmin = ({
                 </Grid>
                 <Grid container xs={12} sm={9} spacing={3} justify="center"> 
                     <Grid item xs={12} sm={12}>
-                        <Typography variant='h5' className={classes.title}> <strong>Reservas del día</strong></Typography>
+                        <Typography variant='h5' className={classes.title}><strong>{title}</strong></Typography>
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <ListBookingStudent 
-                            listBooking={bookingsToday} 
-                            listCopyBooking={copyBookingsToday} 
-                            setCopy={setCopyBookingsToday} 
-                            admin={true} 
-                            confirm={confirmBooking}
-                            getBookings={getBookingsToday}
-                            fine={fineBooking}
-                        />
+                        {
+                           selectTypeBooking == "todayBookings" ?
+                            <ListBookingStudent 
+                                    listBooking={bookingsToday} 
+                                    listCopyBooking={copyBookingsToday} 
+                                    setCopy={setCopyBookingsToday} 
+                                    admin={true} 
+                                    confirm={confirmBooking}
+                                    getBookings={getBookingsToday}
+                                    fine={fineBooking}
+                                /> : null
+                        }
+                        {
+                             selectTypeBooking == "finedBookings" ?
+                             <p>reservas multadas </p> : null
+                        }
+                        {
+                             selectTypeBooking == "confirmedBookings" ?
+                             <p>reservas confirmadas </p> : null
+                        }
+                        
                     </Grid>
-
                 </Grid>
             </Grid>
             <Snackbar open={succesConfirmBooking||succesFineBooking} autoHideDuration={6000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>

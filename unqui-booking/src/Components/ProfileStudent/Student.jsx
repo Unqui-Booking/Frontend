@@ -158,7 +158,7 @@ const Student = ({
                         </CardContent>
                     </Card>
                     
-                    <ListBookingStudent listBooking={bookingsHistoricalByUser} listCopyBooking={copyHistoricalBookings} setCopy={setCopyHistoricalBookings} admin={false}/>
+                    <ListBookingStudent listBooking={bookingsHistoricalByUser} listCopyBooking={copyHistoricalBookings} setCopy={setCopyHistoricalBookings} admin={false} confirmBooking={null}/>
                     <Snackbar open={succesCancel} autoHideDuration={3000} onClose={handleCloseSuccesCancel} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
                         <Alert onClose={handleCloseSuccesCancel} severity="success">
                             <strong>Reserva cancelada exitosamente.</strong>

@@ -3,7 +3,7 @@ import React, { useEffect }  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import ListBookingStudent from '../../Components/ProfileStudent/ListBookingStudent';
-import { getBookingsToday , setCopyBookingsToday } from '../../Actions/bookingActions';
+import { getBookingsToday , setCopyBookingsToday, confirmBooking } from '../../Actions/bookingActions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,8 +24,9 @@ const HomeAdmin = ({
     },
     getBookingsToday,
     setCopyBookingsToday, 
+    confirmBooking
 
-}) => {
+}) => {   
 
     const classes = useStyles();
 
@@ -48,7 +49,7 @@ const HomeAdmin = ({
                     <Typography variant='h5' className={classes.title}> <strong>Reservas del día</strong></Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                    <ListBookingStudent listBooking={bookingsToday} listCopyBooking={copyBookingsToday} setCopy={setCopyBookingsToday} admin={true} />
+                    <ListBookingStudent listBooking={bookingsToday} listCopyBooking={copyBookingsToday} setCopy={setCopyBookingsToday} admin={true} confirmBooking={confirmBooking}/>
                 </Grid>
 
             </Grid>
@@ -61,4 +62,4 @@ const mapStateToProps = state => ({
     bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, { getBookingsToday, setCopyBookingsToday })(HomeAdmin);
+export default connect(mapStateToProps, { getBookingsToday, setCopyBookingsToday, confirmBooking })(HomeAdmin);

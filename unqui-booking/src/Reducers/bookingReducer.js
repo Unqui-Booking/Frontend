@@ -12,7 +12,10 @@ import { LOGS_ERROR,
          SET_COPY_BOOKINGS_TODAY,
          OPEN_MODAL_CANCEL,
          CANCEL_BOOKING,
-         OPEN_SUCCESS_CANCEL} from '../Actions/types'
+         OPEN_SUCCESS_CANCEL,
+         CONFIRM_BOOKING,
+         GET_BOOKING_BY_STATE_FINED,
+         GET_BOOKING_BY_STATE_CONFIRMED} from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -31,6 +34,10 @@ const initialState = {
     openModalCancel: false,
     bookingCanceled: false,
     succesCancel: false,
+    succesConfirmBooking: false,
+    listConfirmedBookings: [],
+    listFinedBookings: [],
+
 }
 
 export default function reducerBooking (state = initialState, action){
@@ -119,6 +126,21 @@ export default function reducerBooking (state = initialState, action){
             return {
                 ...state,
                 succesCancel: action.payload,
+            }
+        case CONFIRM_BOOKING:
+            return {
+                ...state,
+                succesConfirmBooking: action.payload,
+            }
+        case GET_BOOKING_BY_STATE_FINED:
+            return {
+                ...state,
+                listFinedBookings: action.payload,
+            }
+        case GET_BOOKING_BY_STATE_CONFIRMED:
+            return {
+                ...state,
+                listConfirmedBookings: action.payload, 
             }
         default: return state
     }

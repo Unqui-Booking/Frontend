@@ -12,7 +12,11 @@ import { GET_BOOKINGS,
          SET_COPY_BOOKINGS_TODAY,
          OPEN_MODAL_CANCEL,
          CANCEL_BOOKING,
-         OPEN_SUCCESS_CANCEL } from './types';
+         OPEN_SUCCESS_CANCEL,
+         CONFIRM_BOOKING,
+         GET_BOOKING_BY_STATE_FINED,
+         GET_BOOKING_BY_STATE_CONFIRMED
+         } from './types';
 import { BOOKING_URL } from '../Api/base'
 import dataService from '../Services/service'
 
@@ -187,10 +191,31 @@ export const setCopyHistoricalBookings = (copyBookings) => dispatch => {
 
 export const getBookingsToday = (date) => async dispatch => {
     try{
-        console.log(`${BOOKING_URL}/bydate?date=${date}`);
-        const res = await dataService.get(`${BOOKING_URL}/bydate?date=${date}`);
+        console.log(`${BOOKING_URL}/today?date=${date}`);
+        const res = await dataService.get(`${BOOKING_URL}/today?date=${date}`);
         dispatch({
             type: GET_BOOKINGS_TODAY,
+            payload: res.data
+        })
+    }
+    catch(err){
+        dispatch( {
+            type: LOGS_ERROR,
+            payload: console.log(err),
+        })
+        console.log(err);
+    }
+}
+
+export const getBookingsTodayByState = (date, state) => async dispatch => {
+    try{
+        let TYPE_GET_BY_STATE = null;
+        const res = await dataService.get(`${BOOKING_URL}/bystate?date=${date}&state=${state}`)
+
+        state === "fined" ? TYPE_GET_BY_STATE = GET_BOOKING_BY_STATE_FINED : TYPE_GET_BY_STATE = GET_BOOKING_BY_STATE_CONFIRMED;
+
+        dispatch({
+            type: TYPE_GET_BY_STATE,
             payload: res.data
         })
     }
@@ -260,6 +285,7 @@ export const cancelBooking = (booking) => async dispatch => {
             startTime: booking.startTime,
             endTime: booking.endTime,
             user: {id: booking.user.id},
+            state: booking.state,
             deleted: true
           }
         const res = await dataService.register(BOOKING_URL, payloadBooking);
@@ -273,6 +299,33 @@ export const cancelBooking = (booking) => async dispatch => {
         dispatch({
             type: LOGS_ERROR,
             payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const confirmBooking = (booking) => async dispatch => {
+    try{
+        const payloadBooking = {
+            id: booking.id,
+            seat: {id: booking.seat.id},
+            date: booking.date,
+            startTime: booking.startTime,
+            endTime: booking.endTime,
+            user: {id: booking.user.id},
+            state: "confirmed",
+            deleted: booking.deleted
+          }
+        const res = await dataService.register(BOOKING_URL, payloadBooking);
+        dispatch({
+            type: CONFIRM_BOOKING,
+            payload: true,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: CONFIRM_BOOKING,
+            payload: false
           });
           console.log(err);
     }

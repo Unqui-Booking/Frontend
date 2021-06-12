@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
 const ListBookingStudent = (props) => {
 
     const classes = useStyles();
-    const {listBooking, listCopyBooking, setCopy, admin} = props
+    const {listBooking, listCopyBooking, setCopy, admin, confirmBooking} = props
     const [dateFilter, setDateFilter] = useState(null);
     const [deskFiltered, setDeskFiltered] = useState(null);
     const [seatFiltered, setSeatFiltered] = useState(null);
@@ -178,7 +178,10 @@ const ListBookingStudent = (props) => {
         console.log("start time: "+ hour);
         console.log("DIFERENCIA: "+Math.abs(currentHour - hour));
         return Math.abs(currentHour - hour) > 1; 
+    }
 
+    const goToConfirmBooking = (booking) => {
+        confirmBooking(booking);
     }
 
     return (
@@ -300,7 +303,7 @@ const ListBookingStudent = (props) => {
                                                 {b.state == 'expired' ?
                                                     <IconButton
                                                         aria-haspopup="true"
-                                                        //onClick={handleLogOut}
+                                                        onClick={goToConfirmBooking(b)}
                                                         color="primary"
                                                     >
                                                         <GavelIcon/>

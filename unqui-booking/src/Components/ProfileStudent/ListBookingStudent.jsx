@@ -147,8 +147,9 @@ const ListBookingStudent = (props) => {
                                 value={null}
                                 onChange={console.log("estado")}
                                 >
-                                <MenuItem value={20}>Confirmada</MenuItem>
                                 <MenuItem value={20}>Por confirmar</MenuItem>
+                                <MenuItem value={20}>Confirmada</MenuItem>
+                                <MenuItem value={20}>Por vencer</MenuItem>
                                 <MenuItem value={10}>Vencida</MenuItem>
                             </Select>
                         </FormControl>
@@ -220,7 +221,7 @@ const ListBookingStudent = (props) => {
                                             { admin ? <Typography variant='body2'>{b.user.name}</Typography>: null }
                                             <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
                                             <Typography variant='body2'>Asiento {b.seat.id}</Typography>
-                                            <Typography variant='body2'>{moment(b.date).format('LL')}</Typography>
+                                            { !admin ? <Typography variant='body2'>{moment(b.date).format('LL')}</Typography>: null}
                                             <Typography variant='body2'>{b.startTime}hs - {b.endTime}hs</Typography>
                                         </Grid>
                                         { admin ?

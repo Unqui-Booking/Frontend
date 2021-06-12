@@ -82,6 +82,36 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
     },
+    toConfirmBooking: {
+        border: '1px solid #4caf50',
+        background: '#4caf5030',
+        borderRadius: '4px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: '2.5rem',
+        padding: '9px 12px',
+        margin: '4px 0px',
+    },
+    toExpiredBooking: {
+        border: '1px solid orange',
+        background: '#ffa5001f',
+        borderRadius: '4px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: '2.5rem',
+        padding: '9px 12px',
+        margin: '4px 0px',
+    },
+    expiredBooking: {
+        border: '1px solid #b7002e',
+        background: '#ff00001c',
+        borderRadius: '4px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: '2.5rem',
+        padding: '9px 12px',
+        margin: '4px 0px',
+    },
     }));
 
 const ListBookingStudent = (props) => {
@@ -137,6 +167,29 @@ const ListBookingStudent = (props) => {
         setSeatFiltered("");
     }
 
+    const getStyle = (stateBooking) => {
+        if(admin){
+            console.log("RECIBIDO STATE: "+stateBooking);
+            switch(stateBooking){
+                case 'toConfirm':
+                    console.log("ESTILOS CONFIRM")
+                    return classes.toConfirmBooking;
+                case 'toExpired':
+                    console.log("ESTILOS toExpired")
+                    return classes.toExpiredBooking;
+                case 'expired':
+                    console.log("ESTILOS expired")
+                    return classes.expiredBooking;
+                default:
+                    console.log("ESTILOS NADA default")
+                    return classes.containerHistorical;        
+            }
+        }
+        else{
+            console.log("NO ADMIN")
+            return classes.containerHistorical;
+        }
+    }
 
     return (
         <Grid container>
@@ -229,7 +282,7 @@ const ListBookingStudent = (props) => {
 
             
 
-            <Grid item xs={12} sm={12} className={classes.accordion}>
+            <Grid item xs={12} sm={12} className={classes.accordion}>  
                 <Accordion expanded>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -247,8 +300,8 @@ const ListBookingStudent = (props) => {
                     </AccordionSummary>
                     <AccordionDetails className={classes.accordionDetails}>
                             {listCopyBooking.length > 0 ? listCopyBooking.slice((page - 1) * bookingsPerPage, page * bookingsPerPage).map(b => 
-                                    <Grid container xs={12} sm={12}>
-                                        <Grid container xs={12} sm={11} className={classes.containerHistorical}>
+                                    <Grid container xs={12} sm={12} >
+                                        <Grid container xs={12} sm={11} className={getStyle(b.state)}>
                                             { admin ? <Typography variant='body2'>{b.user.name}</Typography>: null }
                                             <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
                                             <Typography variant='body2'>Asiento {b.seat.id}</Typography>

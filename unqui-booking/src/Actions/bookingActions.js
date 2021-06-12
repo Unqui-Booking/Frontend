@@ -38,7 +38,7 @@ export const getAllBookings = () => async dispatch => {
 export const getBookingBySeatDateHours = (seatId, date, startTime, endTime ) => async dispatch => {  
     try{
         const res = await dataService.get(`${BOOKING_URL}/details?seat=${seatId}&date=${date}&startTime=${startTime}&endTime=${endTime}`)
-        {console.log(`${BOOKING_URL}/details?seat=${seatId}&date=${date}&startTime=${startTime}&endTime=${endTime}`)}
+        console.log(`${BOOKING_URL}/details?seat=${seatId}&date=${date}&startTime=${startTime}&endTime=${endTime}`)
         dispatch( {
             type: GET_SPECIFIC_BOOKING,
             payload: res.data

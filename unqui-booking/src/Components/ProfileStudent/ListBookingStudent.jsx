@@ -75,11 +75,8 @@ const ListBookingStudent = (props) => {
 
     const handleFilterDate = (date) => {
         if(date != null){
-            setDateFilter(date);    
-            let month = date.getMonth()+1 < 10 ? "0"+ (date.getMonth()+1).toString() : (date.getMonth()+1).toString();
-            let day = date.getDate() < 10 ? "0"+ date.getDate().toString() : date.getDate();
-            let selectedDate = date.getFullYear().toString() + "-" + month + "-" + day;
-            let filtrados = listBooking.filter(b => b.date ==  selectedDate);
+            setDateFilter(date);
+            const filtrados = listBooking.filter(b => moment(b.date).isSame(date, 'day') );
             setCopy(filtrados); 
         }else{
             setCopy(listBooking);

@@ -94,7 +94,7 @@ const BookingList = ({
                         )}
                     </Grid>
 
-                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
                         <Alert onClose={handleClose} severity="success">
                         <strong>Reserva registrada exitosamente.</strong>
                         </Alert>

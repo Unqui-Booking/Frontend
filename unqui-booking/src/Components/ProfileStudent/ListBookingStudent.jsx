@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography, Button, Chip } from '@material-ui/core';
 import React, { useState }  from 'react'
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
@@ -51,16 +51,43 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         justify:'center',
         justifyContent: 'space-evenly',
+        marginBottom: '12px',
     },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 220,
         marginTop: '9px',
       },
-      colorConfirmation: {
+    colorConfirmation: {
         color: '#4caf50',
-      } 
-  }));
+    }, 
+    toConfirm: {
+        background: 'rgba(0, 0, 0, 0.04)',
+        borderColor: 'rgb(0 0 0 / 20%)',
+        boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
+    },
+    confirmed: {
+        borderColor: '#4caf50',
+        background: '#4caf5030',
+        fontWeight: 'bold',
+        color: 'green',
+        boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
+    },
+    toExpired: {
+        borderColor: 'orange',
+        background: '#ffa5001f',
+        fontWeight: 'bold',
+        color: '#e29406',
+        boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
+    },
+    expired: {
+        borderColor: '#b7002e',
+        background: '#ff00001c',
+        color: '#b7002e',
+        fontWeight: 'bold',
+        boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
+    },
+    }));
 
 const ListBookingStudent = (props) => {
 
@@ -140,19 +167,19 @@ const ListBookingStudent = (props) => {
                             />
                         </MuiPickersUtilsProvider>
                     </Grid> : 
-                    <Grid item xs={12} sm={3} className={classes.marginState}>
-                        <FormControl className={classes.formControl}>
-                             <InputLabel>Filtrar por estado</InputLabel>
-                            <Select
-                                value={null}
-                                onChange={console.log("estado")}
-                                >
-                                <MenuItem value={20}>Por confirmar</MenuItem>
-                                <MenuItem value={20}>Confirmada</MenuItem>
-                                <MenuItem value={20}>Por vencer</MenuItem>
-                                <MenuItem value={10}>Vencida</MenuItem>
-                            </Select>
-                        </FormControl>
+                    <Grid item xs={12} sm={3} className={classes.marginTop}>
+                        <TextField
+                            id="filterStudent"
+                            label="Filtrar por estudiante"
+                            type="text"
+                            className={classes.width}
+                            value={deskFiltered}
+                            onChange={console.log('filter by student')}
+                            InputProps={{
+                                shrink: true,
+                            }}
+                            InputLabelProps={{style: {fontSize: 15}}} 
+                        />
                     </Grid>
                 }
 
@@ -203,6 +230,14 @@ const ListBookingStudent = (props) => {
                     </IconButton>
                 </Grid>
                 
+            </Grid>
+
+            <Grid container spacing={2} justify='center'>
+                {/* <Typography>Filtrar por estado:</Typography> */}
+                <Grid item><Chip label="Por confirmar" component="a" href="#chip" clickable variant="outlined" className={classes.toConfirm}/></Grid>
+                <Grid item><Chip label="Confirmada" component="a" href="#chip" clickable variant="outlined" className={classes.confirmed}/></Grid>
+                <Grid item><Chip label="Por vencer" component="a" href="#chip" clickable variant="outlined" className={classes.toExpired}/></Grid>
+                <Grid item><Chip label="Vencida" component="a" href="#chip" clickable variant="outlined" className={classes.expired}/></Grid>
             </Grid>
 
             <Grid item xs={12} sm={12} className={classes.accordion}>

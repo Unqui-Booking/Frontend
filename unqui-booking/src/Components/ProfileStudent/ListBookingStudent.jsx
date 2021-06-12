@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
 const ListBookingStudent = (props) => {
 
     const classes = useStyles();
-    const {listBooking, listCopyBooking, setCopy, admin, action, getBookings} = props
+    const {listBooking, listCopyBooking, setCopy, admin, confirm, getBookings, fine} = props
     const [dateFilter, setDateFilter] = useState(null);
     const [deskFiltered, setDeskFiltered] = useState(null);
     const [seatFiltered, setSeatFiltered] = useState(null);
@@ -180,14 +180,15 @@ const ListBookingStudent = (props) => {
         return Math.abs(currentHour - hour) > 1; 
     }
 
-    const goToConfirmBooking = async (booking) => {
-        await action(booking);
+    const confirmBooking = async (booking) => {
+        await confirm(booking);
         await getBookings();
         //TODO >>> con un setTimeOut cambiar a false el succes de action
     }
 
-    const fineBooking = (booking) => {
-        console.log("reserva multada");
+    const fineBooking = async (booking) => {
+        await fine(booking);
+        await getBookings();
     }
 
     return (
@@ -312,16 +313,15 @@ const ListBookingStudent = (props) => {
                                                         onClick={() => fineBooking(b)}
                                                         color="primary"
                                                     >
-                                                        <GavelIcon/>
+                                                        <GavelIcon/> 
                                                     </IconButton> : null
                                                 }
                                                 {b.state != 'expired' ?
                                                     <IconButton
                                                         aria-haspopup="true"
-                                                        //onClick={handleLogOut}
                                                         className={classes.colorConfirmation}
                                                         disabled={getDisabledConfirm(b.startTime)}
-                                                        onClick={() =>goToConfirmBooking(b)}
+                                                        onClick={() =>confirmBooking(b)}
                                                     >
                                                         <CheckCircleIcon/>
                                                     </IconButton> : null

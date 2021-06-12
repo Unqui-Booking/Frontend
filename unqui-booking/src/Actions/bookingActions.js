@@ -15,7 +15,10 @@ import { GET_BOOKINGS,
          OPEN_SUCCESS_CANCEL,
          CONFIRM_BOOKING,
          GET_BOOKING_BY_STATE_FINED,
-         GET_BOOKING_BY_STATE_CONFIRMED
+         GET_BOOKING_BY_STATE_CONFIRMED,
+         SET_SUCCESS_CONFIRM_BOOKING,
+         FINE_BOOKING,
+         SET_SUCCESS_FINE_BOOKING
          } from './types';
 import { BOOKING_URL } from '../Api/base';
 import dataService from '../Services/service';
@@ -325,6 +328,65 @@ export const confirmBooking = (booking) => async dispatch => {
         dispatch({
             type: CONFIRM_BOOKING,
             payload: !res.data.deleted,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const setSuccessConfirmBooking = (success) => dispatch => {
+    try{
+        dispatch({
+            type: SET_SUCCESS_CONFIRM_BOOKING,
+            payload: success,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const fineBooking = (booking) => async dispatch => {
+    try{
+        const payloadBooking = {
+            id: booking.id,
+            seat: {id: booking.seat.id},
+            date: booking.date,
+            startTime: booking.startTime,
+            endTime: booking.endTime,
+            user: {id: booking.user.id},
+            state: "fined",
+            deleted: booking.deleted
+          }
+        const res = await dataService.register(BOOKING_URL, payloadBooking);
+        dispatch({
+            type: FINE_BOOKING,
+            payload: !res.data.deleted,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const setSuccessFineBooking = (success) => dispatch => {
+    try{
+        dispatch({
+            type: SET_SUCCESS_FINE_BOOKING,
+            payload: success,
         })
     }
     catch(err){

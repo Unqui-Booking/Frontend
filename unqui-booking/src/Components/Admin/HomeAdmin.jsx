@@ -1,9 +1,9 @@
 import { Card, Container, Grid, Typography, Avatar, CardContent, Link, Snackbar } from '@material-ui/core';
-import React, { useEffect }  from 'react';
+import React, { useEffect, useState }  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import ListBookingStudent from '../../Components/ProfileStudent/ListBookingStudent';
-import { getBookingsToday , setCopyBookingsToday, confirmBooking } from '../../Actions/bookingActions';
+import { getBookingsToday , setCopyBookingsToday, confirmBooking, setSuccessConfirmBooking, fineBooking, setSuccessFineBooking} from '../../Actions/bookingActions';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import { Alert } from '@material-ui/lab';
 import logo from '../../Img/circle.jpg';
@@ -57,11 +57,18 @@ const HomeAdmin = ({
     bookingReducer: {
         bookingsToday,
         copyBookingsToday,
-        succesConfirmBooking
+        succesConfirmBooking,
+        textAlertFineOrConfirmBooking,
+        succesFineBooking,
     },
     getBookingsToday,
     setCopyBookingsToday, 
-    confirmBooking
+    confirmBooking,
+    setSuccessConfirmBooking,
+    fineBooking,
+    setSuccessFineBooking
+
+
 
 }) => {   
 
@@ -81,9 +88,9 @@ const HomeAdmin = ({
     }
 
     const handleClose = () => {
-    //actualizar a false el state succesConfirmBooking
+        setSuccessConfirmBooking(false);
+        setSuccessFineBooking(false);
     }
-
 
     return (
         <Container maxWidth="lg">
@@ -123,15 +130,17 @@ const HomeAdmin = ({
                             listCopyBooking={copyBookingsToday} 
                             setCopy={setCopyBookingsToday} 
                             admin={true} 
-                            action={confirmBooking}
-                            getBookings={getBookingsToday}/>
+                            confirm={confirmBooking}
+                            getBookings={getBookingsToday}
+                            fine={fineBooking}
+                        />
                     </Grid>
 
                 </Grid>
             </Grid>
-            <Snackbar open={succesConfirmBooking} autoHideDuration={6000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+            <Snackbar open={succesConfirmBooking||succesFineBooking} autoHideDuration={6000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
                 <Alert onClose={handleClose} severity="success">
-                    <strong>Reserva confirmada exitosamente.</strong>
+                    <strong>{textAlertFineOrConfirmBooking}</strong>
                 </Alert>
             </Snackbar> 
         </Container>
@@ -143,4 +152,4 @@ const mapStateToProps = state => ({
     bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, { getBookingsToday, setCopyBookingsToday, confirmBooking })(HomeAdmin);
+export default connect(mapStateToProps, { getBookingsToday, setCopyBookingsToday, confirmBooking, setSuccessConfirmBooking, fineBooking, setSuccessFineBooking })(HomeAdmin);

@@ -7,7 +7,7 @@ import { LOGS_ERROR,
          GET_BOOKINGS_BY_USER,
          GET_HISTORICAL_BOOKINGS_BY_USER,
          GET_CURRENTS_BOOKINGS_BY_USER,
-         SET_COPY_HISTORICAL_BOOKINGS,
+         SET_COPY_HISTORICAL_BOOKINGS,   
          GET_BOOKINGS_TODAY,
          SET_COPY_BOOKINGS_TODAY,
          OPEN_MODAL_CANCEL,
@@ -15,7 +15,10 @@ import { LOGS_ERROR,
          OPEN_SUCCESS_CANCEL,
          CONFIRM_BOOKING,
          GET_BOOKING_BY_STATE_FINED,
-         GET_BOOKING_BY_STATE_CONFIRMED} from '../Actions/types'
+         GET_BOOKING_BY_STATE_CONFIRMED,
+         SET_SUCCESS_CONFIRM_BOOKING,
+         FINE_BOOKING,
+         SET_SUCCESS_FINE_BOOKING} from '../Actions/types'
 
 const initialState = {
     loading:true,
@@ -37,7 +40,8 @@ const initialState = {
     succesConfirmBooking: false,
     listConfirmedBookings: [],
     listFinedBookings: [],
-
+    succesFineBooking: false,
+    textAlertFineOrConfirmBooking: ''
 }
 
 export default function reducerBooking (state = initialState, action){
@@ -131,6 +135,7 @@ export default function reducerBooking (state = initialState, action){
             return {
                 ...state,
                 succesConfirmBooking: action.payload,
+                textAlertFineOrConfirmBooking: 'Reserva confirmada exitosamente.'
             }
         case GET_BOOKING_BY_STATE_FINED:
             return {
@@ -141,6 +146,22 @@ export default function reducerBooking (state = initialState, action){
             return {
                 ...state,
                 listConfirmedBookings: action.payload, 
+            }
+        case SET_SUCCESS_CONFIRM_BOOKING:
+            return {
+                ...state,
+                succesConfirmBooking: action.payload, 
+            }
+        case FINE_BOOKING:
+            return {
+                ...state,
+                succesFineBooking: action.payload,
+                textAlertFineOrConfirmBooking: 'Multa realizada correctamente.'
+            }
+        case SET_SUCCESS_FINE_BOOKING:
+            return {
+                ...state,
+                succesFineBooking: action.payload,
             }
         default: return state
     }

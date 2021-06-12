@@ -171,7 +171,7 @@ const ListBookingStudent = (props) => {
         if(admin){
             console.log("RECIBIDO STATE: "+stateBooking);
             switch(stateBooking){
-                case 'toConfirm':
+                case 'toConfirm': 
                     console.log("ESTILOS CONFIRM")
                     return classes.toConfirmBooking;
                 case 'toExpired':
@@ -189,6 +189,11 @@ const ListBookingStudent = (props) => {
             console.log("NO ADMIN")
             return classes.containerHistorical;
         }
+    }
+
+    const handleFilterState = (stateBooking) => {
+        let filtrados = listBooking.filter(b => b.state ==  stateBooking);
+        setCopy(filtrados);
     }
 
     return (
@@ -230,8 +235,6 @@ const ListBookingStudent = (props) => {
                         />
                     </Grid>
                 }
-
-                
 
                 <Grid item xs={12} sm={3} className={classes.marginTop}>
                     <TextField
@@ -292,9 +295,9 @@ const ListBookingStudent = (props) => {
                     { !admin ? 
                         <Typography className={classes.heading}><strong>Históricos</strong></Typography> : 
                         <Grid container spacing={2} justify='center'>
-                            <Grid item><Chip label="Por confirmar" component="a" href="#chip" clickable variant="outlined" className={classes.toConfirm}/></Grid>
-                            <Grid item><Chip label="Por vencer" component="a" href="#chip" clickable variant="outlined" className={classes.toExpired}/></Grid>
-                            <Grid item><Chip label="Vencida" component="a" href="#chip" clickable variant="outlined" className={classes.expired}/></Grid>
+                            <Grid item><Button onClick={() => handleFilterState('toConfirm')} variant="outlined" className={classes.toConfirm}> Por confirmar</Button></Grid>
+                            <Grid item><Button onClick={() => handleFilterState('toExpired')} variant="outlined" className={classes.toExpired}> Por vencer</Button></Grid>
+                            <Grid item><Button onClick={() => handleFilterState('expired')}   variant="outlined" className={classes.expired}> Vencida</Button></Grid>
                         </Grid> 
                     }
                     </AccordionSummary>

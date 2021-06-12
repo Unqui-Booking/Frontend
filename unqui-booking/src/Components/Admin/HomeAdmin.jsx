@@ -1,12 +1,11 @@
-import { Card, Container, Grid, Typography, Avatar, CardContent, Link } from '@material-ui/core';
+import { Card, Container, Grid, Typography, Avatar, CardContent, Link, Snackbar } from '@material-ui/core';
 import React, { useEffect }  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import ListBookingStudent from '../../Components/ProfileStudent/ListBookingStudent';
 import { getBookingsToday , setCopyBookingsToday, confirmBooking } from '../../Actions/bookingActions';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
+import { Alert } from '@material-ui/lab';
 import logo from '../../Img/circle.jpg';
 
 
@@ -57,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
 const HomeAdmin = ({
     bookingReducer: {
         bookingsToday,
-        copyBookingsToday
+        copyBookingsToday,
+        succesConfirmBooking
     },
     getBookingsToday,
     setCopyBookingsToday, 
@@ -71,6 +71,7 @@ const HomeAdmin = ({
         getBookingsToday(); 
     }, []);
 
+    //TODO >>> borrar
     const getToday = () => {
         let today = new Date();
         let month = today.getMonth()+1 < 10 ? "0"+ (today.getMonth()+1).toString() : (today.getMonth()+1).toString();
@@ -78,6 +79,11 @@ const HomeAdmin = ({
         today = today.getFullYear().toString() + "-" + month + "-" + day;
         return today;
     }
+
+    const handleClose = () => {
+    //actualizar a false el state succesConfirmBooking
+    }
+
 
     return (
         <Container maxWidth="lg">
@@ -112,12 +118,22 @@ const HomeAdmin = ({
                         <Typography variant='h5' className={classes.title}> <strong>Reservas del día</strong></Typography>
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <ListBookingStudent listBooking={bookingsToday} listCopyBooking={copyBookingsToday} setCopy={setCopyBookingsToday} admin={true} confirmBooking={confirmBooking} getBookings={getBookingsToday}/>
+                        <ListBookingStudent 
+                            listBooking={bookingsToday} 
+                            listCopyBooking={copyBookingsToday} 
+                            setCopy={setCopyBookingsToday} 
+                            admin={true} 
+                            action={confirmBooking}
+                            getBookings={getBookingsToday}/>
                     </Grid>
 
                 </Grid>
             </Grid>
-                
+            <Snackbar open={succesConfirmBooking} autoHideDuration={6000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+                <Alert onClose={handleClose} severity="success">
+                    <strong>Reserva confirmada exitosamente.</strong>
+                </Alert>
+            </Snackbar> 
         </Container>
         
     )

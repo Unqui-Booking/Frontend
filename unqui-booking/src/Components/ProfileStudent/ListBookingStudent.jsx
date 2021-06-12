@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
 const ListBookingStudent = (props) => {
 
     const classes = useStyles();
-    const {listBooking, listCopyBooking, setCopy, admin, confirmBooking, getBookings} = props
+    const {listBooking, listCopyBooking, setCopy, admin, action, getBookings} = props
     const [dateFilter, setDateFilter] = useState(null);
     const [deskFiltered, setDeskFiltered] = useState(null);
     const [seatFiltered, setSeatFiltered] = useState(null);
@@ -181,8 +181,9 @@ const ListBookingStudent = (props) => {
     }
 
     const goToConfirmBooking = async (booking) => {
-        await confirmBooking(booking);
+        await action(booking);
         await getBookings();
+        //TODO >>> con un setTimeOut cambiar a false el succes de action
     }
 
     const fineBooking = (booking) => {

@@ -324,13 +324,13 @@ export const confirmBooking = (booking) => async dispatch => {
         const res = await dataService.register(BOOKING_URL, payloadBooking);
         dispatch({
             type: CONFIRM_BOOKING,
-            payload: true,
+            payload: !res.data.deleted,
         })
     }
     catch(err){
         dispatch({
-            type: CONFIRM_BOOKING,
-            payload: false
+            type: LOGS_ERROR,
+            payload: console.log(err)
           });
           console.log(err);
     }

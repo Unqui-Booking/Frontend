@@ -17,8 +17,13 @@ import { GET_BOOKINGS,
          GET_BOOKING_BY_STATE_FINED,
          GET_BOOKING_BY_STATE_CONFIRMED
          } from './types';
-import { BOOKING_URL } from '../Api/base'
-import dataService from '../Services/service'
+import { BOOKING_URL } from '../Api/base';
+import dataService from '../Services/service';
+
+let today = new Date();
+let month = today.getMonth()+1 < 10 ? "0"+ (today.getMonth()+1).toString() : (today.getMonth()+1).toString();
+let day = today.getDate() < 10 ? "0"+ today.getDate().toString() : today.getDate();
+today = today.getFullYear().toString() + "-" + month + "-" + day;
 
 //TODO >>> revisar si se usa en algún lado
 export const getAllBookings = () => async dispatch => {
@@ -189,10 +194,10 @@ export const setCopyHistoricalBookings = (copyBookings) => dispatch => {
     }
 }
 
-export const getBookingsToday = (date) => async dispatch => {
+export const getBookingsToday = () => async dispatch => {
     try{
-        console.log(`${BOOKING_URL}/today?date=${date}`);
-        const res = await dataService.get(`${BOOKING_URL}/today?date=${date}`);
+        console.log(`${BOOKING_URL}/today?date=${today}`);
+        const res = await dataService.get(`${BOOKING_URL}/today?date=${today}`);
         dispatch({
             type: GET_BOOKINGS_TODAY,
             payload: res.data

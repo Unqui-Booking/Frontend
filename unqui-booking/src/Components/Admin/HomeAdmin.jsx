@@ -27,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: '24px',
     },
     containerIconUser: {
-        margin: '12px 0px',
-    },
-    iconUser: {
+        margin: '12px 0px', 
+    }, 
+    iconUser: {   
         width: '5rem',
-        height: '5rem',
+        height: '5rem',    
         color: '#0000005c',
         margin: '5px 20px',
     },
@@ -68,7 +68,7 @@ const HomeAdmin = ({
     const classes = useStyles();
 
     useEffect(() => {
-        getBookingsToday(getToday()); 
+        getBookingsToday(); 
     }, []);
 
     const getToday = () => {
@@ -112,7 +112,7 @@ const HomeAdmin = ({
                         <Typography variant='h5' className={classes.title}> <strong>Reservas del día</strong></Typography>
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <ListBookingStudent listBooking={bookingsToday} listCopyBooking={copyBookingsToday} setCopy={setCopyBookingsToday} admin={true} confirmBooking={confirmBooking}/>
+                        <ListBookingStudent listBooking={bookingsToday} listCopyBooking={copyBookingsToday} setCopy={setCopyBookingsToday} admin={true} confirmBooking={confirmBooking} getBookings={getBookingsToday}/>
                     </Grid>
 
                 </Grid>

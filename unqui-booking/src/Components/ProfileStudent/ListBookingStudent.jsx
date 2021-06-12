@@ -68,13 +68,6 @@ const useStyles = makeStyles((theme) => ({
         color: 'green',
         boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
     },
-    toExpired: {
-        borderColor: 'orange',
-        background: '#ffa5001f',
-        fontWeight: 'bold',
-        color: '#e29406',
-        boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
-    },
     expired: {
         borderColor: '#b7002e',
         background: '#ff00001c',
@@ -85,16 +78,6 @@ const useStyles = makeStyles((theme) => ({
     toConfirmBooking: {
         border: '1px solid #4caf50',
         background: '#4caf5030',
-        borderRadius: '4px',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        height: '2.5rem',
-        padding: '9px 12px',
-        margin: '4px 0px',
-    },
-    toExpiredBooking: {
-        border: '1px solid orange',
-        background: '#ffa5001f',
         borderRadius: '4px',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -169,19 +152,12 @@ const ListBookingStudent = (props) => {
 
     const getStyle = (stateBooking) => {
         if(admin){
-            console.log("RECIBIDO STATE: "+stateBooking);
             switch(stateBooking){
                 case 'toConfirm': 
-                    console.log("ESTILOS CONFIRM")
                     return classes.toConfirmBooking;
-                case 'toExpired':
-                    console.log("ESTILOS toExpired")
-                    return classes.toExpiredBooking;
                 case 'expired':
-                    console.log("ESTILOS expired")
                     return classes.expiredBooking;
                 default:
-                    console.log("ESTILOS NADA default")
                     return classes.containerHistorical;        
             }
         }
@@ -194,6 +170,15 @@ const ListBookingStudent = (props) => {
     const handleFilterState = (stateBooking) => {
         let filtrados = listBooking.filter(b => b.state ==  stateBooking);
         setCopy(filtrados);
+    }
+
+    const getDisabledConfirm = (hour) => {
+        let currentHour = new Date().getHours();
+        console.log("hora actual: "+currentHour);
+        console.log("start time: "+ hour);
+        console.log("DIFERENCIA: "+Math.abs(currentHour - hour));
+        return Math.abs(currentHour - hour) > 1; 
+
     }
 
     return (
@@ -295,8 +280,7 @@ const ListBookingStudent = (props) => {
                     { !admin ? 
                         <Typography className={classes.heading}><strong>Históricos</strong></Typography> : 
                         <Grid container spacing={2} justify='center'>
-                            <Grid item><Button onClick={() => handleFilterState('toConfirm')} variant="outlined" className={classes.toConfirm}> Por confirmar</Button></Grid>
-                            <Grid item><Button onClick={() => handleFilterState('toExpired')} variant="outlined" className={classes.toExpired}> Por vencer</Button></Grid>
+                            <Grid item><Button onClick={() => handleFilterState('toConfirm')} variant="outlined" className={classes.toConfirm}> A confirmar</Button></Grid>
                             <Grid item><Button onClick={() => handleFilterState('expired')}   variant="outlined" className={classes.expired}> Vencida</Button></Grid>
                         </Grid> 
                     }
@@ -313,20 +297,25 @@ const ListBookingStudent = (props) => {
                                         </Grid>
                                         { admin ?
                                             <Grid item >
-                                                <IconButton
-                                                    aria-haspopup="true"
-                                                    //onClick={handleLogOut}
-                                                    color="primary"
-                                                >
-                                                    <GavelIcon/>
-                                                </IconButton>
-                                                <IconButton
-                                                    aria-haspopup="true"
-                                                    //onClick={handleLogOut}
-                                                    className={classes.colorConfirmation}
-                                                >
-                                                    <CheckCircleIcon/>
-                                                </IconButton>
+                                                {b.state == 'expired' ?
+                                                    <IconButton
+                                                        aria-haspopup="true"
+                                                        //onClick={handleLogOut}
+                                                        color="primary"
+                                                    >
+                                                        <GavelIcon/>
+                                                    </IconButton> : null
+                                                }
+                                                {b.state != 'expired' ?
+                                                    <IconButton
+                                                        aria-haspopup="true"
+                                                        //onClick={handleLogOut}
+                                                        className={classes.colorConfirmation}
+                                                        disabled={getDisabledConfirm(b.startTime)}
+                                                    >
+                                                        <CheckCircleIcon/>
+                                                    </IconButton> : null
+                                                }               
                                             </Grid>
                                         : null }
                                     </Grid>

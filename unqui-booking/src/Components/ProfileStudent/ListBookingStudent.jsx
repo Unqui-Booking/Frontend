@@ -62,11 +62,6 @@ const useStyles = makeStyles((theme) => ({
         color: '#4caf50',
     }, 
     toConfirm: {
-        background: 'rgba(0, 0, 0, 0.04)',
-        borderColor: 'rgb(0 0 0 / 20%)',
-        boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
-    },
-    confirmed: {
         borderColor: '#4caf50',
         background: '#4caf5030',
         fontWeight: 'bold',
@@ -232,13 +227,7 @@ const ListBookingStudent = (props) => {
                 
             </Grid>
 
-            <Grid container spacing={2} justify='center'>
-                {/* <Typography>Filtrar por estado:</Typography> */}
-                <Grid item><Chip label="Por confirmar" component="a" href="#chip" clickable variant="outlined" className={classes.toConfirm}/></Grid>
-                <Grid item><Chip label="Confirmada" component="a" href="#chip" clickable variant="outlined" className={classes.confirmed}/></Grid>
-                <Grid item><Chip label="Por vencer" component="a" href="#chip" clickable variant="outlined" className={classes.toExpired}/></Grid>
-                <Grid item><Chip label="Vencida" component="a" href="#chip" clickable variant="outlined" className={classes.expired}/></Grid>
-            </Grid>
+            
 
             <Grid item xs={12} sm={12} className={classes.accordion}>
                 <Accordion expanded>
@@ -247,7 +236,14 @@ const ListBookingStudent = (props) => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                    { !admin ?    <Typography className={classes.heading}><strong>Históricos</strong></Typography>: null }
+                    { !admin ? 
+                        <Typography className={classes.heading}><strong>Históricos</strong></Typography> : 
+                        <Grid container spacing={2} justify='center'>
+                            <Grid item><Chip label="Por confirmar" component="a" href="#chip" clickable variant="outlined" className={classes.toConfirm}/></Grid>
+                            <Grid item><Chip label="Por vencer" component="a" href="#chip" clickable variant="outlined" className={classes.toExpired}/></Grid>
+                            <Grid item><Chip label="Vencida" component="a" href="#chip" clickable variant="outlined" className={classes.expired}/></Grid>
+                        </Grid> 
+                    }
                     </AccordionSummary>
                     <AccordionDetails className={classes.accordionDetails}>
                             {listCopyBooking.length > 0 ? listCopyBooking.slice((page - 1) * bookingsPerPage, page * bookingsPerPage).map(b => 

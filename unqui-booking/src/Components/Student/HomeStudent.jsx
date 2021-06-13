@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const Home = ({
+const HomeStudent = ({
 
     dateHoursReducer: {
         date,
@@ -119,4 +119,4 @@ const mapStateToProps = state => ({
     userReducer: state.userReducer,
 });
     
-export default connect(mapStateToProps, { setSelectedDate, getMapAvailabilySeats })(Home);
+export default connect(mapStateToProps, { setSelectedDate, getMapAvailabilySeats })(HomeStudent);

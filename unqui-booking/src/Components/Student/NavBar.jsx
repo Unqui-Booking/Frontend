@@ -49,15 +49,17 @@ const NavBar = ({
           
           {user != undefined ?
             <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleProfile}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              { !user.admin ?
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleProfile}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>: null 
+              }
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"

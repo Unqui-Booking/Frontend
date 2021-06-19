@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography, Button, Chip } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, IconButton, TextField, Typography, Button, Tooltip } from '@material-ui/core';
 import React, { useState }  from 'react'
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
@@ -75,6 +75,11 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
     },
+    uploaded: {
+        borderColor: '#0000002b',
+        fontWeight: 'bold',
+        boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
+    },
     toConfirmBooking: {
         border: '1px solid #4caf50',
         background: '#4caf5030',
@@ -100,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 const ListBookingStudent = (props) => {
 
     const classes = useStyles();
-    const {listBooking, listCopyBooking, setCopy, admin, confirm, getBookings, fine} = props
+    const {listBooking, listCopyBooking, setCopy, admin, confirm, getBookings, fine, typeBoooking} = props
     const [dateFilter, setDateFilter] = useState(null);
     const [deskFiltered, setDeskFiltered] = useState(null);
     const [seatFiltered, setSeatFiltered] = useState(null);
@@ -116,7 +121,6 @@ const ListBookingStudent = (props) => {
         }else{
             setCopy(listBooking);
         }
-                 
     }
 
     const handleChangePagination = (event, newPage) => {
@@ -172,18 +176,9 @@ const ListBookingStudent = (props) => {
         setCopy(filtrados);
     }
 
-    const getDisabledConfirm = (hour) => {
-        let currentHour = new Date().getHours();
-        console.log("hora actual: "+currentHour);
-        console.log("start time: "+ hour);
-        console.log("DIFERENCIA: "+Math.abs(currentHour - hour));
-        return Math.abs(currentHour - hour) > 1; 
-    }
-
     const confirmBooking = async (booking) => {
         await confirm(booking);
         await getBookings();
-        //TODO >>> con un setTimeOut cambiar a false el succes de action
     }
 
     const fineBooking = async (booking) => {
@@ -222,7 +217,7 @@ const ListBookingStudent = (props) => {
                             type="text"
                             className={classes.width}
                             value={deskFiltered}
-                            onChange={console.log('filter by student')}
+                            // onChange={console.log('filter by student')}
                             InputProps={{
                                 shrink: true,
                             }}
@@ -278,8 +273,6 @@ const ListBookingStudent = (props) => {
                 
             </Grid>
 
-            
-
             <Grid item xs={12} sm={12} className={classes.accordion}>  
                 <Accordion expanded>
                     <AccordionSummary
@@ -288,11 +281,16 @@ const ListBookingStudent = (props) => {
                         id="panel1a-header"
                     >
                     { !admin ? 
-                        <Typography className={classes.heading}><strong>Históricos</strong></Typography> : 
-                        <Grid container spacing={2} justify='center'>
-                            <Grid item><Button onClick={() => handleFilterState('toConfirm')} variant="outlined" className={classes.toConfirm}> A confirmar</Button></Grid>
-                            <Grid item><Button onClick={() => handleFilterState('expired')}   variant="outlined" className={classes.expired}> Vencida</Button></Grid>
-                        </Grid> 
+                            <Typography className={classes.heading}><strong>Históricos</strong></Typography> : 
+                            <div>
+                                { typeBoooking == "todayBookings" ?
+                                    <Grid container spacing={2} justify='center' display='flex'>
+                                        <Grid item><Button onClick={() => handleFilterState('uploaded')} variant="outlined" className={classes.uploaded}> Pendientes</Button></Grid>
+                                        <Grid item><Button onClick={() => handleFilterState('toConfirm')} variant="outlined" className={classes.toConfirm}> A confirmar</Button></Grid>
+                                        <Grid item><Button onClick={() => handleFilterState('expired')}   variant="outlined" className={classes.expired}> Vencidas</Button></Grid>
+                                    </Grid> : null
+                                }
+                            </div>
                     }
                     </AccordionSummary>
                     <AccordionDetails className={classes.accordionDetails}>
@@ -308,23 +306,26 @@ const ListBookingStudent = (props) => {
                                         { admin ?
                                             <Grid item >
                                                 {b.state == 'expired' ?
-                                                    <IconButton 
-                                                        aria-haspopup="true"
-                                                        onClick={() => fineBooking(b)}
-                                                        color="primary"
-                                                    >
-                                                        <GavelIcon/> 
-                                                    </IconButton> : null
+                                                    <Tooltip title="Multar" placement="right">
+                                                        <IconButton 
+                                                            aria-haspopup="true"
+                                                            onClick={() => fineBooking(b)}
+                                                            color="primary"
+                                                        >
+                                                            <GavelIcon/> 
+                                                        </IconButton>
+                                                    </Tooltip> : null
                                                 }
-                                                {b.state != 'expired' ?
-                                                    <IconButton
-                                                        aria-haspopup="true"
-                                                        className={classes.colorConfirmation}
-                                                        disabled={getDisabledConfirm(b.startTime)}
-                                                        onClick={() =>confirmBooking(b)}
-                                                    >
-                                                        <CheckCircleIcon/>
-                                                    </IconButton> : null
+                                                {b.state == 'toConfirm' ?
+                                                    <Tooltip title="Confirmar" placement="right">
+                                                        <IconButton
+                                                            aria-haspopup="true"
+                                                            className={classes.colorConfirmation}
+                                                            onClick={() =>confirmBooking(b)}
+                                                        >
+                                                            <CheckCircleIcon/>
+                                                        </IconButton>
+                                                    </Tooltip> : null
                                                 }               
                                             </Grid>
                                         : null }

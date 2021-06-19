@@ -3,11 +3,10 @@ import React, { useEffect, useState }  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import ListBookingStudent from '../../Components/ProfileStudent/ListBookingStudent';
-import { getBookingsToday , setCopyBookingsToday, confirmBooking, setSuccessConfirmBooking, fineBooking, setSuccessFineBooking} from '../../Actions/bookingActions';
+import { getBookingsToday , setCopyBookingsToday, confirmBooking, setSuccessConfirmBooking, fineBooking, setSuccessFineBooking, getBookingsTodayByState, setCopyFinedBookings, setCopyBookingsConfirmed} from '../../Actions/bookingActions';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import { Alert } from '@material-ui/lab';
 import logo from '../../Img/circle.jpg';
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -71,15 +70,20 @@ const HomeAdmin = ({
         succesConfirmBooking,
         textAlertFineOrConfirmBooking,
         succesFineBooking,
+        listFinedBookings,
+        listConfirmedBookings,
+        copyListFinedBookings,
+        copyListConfirmedBookings
     },
     getBookingsToday,
     setCopyBookingsToday, 
     confirmBooking,
     setSuccessConfirmBooking,
     fineBooking,
-    setSuccessFineBooking
-
-
+    setSuccessFineBooking,
+    getBookingsTodayByState,
+    setCopyFinedBookings,
+    setCopyBookingsConfirmed
 
 }) => {   
 
@@ -91,31 +95,28 @@ const HomeAdmin = ({
         getBookingsToday(); 
     }, []);
 
-    //TODO >>> borrar
-    const getToday = () => {
-        let today = new Date();
-        let month = today.getMonth()+1 < 10 ? "0"+ (today.getMonth()+1).toString() : (today.getMonth()+1).toString();
-        let day = today.getDate() < 10 ? "0"+ today.getDate().toString() : today.getDate();
-        today = today.getFullYear().toString() + "-" + month + "-" + day;
-        return today;
-    }
-
     const handleClose = () => {
         setSuccessConfirmBooking(false);
         setSuccessFineBooking(false);
     }
 
-    const handleTypeBooking = (typeBoooking, title) => {
+    const handleTypeBooking = async (typeBoooking, title) => {
         setSelectTypeBooking(typeBoooking);
         setTitle(title);
+        switch(typeBoooking){
+            case "todayBookings": 
+                await getBookingsToday();
+                break;
+            case "finedBookings":
+                await getBookingsTodayByState('fined')
+                break;
+            case "confirmedBookings":
+                await getBookingsTodayByState('confirmed')
+                break;
+            default:
+                console.log("Error in function handleTypeBooking");
+        }
     }
-
-    // const getStyle = () => {
-    //     switch(selectTypeBooking){
-    //         case 'todayBookings':
-    //             return
-    //     }
-    // }
 
     return (
         <Container maxWidth="lg">
@@ -127,21 +128,20 @@ const HomeAdmin = ({
                             <Grid container className={classes.containerUser}> 
                                 <Avatar className={classes.avatar}>
                                     <Grid item className={classes.containerIconUser}>
-                                        {/* <MenuBookIcon className={classes.iconUser}/> */}
                                         <Avatar alt="Remy Sharp" src={logo} className={classes.avatar} />
                                     </Grid>
                                 </Avatar>
                                 <Grid item className={selectTypeBooking == 'todayBookings' ? classes.linksAdminSelected : classes.linksAdmin}>
                                     <LabelImportantIcon color='primary'/>
-                                    <Link href="#" to={"/"} onClick={() => handleTypeBooking("todayBookings", "Reservas del día")} className={classes.link}>Reservas del día</Link>
+                                    <Link to={"/"} onClick={() => handleTypeBooking("todayBookings", "Reservas del día")} className={classes.link}>Reservas del día</Link>
                                 </Grid>
                                 <Grid item className={selectTypeBooking == 'finedBookings' ? classes.linksAdminSelected : classes.linksAdmin}>
                                     <LabelImportantIcon color='primary'/>
-                                    <Link href="#" to={"/"} onClick={() => handleTypeBooking("finedBookings", "Reservas multadas")} className={classes.link}>Reservas multadas</Link>
+                                    <Link to={"/"} onClick={() => handleTypeBooking("finedBookings", "Reservas multadas")} className={classes.link}>Reservas multadas</Link>
                                 </Grid>
                                 <Grid item className={selectTypeBooking == 'confirmedBookings' ? classes.linksAdminSelected : classes.linksAdmin}>
                                     <LabelImportantIcon color='primary'/>
-                                    <Link href="#" to={"/"} onClick={() => handleTypeBooking("confirmedBookings", "Reservas confirmadas")} className={classes.link}>Reservas confirmadas</Link>
+                                    <Link to={"/"} onClick={() => handleTypeBooking("confirmedBookings", "Reservas confirmadas")} className={classes.link}>Reservas confirmadas</Link>
                                 </Grid>
                             </Grid>
                         </CardContent>
@@ -154,24 +154,43 @@ const HomeAdmin = ({
                     </Grid>
                     <Grid item xs={12} sm={12}>
                         {
-                           selectTypeBooking == "todayBookings" ?
+                            selectTypeBooking == "todayBookings" ?
                             <ListBookingStudent 
-                                    listBooking={bookingsToday} 
-                                    listCopyBooking={copyBookingsToday} 
-                                    setCopy={setCopyBookingsToday} 
-                                    admin={true} 
-                                    confirm={confirmBooking}
-                                    getBookings={getBookingsToday}
-                                    fine={fineBooking}
-                                /> : null
+                                listBooking={bookingsToday} 
+                                listCopyBooking={copyBookingsToday} 
+                                setCopy={setCopyBookingsToday} 
+                                admin={true} 
+                                confirm={confirmBooking}
+                                getBookings={getBookingsToday}
+                                fine={fineBooking}
+                                typeBoooking={selectTypeBooking}
+                            /> : null
                         }
                         {
-                             selectTypeBooking == "finedBookings" ?
-                             <p>reservas multadas </p> : null
+                            selectTypeBooking == "finedBookings" ?
+                            <ListBookingStudent 
+                                listBooking={listFinedBookings} 
+                                listCopyBooking={copyListFinedBookings} 
+                                setCopy={setCopyFinedBookings} 
+                                admin={true} 
+                                confirm={confirmBooking}
+                                getBookings={() => getBookingsTodayByState('fined')}
+                                fine={fineBooking}
+                                typeBoooking={selectTypeBooking}
+                            /> : null
                         }
                         {
                              selectTypeBooking == "confirmedBookings" ?
-                             <p>reservas confirmadas </p> : null
+                             <ListBookingStudent 
+                                listBooking={listConfirmedBookings} 
+                                listCopyBooking={copyListConfirmedBookings} 
+                                setCopy={setCopyBookingsConfirmed} 
+                                admin={true} 
+                                confirm={confirmBooking}
+                                getBookings={() => getBookingsTodayByState('confirmed')}
+                                fine={fineBooking}
+                                typeBoooking={selectTypeBooking}
+                            /> : null
                         }
                         
                     </Grid>
@@ -191,4 +210,12 @@ const mapStateToProps = state => ({
     bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, { getBookingsToday, setCopyBookingsToday, confirmBooking, setSuccessConfirmBooking, fineBooking, setSuccessFineBooking })(HomeAdmin);
+export default connect( mapStateToProps, { getBookingsToday, 
+                                           setCopyBookingsToday, 
+                                           confirmBooking, 
+                                           setSuccessConfirmBooking, 
+                                           fineBooking, 
+                                           setSuccessFineBooking, 
+                                           getBookingsTodayByState, 
+                                           setCopyFinedBookings,
+                                           setCopyBookingsConfirmed })(HomeAdmin);

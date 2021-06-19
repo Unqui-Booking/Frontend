@@ -18,7 +18,9 @@ import { GET_BOOKINGS,
          GET_BOOKING_BY_STATE_CONFIRMED,
          SET_SUCCESS_CONFIRM_BOOKING,
          FINE_BOOKING,
-         SET_SUCCESS_FINE_BOOKING
+         SET_SUCCESS_FINE_BOOKING,
+         SET_COPY_BOOKING_FINED,
+         SET_COPY_BOOKINGS_CONFIRMED
          } from './types';
 import { BOOKING_URL } from '../Api/base';
 import dataService from '../Services/service';
@@ -215,10 +217,10 @@ export const getBookingsToday = () => async dispatch => {
     }
 }
 
-export const getBookingsTodayByState = (date, state) => async dispatch => {
+export const getBookingsTodayByState = (state) => async dispatch => {
     try{
         let TYPE_GET_BY_STATE = null;
-        const res = await dataService.get(`${BOOKING_URL}/bystate?date=${date}&state=${state}`)
+        const res = await dataService.get(`${BOOKING_URL}/bystate?date=${today}&state=${state}`)
 
         state === "fined" ? TYPE_GET_BY_STATE = GET_BOOKING_BY_STATE_FINED : TYPE_GET_BY_STATE = GET_BOOKING_BY_STATE_CONFIRMED;
 
@@ -233,6 +235,22 @@ export const getBookingsTodayByState = (date, state) => async dispatch => {
             payload: console.log(err),
         })
         console.log(err);
+    }
+}
+
+export const setCopyBookingsConfirmed = (copyBookings) => dispatch => {
+    try{
+        dispatch({
+            type: SET_COPY_BOOKINGS_CONFIRMED,
+            payload: copyBookings,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
     }
 }
 
@@ -387,6 +405,22 @@ export const setSuccessFineBooking = (success) => dispatch => {
         dispatch({
             type: SET_SUCCESS_FINE_BOOKING,
             payload: success,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const setCopyFinedBookings = (copyBookings) => dispatch => {
+    try{
+        dispatch({
+            type: SET_COPY_BOOKING_FINED,
+            payload: copyBookings,
         })
     }
     catch(err){

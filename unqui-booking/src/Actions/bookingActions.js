@@ -20,7 +20,8 @@ import { GET_BOOKINGS,
          FINE_BOOKING,
          SET_SUCCESS_FINE_BOOKING,
          SET_COPY_BOOKING_FINED,
-         SET_COPY_BOOKINGS_CONFIRMED
+         SET_COPY_BOOKINGS_CONFIRMED,
+         UPDATE_STATE_BOOKING
          } from './types';
 import { BOOKING_URL } from '../Api/base';
 import dataService from '../Services/service';
@@ -345,6 +346,33 @@ export const confirmBooking = (booking) => async dispatch => {
         const res = await dataService.register(BOOKING_URL, payloadBooking);
         dispatch({
             type: CONFIRM_BOOKING,
+            payload: !res.data.deleted,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const updateStateBooking = (booking, newState) => async dispatch => {
+    try{
+        const payloadBooking = {
+            id: booking.id,
+            seat: {id: booking.seat.id},
+            date: booking.date,
+            startTime: booking.startTime,
+            endTime: booking.endTime,
+            user: {id: booking.user.id},
+            state: newState,
+            deleted: booking.deleted
+          }
+        const res = await dataService.register(BOOKING_URL, payloadBooking);
+        dispatch({
+            type: UPDATE_STATE_BOOKING,
             payload: !res.data.deleted,
         })
     }

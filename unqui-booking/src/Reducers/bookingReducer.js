@@ -20,7 +20,8 @@ import { LOGS_ERROR,
          FINE_BOOKING,
          SET_SUCCESS_FINE_BOOKING,
          SET_COPY_BOOKING_FINED,
-         SET_COPY_BOOKINGS_CONFIRMED
+         SET_COPY_BOOKINGS_CONFIRMED,
+         UPDATE_STATE_BOOKING,
         } from '../Actions/types'
 
 const initialState = {
@@ -46,7 +47,8 @@ const initialState = {
     copyListFinedBookings: [],
     succesFineBooking: false,
     textAlertFineOrConfirmBooking: '',
-    copyListConfirmedBookings: []
+    copyListConfirmedBookings: [],
+    successUpdateStateBooking: false
 }
 
 export default function reducerBooking (state = initialState, action){
@@ -179,6 +181,11 @@ export default function reducerBooking (state = initialState, action){
             return {
                 ...state,
                 copyListConfirmedBookings: action.payload
+            }
+        case UPDATE_STATE_BOOKING:
+            return {
+                ...state,
+                successUpdateStateBooking: action.payload
             }
         default: return state
     }

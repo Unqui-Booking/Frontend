@@ -10,6 +10,7 @@ import store from './store';
 import { Provider } from 'react-redux';
 import Student from "./Components/ProfileStudent/Student";
 import HomeAdmin from "./Components/Admin/HomeAdmin";
+import FinedStudent from "./Components/Student/FinedStudent";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path='/register' component={RegiterUser}/>
               <Route path='/student' component={Student}/>
               <Route path='/admin' component={HomeAdmin}/>
+              <Route path='/accessDenied' component={FinedStudent}/>
               <Route path='/' component={Login} />
           </Switch>
           </HashRouter>

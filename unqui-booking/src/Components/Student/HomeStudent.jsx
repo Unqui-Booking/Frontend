@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Grid, Container, Typography} from '@material-ui/core'
@@ -9,6 +9,9 @@ import SelectPlace from './SelectPlace/SelectPlace';
 import BookingRegister from './BookingRegister';
 import { setSelectedDate } from  '../../Actions/dateHoursActions';
 import { getMapAvailabilySeats } from '../../Actions/bookingActions';
+import { isFinedUserAtDate } from '../../Actions/userActions';
+import { useEffect } from 'react';
+import FinedStudent from '../Student/FinedStudent';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -51,14 +54,30 @@ const HomeStudent = ({
         desk
     },
     userReducer: {
-        user
+        user,
+        isFinedUser
     },
     setSelectedDate,
     getMapAvailabilySeats,
+    isFinedUserAtDate
 
     }) => {
 
     const classes = useStyles();
+    const [finedUser, setFinedUser] = useState();
+    const [dateLimit, setDateLimit] = useState();
+
+    useEffect(()=> {
+        setInfoFined(user.id);
+    }, [])
+
+    const setInfoFined = async (userId) => {
+        await isFinedUserAtDate(moment(new Date()).format().split('T')[0], userId);
+        let isFined = isFinedUser.fined;
+        let dateLimit = isFinedUser.dateLimit;
+        setFinedUser(isFined);
+        setDateLimit(dateLimit);
+    }
 
     const filterDays = (date) => {
         const today = new Date();
@@ -76,39 +95,42 @@ const HomeStudent = ({
   
     return (
         <Container maxWidth="md">
-            
-            <Grid container className={classes.root} justify="center" > 
-                <Grid item xs={12}>
-                    <Typography variant='h4' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
-                </Grid>
-                <Grid item xs={6} justify="center" className={classes.flex}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                        <KeyboardDatePicker
-                            disabled={ activeStep == 2  }
-                            className={classes.dateSelect}
-                            disableToolbar
-                            variant="inline"
-                            format="dd/MM/yyyy"
-                            margin="normal"
-                            id="date-picker-inline"
-                            value={date}
-                            label="Seleccionar fecha de reserva"
-                            KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                            }}
-                            onChange={handleOnChange}
-                            disablePast={true}
-                            shouldDisableDate={filterDays}
-                        />
-                    </MuiPickersUtilsProvider>
-                </Grid>
-                <Grid item xs={6} justify="center" className={classes.flex}>
-                    <BookingRegister/>
-                </Grid>
-                <Grid item xs={12}>
-                    <SelectPlace/>
-                </Grid>
-        </Grid>
+            {
+                finedUser ? 
+                    <FinedStudent dateLimit={dateLimit}/> :
+                    <Grid container className={classes.root} justify="center" > 
+                        <Grid item xs={12}>
+                            <Typography variant='h4' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
+                        </Grid>
+                        <Grid item xs={6} justify="center" className={classes.flex}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                                <KeyboardDatePicker
+                                    disabled={ activeStep == 2  }
+                                    className={classes.dateSelect}
+                                    disableToolbar
+                                    variant="inline"
+                                    format="dd/MM/yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    value={date}
+                                    label="Seleccionar fecha de reserva"
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                    onChange={handleOnChange}
+                                    disablePast={true}
+                                    shouldDisableDate={filterDays}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Grid>
+                        <Grid item xs={6} justify="center" className={classes.flex}>
+                            <BookingRegister/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <SelectPlace/>
+                        </Grid>
+                    </Grid>
+            }
         </Container>  
     )}
 
@@ -119,4 +141,4 @@ const mapStateToProps = state => ({
     userReducer: state.userReducer,
 });
     
-export default connect(mapStateToProps, { setSelectedDate, getMapAvailabilySeats })(HomeStudent);
+export default connect(mapStateToProps, { setSelectedDate, getMapAvailabilySeats, isFinedUserAtDate })(HomeStudent);

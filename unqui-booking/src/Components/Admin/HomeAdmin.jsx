@@ -3,7 +3,7 @@ import React, { useEffect, useState }  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import ListBookingStudent from '../../Components/ProfileStudent/ListBookingStudent';
-import { getBookingsToday , setCopyBookingsToday, confirmBooking, setSuccessConfirmBooking, fineBooking, setSuccessFineBooking, getBookingsTodayByState, setCopyFinedBookings, setCopyBookingsConfirmed} from '../../Actions/bookingActions';
+import { getBookingsToday , setCopyBookingsToday, confirmBooking, setSuccessConfirmBooking, fineBooking, setSuccessFineBooking, getBookingsTodayByState, setCopyFinedBookings, setCopyBookingsConfirmed, updateStateBooking} from '../../Actions/bookingActions';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import { Alert } from '@material-ui/lab';
 import logo from '../../Img/circle.jpg';
@@ -83,7 +83,8 @@ const HomeAdmin = ({
     setSuccessFineBooking,
     getBookingsTodayByState,
     setCopyFinedBookings,
-    setCopyBookingsConfirmed
+    setCopyBookingsConfirmed,
+    updateStateBooking
 
 }) => {   
 
@@ -91,10 +92,12 @@ const HomeAdmin = ({
     const [selectTypeBooking, setSelectTypeBooking] = useState('todayBookings');
     const [title, setTitle] = useState('Reservas del día');
 
-    useEffect(() => {
-        getBookingsToday(); 
+    useEffect( () => {
+        getBookingsToday();
     }, []);
 
+   
+   
     const handleClose = () => {
         setSuccessConfirmBooking(false);
         setSuccessFineBooking(false);
@@ -218,4 +221,5 @@ export default connect( mapStateToProps, { getBookingsToday,
                                            setSuccessFineBooking, 
                                            getBookingsTodayByState, 
                                            setCopyFinedBookings,
-                                           setCopyBookingsConfirmed })(HomeAdmin);
+                                           setCopyBookingsConfirmed,
+                                           updateStateBooking})(HomeAdmin);

@@ -73,6 +73,7 @@ export const isFinedUserAtDate = (date, idUser) => async dispatch => {
             type: IS_FINED_USER,
             payload: res.data
         })
+        return res.data;
     }
     catch(err){
         dispatch({

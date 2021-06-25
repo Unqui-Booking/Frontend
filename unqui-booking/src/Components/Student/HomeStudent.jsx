@@ -12,6 +12,7 @@ import { getMapAvailabilySeats } from '../../Actions/bookingActions';
 import { isFinedUserAtDate } from '../../Actions/userActions';
 import { useEffect } from 'react';
 import FinedStudent from '../Student/FinedStudent';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -55,7 +56,6 @@ const HomeStudent = ({
     },
     userReducer: {
         user,
-        isFinedUser
     },
     setSelectedDate,
     getMapAvailabilySeats,
@@ -66,18 +66,20 @@ const HomeStudent = ({
     const classes = useStyles();
     const [finedUser, setFinedUser] = useState();
     const [dateLimit, setDateLimit] = useState();
+    const [loading, setLoading] = useState(true);
 
     useEffect(()=> {
         setInfoFined(user.id);
     }, [])
 
     const setInfoFined = async (userId) => {
-        await isFinedUserAtDate(moment(new Date()).format().split('T')[0], userId);
-        let isFined = isFinedUser.fined;
-        let dateLimit = isFinedUser.dateLimit;
+        let infoFined = await isFinedUserAtDate(moment(new Date()).format().split('T')[0], userId);
+        let isFined =  infoFined.fined;
+        let dateLimit =  infoFined.dateLimit;
         setFinedUser(isFined);
         setDateLimit(dateLimit);
-    }
+        setLoading(false);
+    } 
 
     const filterDays = (date) => {
         const today = new Date();
@@ -90,48 +92,47 @@ const HomeStudent = ({
         if(desk != null){ //si selecciono el cambio de fecha en el paso 2
             getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, endTime);
         }
-        
     }
   
     return (
-        <Container maxWidth="md">
-            {
-                finedUser ? 
-                    <FinedStudent dateLimit={dateLimit}/> :
-                    <Grid container className={classes.root} justify="center" > 
-                        <Grid item xs={12}>
-                            <Typography variant='h4' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
-                        </Grid>
-                        <Grid item xs={6} justify="center" className={classes.flex}>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                <KeyboardDatePicker
-                                    disabled={ activeStep == 2  }
-                                    className={classes.dateSelect}
-                                    disableToolbar
-                                    variant="inline"
-                                    format="dd/MM/yyyy"
-                                    margin="normal"
-                                    id="date-picker-inline"
-                                    value={date}
-                                    label="Seleccionar fecha de reserva"
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                    onChange={handleOnChange}
-                                    disablePast={true}
-                                    shouldDisableDate={filterDays}
-                                />
-                            </MuiPickersUtilsProvider>
-                        </Grid>
-                        <Grid item xs={6} justify="center" className={classes.flex}>
-                            <BookingRegister/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <SelectPlace/>
-                        </Grid>
+        loading ? <CircularProgress size={24} className={classes.buttonProgress} /> :
+        <Container maxWidth="md">    
+            {finedUser ? 
+                <FinedStudent dateLimit={dateLimit}/> :
+                <Grid container className={classes.root} justify="center" > 
+                    <Grid item xs={12}>
+                        <Typography variant='h4' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
                     </Grid>
+                    <Grid item xs={6} justify="center" className={classes.flex}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                            <KeyboardDatePicker
+                                disabled={ activeStep == 2  }
+                                className={classes.dateSelect}
+                                disableToolbar
+                                variant="inline"
+                                format="dd/MM/yyyy"
+                                margin="normal"
+                                id="date-picker-inline"
+                                value={date}
+                                label="Seleccionar fecha de reserva"
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                                onChange={handleOnChange}
+                                disablePast={true}
+                                shouldDisableDate={filterDays}
+                            />
+                        </MuiPickersUtilsProvider>
+                    </Grid>
+                    <Grid item xs={6} justify="center" className={classes.flex}>
+                        <BookingRegister/>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <SelectPlace/>
+                    </Grid>
+                </Grid>
             }
-        </Container>  
+        </Container>      
     )}
 
 const mapStateToProps = state => ({

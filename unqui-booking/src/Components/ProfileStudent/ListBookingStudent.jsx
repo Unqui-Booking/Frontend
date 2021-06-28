@@ -185,10 +185,10 @@ const ListBookingStudent = (props) => {
         const bookingFined = await fine(booking);
         await getBookings();
         const infoFined = await cancelBooking.isFinedUserAtDate(moment(new Date()).format().split('T')[0], bookingFined.user.id);
-        const dateLimit = moment(infoFined.dateLimit).format().split('T')[0];;
+        const dateLimit = (moment(infoFined.dateLimit).format().split('T')[0].split('-')[0]+'-').concat(moment(infoFined.dateLimit).format().split('T')[0].split('-').slice(-2).reverse().concat()).split(',').join('-');
         const startDate = moment(bookingFined.date).format().split('T')[0];
         const bookingsToCancel = await cancelBooking.getBookingsToCancel(startDate, dateLimit, bookingFined.user.id);
-        //bookingsToCancel.map((booking)=> cancelBooking.updateState(booking));
+        bookingsToCancel.map((booking)=> cancelBooking.updateState(booking));
     }
 
     return (

@@ -3,7 +3,8 @@ import React, { useEffect, useState }  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import ListBookingStudent from '../../Components/ProfileStudent/ListBookingStudent';
-import { getBookingsToday , setCopyBookingsToday, confirmBooking, setSuccessConfirmBooking, fineBooking, setSuccessFineBooking, getBookingsTodayByState, setCopyFinedBookings, setCopyBookingsConfirmed, updateStateBooking} from '../../Actions/bookingActions';
+import { isFinedUserAtDate } from '../../Actions/userActions';
+import { getBookingsToday , setCopyBookingsToday, confirmBooking, cancelBookingByFined, setSuccessConfirmBooking, fineBooking, setSuccessFineBooking, getBookingsTodayByState, setCopyFinedBookings, setCopyBookingsConfirmed, updateStateBooking, getBookingsToCancel} from '../../Actions/bookingActions';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import { Alert } from '@material-ui/lab';
 import logo from '../../Img/circle.jpg';
@@ -84,6 +85,9 @@ const HomeAdmin = ({
     getBookingsTodayByState,
     setCopyFinedBookings,
     setCopyBookingsConfirmed,
+    getBookingsToCancel,
+    isFinedUserAtDate,
+    cancelBookingByFined,
     updateStateBooking
 
 }) => {   
@@ -119,6 +123,18 @@ const HomeAdmin = ({
             default:
                 console.log("Error in function handleTypeBooking");
         }
+    }
+
+    const cancelBookings = () => {
+
+        // let bookings = await getBookingsToCancel();
+        // let infoFined = await isFinedUserAtDate(moment(new Date()).format().split('T')[0], userId);
+        // let dateLimit = moment(infoFined.dateLimit).format().split('T')[0];;
+        // let startDate = moment(new Date()).format().split('T')[0];
+
+        
+        
+        // bookings.map((booking)=> cancelBookingsByfine(startDate, dateLimit, user));
     }
 
     return (
@@ -167,6 +183,11 @@ const HomeAdmin = ({
                                 getBookings={getBookingsToday}
                                 fine={fineBooking}
                                 typeBoooking={selectTypeBooking}
+                                cancelBooking={{
+                                    "getBookingsToCancel": getBookingsToCancel,
+                                    "isFinedUserAtDate": isFinedUserAtDate,
+                                    "updateState": cancelBookingByFined
+                                    }}
                             /> : null
                         }
                         {
@@ -222,4 +243,7 @@ export default connect( mapStateToProps, { getBookingsToday,
                                            getBookingsTodayByState, 
                                            setCopyFinedBookings,
                                            setCopyBookingsConfirmed,
-                                           updateStateBooking})(HomeAdmin);
+                                           updateStateBooking,
+                                           isFinedUserAtDate,
+                                           getBookingsToCancel,
+                                           cancelBookingByFined})(HomeAdmin);

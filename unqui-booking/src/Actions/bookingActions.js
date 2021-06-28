@@ -21,7 +21,10 @@ import { GET_BOOKINGS,
          SET_SUCCESS_FINE_BOOKING,
          SET_COPY_BOOKING_FINED,
          SET_COPY_BOOKINGS_CONFIRMED,
-         UPDATE_STATE_BOOKING
+         UPDATE_STATE_BOOKING,
+         GET_BOOKINGS_TO_CANCEL,
+         CANCEL_BOOKING_BY_FINED
+
          } from './types';
 import { BOOKING_URL } from '../Api/base';
 import dataService from '../Services/service';
@@ -316,7 +319,7 @@ export const cancelBooking = (booking) => async dispatch => {
             deleted: true
           }
         const res = await dataService.register(BOOKING_URL, payloadBooking);
-        console.log("CANCELADA: "+res.data.deleted);
+
         dispatch({
             type: CANCEL_BOOKING,
             payload: res.data.deleted,
@@ -330,6 +333,34 @@ export const cancelBooking = (booking) => async dispatch => {
           console.log(err);
     }
 }
+
+export const cancelBookingByFined = (booking) => async dispatch => {
+    try{
+        const payloadBooking = {
+            id: booking.id,
+            seat: {id: booking.seat.id},
+            date: booking.date,
+            startTime: booking.startTime,
+            endTime: booking.endTime,
+            user: {id: booking.user.id},
+            state: "cancelled",
+            deleted: booking.deleted
+          }
+        const res = await dataService.register(BOOKING_URL, payloadBooking);
+        dispatch({
+            type: CANCEL_BOOKING_BY_FINED,
+            payload: res.data,
+        })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
 
 export const confirmBooking = (booking) => async dispatch => {
     try{
@@ -416,8 +447,9 @@ export const fineBooking = (booking) => async dispatch => {
         const res = await dataService.register(BOOKING_URL, payloadBooking);
         dispatch({
             type: FINE_BOOKING,
-            payload: !res.data.deleted,
+            payload: res.data,
         })
+        return res.data
     }
     catch(err){
         dispatch({
@@ -450,6 +482,27 @@ export const setCopyFinedBookings = (copyBookings) => dispatch => {
             type: SET_COPY_BOOKING_FINED,
             payload: copyBookings,
         })
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const getBookingsToCancel = (startDate, endDate, userId) => async dispatch => {
+    
+    try{
+        console.log(`${BOOKING_URL}/between?start=${startDate}&end=${endDate}&user=${userId}`);
+        const res = await dataService.get(`${BOOKING_URL}/between?start=${startDate}&end=${endDate}&user=${userId}`)
+        
+        dispatch({
+            type: GET_BOOKINGS_TO_CANCEL,
+            payload: res.data
+        })
+        return res.data
     }
     catch(err){
         dispatch({

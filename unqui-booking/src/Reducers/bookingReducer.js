@@ -22,6 +22,8 @@ import { LOGS_ERROR,
          SET_COPY_BOOKING_FINED,
          SET_COPY_BOOKINGS_CONFIRMED,
          UPDATE_STATE_BOOKING,
+         GET_BOOKINGS_TO_CANCEL,
+         CANCEL_BOOKING_BY_FINED
         } from '../Actions/types'
 
 const initialState = {
@@ -48,7 +50,10 @@ const initialState = {
     succesFineBooking: false,
     textAlertFineOrConfirmBooking: '',
     copyListConfirmedBookings: [],
-    successUpdateStateBooking: false
+    successUpdateStateBooking: false,
+    bookingsToCancel: [],
+    bookingFined: null,
+    bookingCancelledByFined: null
 }
 
 export default function reducerBooking (state = initialState, action){
@@ -169,8 +174,9 @@ export default function reducerBooking (state = initialState, action){
         case FINE_BOOKING:
             return {
                 ...state,
-                succesFineBooking: action.payload,
-                textAlertFineOrConfirmBooking: 'Multa realizada correctamente.'
+                succesFineBooking: !action.payload.deleted,
+                textAlertFineOrConfirmBooking: 'Multa realizada correctamente.',
+                bookingFined: action.payload,
             }
         case SET_SUCCESS_FINE_BOOKING:
             return {
@@ -186,6 +192,16 @@ export default function reducerBooking (state = initialState, action){
             return {
                 ...state,
                 successUpdateStateBooking: action.payload
+            }
+        case GET_BOOKINGS_TO_CANCEL:
+            return {
+                ...state,
+                bookingsToCancel: action.payload
+            }
+        case CANCEL_BOOKING_BY_FINED:
+            return {
+                ...state,
+                bookingCancelledByFined: action.payload
             }
         default: return state
     }

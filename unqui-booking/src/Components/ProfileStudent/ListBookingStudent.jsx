@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 const ListBookingStudent = (props) => {
 
     const classes = useStyles();
-    const {listBooking, listCopyBooking, setCopy, admin, confirm, getBookings, fine, typeBoooking} = props
+    const {listBooking, listCopyBooking, setCopy, admin, confirm, getBookings, fine, typeBoooking, cancelBooking, } = props
     const [dateFilter, setDateFilter] = useState(null);
     const [deskFiltered, setDeskFiltered] = useState(null);
     const [seatFiltered, setSeatFiltered] = useState(null);
@@ -182,8 +182,13 @@ const ListBookingStudent = (props) => {
     }
 
     const fineBooking = async (booking) => {
-        await fine(booking);
+        const bookingFined = await fine(booking);
         await getBookings();
+        const infoFined = await cancelBooking.isFinedUserAtDate(moment(new Date()).format().split('T')[0], bookingFined.user.id);
+        const dateLimit = moment(infoFined.dateLimit).format().split('T')[0];;
+        const startDate = moment(bookingFined.date).format().split('T')[0];
+        const bookingsToCancel = await cancelBooking.getBookingsToCancel(startDate, dateLimit, bookingFined.user.id);
+        //bookingsToCancel.map((booking)=> cancelBooking.updateState(booking));
     }
 
     return (

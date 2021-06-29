@@ -125,18 +125,6 @@ const HomeAdmin = ({
         }
     }
 
-    const cancelBookings = () => {
-
-        // let bookings = await getBookingsToCancel();
-        // let infoFined = await isFinedUserAtDate(moment(new Date()).format().split('T')[0], userId);
-        // let dateLimit = moment(infoFined.dateLimit).format().split('T')[0];;
-        // let startDate = moment(new Date()).format().split('T')[0];
-
-        
-        
-        // bookings.map((booking)=> cancelBookingsByfine(startDate, dateLimit, user));
-    }
-
     return (
         <Container maxWidth="lg">
             <Grid container spacing={3} className={classes.root} justify="center" >

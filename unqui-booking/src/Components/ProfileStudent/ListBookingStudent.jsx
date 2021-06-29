@@ -148,6 +148,15 @@ const ListBookingStudent = (props) => {
         }
     }
 
+    const handleFilterStudent = (event) => {
+        let filtrados = listBooking.filter(b => b.user.name.toLowerCase().includes(event.target.value.toLowerCase()));
+        setCopy(filtrados);
+    }
+
+    const handleFilterState = (stateBooking) => {
+        
+    }
+
     const clearFilter = () => {
         setCopy(listBooking);
         setDateFilter(null);
@@ -172,11 +181,7 @@ const ListBookingStudent = (props) => {
         }
     }
 
-    const handleFilterState = (stateBooking) => {
-        let filtrados = listBooking.filter(b => b.state ==  stateBooking);
-        setCopy(filtrados);
-    }
-
+    
     const confirmBooking = async (booking) => {
         await confirm(booking);
         await getBookings();
@@ -223,7 +228,7 @@ const ListBookingStudent = (props) => {
                             type="text"
                             className={classes.width}
                             value={deskFiltered}
-                            // onChange={console.log('filter by student')}
+                            onChange={handleFilterStudent}
                             InputProps={{
                                 shrink: true,
                             }}

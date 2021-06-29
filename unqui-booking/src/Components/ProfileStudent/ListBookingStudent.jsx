@@ -154,7 +154,8 @@ const ListBookingStudent = (props) => {
     }
 
     const handleFilterState = (stateBooking) => {
-        
+        let filtrados = listBooking.filter(b => b.state ==  stateBooking);
+        setCopy(filtrados);
     }
 
     const clearFilter = () => {

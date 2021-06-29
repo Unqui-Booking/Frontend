@@ -9,6 +9,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import GavelIcon from '@material-ui/icons/Gavel';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import InfoIcon from '@material-ui/icons/Info';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -331,9 +332,22 @@ const ListBookingStudent = (props) => {
                                                             <CheckCircleIcon/>
                                                         </IconButton>
                                                     </Tooltip> : null
-                                                }               
+                                                }        
+                                                            
                                             </Grid>
-                                        : null }
+                                        : <div>
+                                            {b.state == 'cancelled' ?
+                                                <Tooltip title="Cancelada por multa" placement="right">
+                                                    <IconButton
+                                                        aria-haspopup="true"
+                                                        onClick={console.log}
+                                                    >
+                                                        <InfoIcon/>
+                                                    </IconButton>
+                                                </Tooltip> : null
+                                            } 
+                                        </div> 
+                                    }
                                     </Grid>
                                         
                                 ) : 

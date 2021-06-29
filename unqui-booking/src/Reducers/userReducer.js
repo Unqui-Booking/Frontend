@@ -1,4 +1,4 @@
-import { SET_LOADING, LOGS_ERROR, FAILED_LOGIN, GET_USER, ADD_USER, IS_FINED_USER } from '../Actions/types'
+import { SET_LOADING, LOGS_ERROR, FAILED_LOGIN, GET_USER, ADD_USER, IS_FINED_USER, SET_USER } from '../Actions/types'
 
 const initialState = {
     loading: true,
@@ -44,6 +44,11 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 isFinedUser: action.payload
+            }
+        case SET_USER:
+            return {
+                ...state,
+                user: action.payload
             }
         default: return state
         

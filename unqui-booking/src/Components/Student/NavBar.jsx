@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { IconButton, AppBar, Toolbar, Typography } from  '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { setFailedLogin } from '../../Actions/userActions';
+import { setFailedLogin, setUser } from '../../Actions/userActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +21,7 @@ const NavBar = ({
     user
   },
   setFailedLogin,
+  setUser
 
 }) => {
 
@@ -28,10 +29,9 @@ const NavBar = ({
   let history = useHistory(); 
 
   const handleLogOut = () => {
-   
+      setUser(undefined);
       setFailedLogin(false);
       history.push("/");
-    
     
   }
 
@@ -84,4 +84,4 @@ const mapStateToProps = state => ({
   bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, { setFailedLogin })(NavBar)
+export default connect(mapStateToProps, { setFailedLogin, setUser })(NavBar)

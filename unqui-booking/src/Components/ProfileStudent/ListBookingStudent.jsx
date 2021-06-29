@@ -338,10 +338,7 @@ const ListBookingStudent = (props) => {
                                         : <div>
                                             {b.state == 'cancelled' ?
                                                 <Tooltip title="Cancelada por multa" placement="right">
-                                                    <IconButton
-                                                        aria-haspopup="true"
-                                                        onClick={console.log}
-                                                    >
+                                                    <IconButton>
                                                         <InfoIcon/>
                                                     </IconButton>
                                                 </Tooltip> : null

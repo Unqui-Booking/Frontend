@@ -1,4 +1,4 @@
-import { FAILED_LOGIN, GET_USER, LOGS_ERROR, ADD_USER, IS_FINED_USER } from './types';
+import { FAILED_LOGIN, GET_USER, LOGS_ERROR, ADD_USER, IS_FINED_USER, SET_USER } from './types';
 import { USER_URL } from '../Api/base'
 import dataService from '../Services/service'
 
@@ -74,6 +74,22 @@ export const isFinedUserAtDate = (date, idUser) => async dispatch => {
             payload: res.data
         })
         return res.data;
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const setUser = (user) => dispatch => {
+    try{
+        dispatch({
+            type: SET_USER,
+            payload: user
+        })
     }
     catch(err){
         dispatch({

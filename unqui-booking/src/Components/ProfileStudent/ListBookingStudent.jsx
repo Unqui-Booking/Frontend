@@ -307,7 +307,7 @@ const ListBookingStudent = (props) => {
                     </AccordionSummary>
                     <AccordionDetails className={classes.accordionDetails}>
                             {listCopyBooking.length > 0 ? listCopyBooking.slice((page - 1) * bookingsPerPage, page * bookingsPerPage).map(b => 
-                                    <Grid container xs={12} sm={12} >
+                                    <Grid container xs={12} sm={12} key={b.id}>
                                         <Grid container xs={12} sm={11} className={getStyle(b.state)}>
                                             { admin ? <Typography variant='body2'>{b.user.name}</Typography>: null }
                                             <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
@@ -355,7 +355,7 @@ const ListBookingStudent = (props) => {
                                         
                                 ) : 
                                 <Grid container xs={12} sm={12} justify='center'>
-                                    <Typography variant='body2' color='#00000082'>Sin reservas</Typography>
+                                    <Typography variant='body2'>Sin reservas</Typography>
                                 </Grid>
                             }
                             

@@ -96,11 +96,48 @@ const HomeAdmin = ({
     const [selectTypeBooking, setSelectTypeBooking] = useState('todayBookings');
     const [title, setTitle] = useState('Reservas del día');
 
-    useEffect( () => {
-        getBookingsToday();
-    }, []);
+    // useEffect( () => {
+    //     //getBookingsToday();
+    //     initialize();
+    // }, []);
 
-   
+    useEffect(() =>initialize(), []) // eslint-disable-line react-hooks/exhaustive-deps
+
+   ////////// TODO >>> update state bookings
+    const initialize = async () => {
+        await getBookingsToday(); 
+        //updateState(bookingsToday);
+        await startAutomaticUpdateBooking(bookingsToday);
+    }
+
+    const startAutomaticUpdateBooking = async (bookingsToday) => {
+        setInterval(
+            function(){ 
+                updateState(bookingsToday);
+                getBookingsToday(); 
+                console.log("estados actualizados")
+            } 
+            ,60000
+        )
+    }
+
+    const updateState = async (bookingsToday) => {
+        bookingsToday.map((booking) => updateStateBooking(booking, getNewState(booking)));
+        await getBookingsToday(); 
+    }
+
+    const getNewState  = (booking) => {
+        let state = "";
+        let currentHour = new Date().getHours();
+        let startTimeBooking = booking.startTime;
+
+        if(currentHour < (startTimeBooking - 1)) { state = "uploaded" }
+        if(currentHour >= startTimeBooking) { state = "expired" }
+        if((startTimeBooking - currentHour) == 1) { state = "toConfirm" }
+
+        return state;
+    }
+    //////////
    
     const handleClose = () => {
         setSuccessConfirmBooking(false);

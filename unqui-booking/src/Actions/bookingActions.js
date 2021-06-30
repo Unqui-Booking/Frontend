@@ -402,6 +402,7 @@ export const updateStateBooking = (booking, newState) => async dispatch => {
             deleted: booking.deleted
           }
         const res = await dataService.register(BOOKING_URL, payloadBooking);
+        console.log(res.data);
         dispatch({
             type: UPDATE_STATE_BOOKING,
             payload: !res.data.deleted,

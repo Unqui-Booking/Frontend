@@ -97,6 +97,10 @@ const Student = ({
         setOpenSuccessCancel(false);
     }
 
+    const getDisabled = (booking) => {
+        return booking.state == "expired";
+    }
+
     return (
 
         <Container maxWidth="lg"> 
@@ -127,7 +131,7 @@ const Student = ({
                             <Grid container spacing={3} xs={12} sm={12} className={classes.containetPicture}>
                                 <Grid item xs={12} sm={12}>
                                     {bookingsCurrentsByUser.length > 0  ? bookingsCurrentsByUser.map(b =>  
-                                        <Grid container >
+                                        <Grid container key={b.id}>
                                             <Grid item xs={11} sm={11} className={classes.containerBooking}>
                                                 <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
                                                 <Typography variant='body2'>Asiento {b.seat.id}</Typography>
@@ -141,6 +145,7 @@ const Student = ({
                                                 aria-haspopup="true"
                                                 onClick={()=>handleOpenModal(b)}
                                                 color="primary"
+                                                disabled ={getDisabled(b)}
                                                 >
                                                     <DeleteIcon />
                                                 </IconButton>

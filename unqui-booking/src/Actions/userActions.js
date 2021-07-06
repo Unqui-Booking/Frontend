@@ -30,12 +30,12 @@ export const getUser = (mail, password) => async dispatch => {
         })
         return resUser;
     }
-    catch(err){
+    catch(error){
         dispatch( {
             type: LOGS_ERROR,
-            payload: console.log(err),
+            payload: error,
         })
-        console.log(err);
+        console.log(error);
         console.log("no se pudo loguear");
     }
 }

@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import FinedStudent from '../Student/FinedStudent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
@@ -101,7 +102,7 @@ const HomeStudent = ({
                 <FinedStudent dateLimit={dateLimit}/> :
                 <Grid container className={classes.root} justify="center" > 
                     <Grid item xs={12}>
-                        <Typography variant='h4' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
+                        <Typography variant='h4' data-testid='title-login' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
                     </Grid>
                     <Grid item xs={6} justify="center" className={classes.flex}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils} >
@@ -132,7 +133,7 @@ const HomeStudent = ({
                     </Grid>
                 </Grid>
             }
-        </Container>      
+        </Container>  
     )}
 
 const mapStateToProps = state => ({

@@ -445,7 +445,9 @@ export const fineBooking = (booking) => async dispatch => {
             state: "fined",
             deleted: booking.deleted
           }
+          
         const res = await dataService.register(BOOKING_URL, payloadBooking);
+        console.log(res.data);
         dispatch({
             type: FINE_BOOKING,
             payload: res.data,

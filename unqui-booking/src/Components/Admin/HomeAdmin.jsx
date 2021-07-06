@@ -96,25 +96,20 @@ const HomeAdmin = ({
     const [selectTypeBooking, setSelectTypeBooking] = useState('todayBookings');
     const [title, setTitle] = useState('Reservas del día');
 
-    // useEffect( () => {
-    //     //getBookingsToday();
-    //     initialize();
-    // }, []);
-
     useEffect(() =>initialize(), []) // eslint-disable-line react-hooks/exhaustive-deps
 
    ////////// TODO >>> update state bookings
     const initialize = async () => {
         await getBookingsToday(); 
         //updateState(bookingsToday);
-        await startAutomaticUpdateBooking(bookingsToday);
+        //await startAutomaticUpdateBooking(bookingsToday);
     }
 
     const startAutomaticUpdateBooking = async (bookingsToday) => {
         setInterval(
-            function(){ 
-                updateState(bookingsToday);
-                getBookingsToday(); 
+           async function() { 
+                await updateState(bookingsToday);
+                await getBookingsToday(); 
                 console.log("estados actualizados")
             } 
             ,60000
@@ -122,20 +117,25 @@ const HomeAdmin = ({
     }
 
     const updateState = async (bookingsToday) => {
-        bookingsToday.map((booking) => updateStateBooking(booking, getNewState(booking)));
-        await getBookingsToday(); 
+      await bookingsToday.map((booking) => a(booking, getNewState(booking)));
+       // setTimeout(function(){await getBookingsToday(); }, 1200000)
     }
 
-    const getNewState  = (booking) => {
+    const a = async (booking, newState)  => {
+       await updateStateBooking(booking, newState);
+    }
+
+    const getNewState = (booking) => {
         let state = "";
-        let currentHour = new Date().getHours();
+        let currentHour = new Date().getHours();   
         let startTimeBooking = booking.startTime;
 
         if(currentHour < (startTimeBooking - 1)) { state = "uploaded" }
         if(currentHour >= startTimeBooking) { state = "expired" }
         if((startTimeBooking - currentHour) == 1) { state = "toConfirm" }
-
+        console.log("NEW STATE: "+ state+ " BOOKING: "+ booking.id);
         return state;
+        
     }
     //////////
    

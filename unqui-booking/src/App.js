@@ -32,7 +32,7 @@ function App() {
         </Provider>
     </ThemeProvider>
     
-  );
+  );  
 }
 
 export default App;

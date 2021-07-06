@@ -195,7 +195,7 @@ const ListBookingStudent = (props) => {
         const dateLimit = (moment(infoFined.dateLimit).format().split('T')[0].split('-')[0]+'-').concat(moment(infoFined.dateLimit).format().split('T')[0].split('-').slice(-2).reverse().concat()).split(',').join('-');
         const startDate = moment(bookingFined.date).format().split('T')[0];
         const bookingsToCancel = await cancelBooking.getBookingsToCancel(startDate, dateLimit, bookingFined.user.id);
-        bookingsToCancel.map((booking)=> cancelBooking.updateState(booking));
+        bookingsToCancel.map((b)=> cancelBooking.updateState(b));
     }
 
     return (
@@ -344,6 +344,13 @@ const ListBookingStudent = (props) => {
                                         : <div>
                                             {b.state == 'cancelled' ?
                                                 <Tooltip title="Cancelada por multa" placement="right">
+                                                    <IconButton>
+                                                        <InfoIcon/>
+                                                    </IconButton>
+                                                </Tooltip> : null
+                                            } 
+                                            {b.state == 'fined' ?
+                                                <Tooltip title="Multada" placement="right">
                                                     <IconButton>
                                                         <InfoIcon/>
                                                     </IconButton>

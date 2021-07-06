@@ -6,9 +6,10 @@ import { Card, CardContent, Container, Grid, IconButton, InputAdornment, Button,
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import logo from '../../Img/logo.png';
-import { Link } from 'react-router-dom';
-import { setFailedLogin, getUser } from '../../Actions/userActions'
+import { setFailedLogin, setUser } from '../../Actions/userActions'
 import { Alert } from '@material-ui/lab';
+import dataService from '../../Services/service';
+import { USER_URL } from '../../Api/base'
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -44,7 +45,7 @@ const Login = ({
         failedLogin
     },
     setFailedLogin,
-    getUser,
+    setUser
 
 }) => {
 
@@ -74,9 +75,12 @@ const Login = ({
     };
 
     const login = async (event) => {
-        event.preventDefault();
-        let resUser = await getUser(email, values.password);
-        if(typeof resUser == 'object'){
+        let resUser;
+        let res = await dataService.get(`${USER_URL}/login?mail=${email}&password=${values.password}`);
+        console.log(`${USER_URL}/login?mail=${email}&password=${values.password}`);
+        resUser = res.data[0];
+        if(!!resUser){
+            setUser(resUser)
             setFailedLogin(false);
             history.push("/home");
         }else{
@@ -137,10 +141,11 @@ const Login = ({
                                  <FormHelperText>Usuario o contraseña incorrectos</FormHelperText> : null
                             }
                            
-                            <Button variant="contained" color="primary" onClick={(event)=>login(event)} className={classes.textFild}>
+                            <Button data-testid="btn-login" variant="contained" color="primary" onClick={(event)=>login(event)} className={classes.textFild}>
                                 Ingresar
                             </Button>
-                            <Link href="#" to={"/register"}>Registrarse</Link>
+                            {/* <Link href="#" to={"/register"}>Registrarse</Link> */}
+                            <a href='/register'>Registrarse</a>
                         </FormControl>
                         </form>    
                     </CardContent>
@@ -159,4 +164,4 @@ const mapStateToProps = state => ({
     userReducer: state.userReducer,
   });
   
-  export default connect(mapStateToProps, { setFailedLogin, getUser })(Login)
+export default connect(mapStateToProps, { setFailedLogin, setUser })(Login);

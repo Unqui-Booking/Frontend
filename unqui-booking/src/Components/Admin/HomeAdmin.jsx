@@ -164,7 +164,7 @@ const HomeAdmin = ({
 
     return (
         <Container maxWidth="lg">
-            <Grid container spacing={3} className={classes.root} justify="center" >
+            <Grid container spacing={3} className={classes.root} justifyContent="center" >
                 <Grid item xs= {12} sm={3} className={classes.cardUser}>
 
                     <Card>
@@ -192,7 +192,7 @@ const HomeAdmin = ({
                     </Card>
                     
                 </Grid>
-                <Grid container xs={12} sm={9} spacing={3} justify="center"> 
+                <Grid container spacing={3} justifyContent="center"> 
                     <Grid item xs={12} sm={12}>
                         <Typography variant='h5' className={classes.title}><strong>{title}</strong></Typography>
                     </Grid>

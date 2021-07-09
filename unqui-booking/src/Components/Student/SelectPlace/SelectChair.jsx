@@ -100,9 +100,9 @@ const SelectChair = ({
     }
 
     return (
-        <Grid container justify="center" className={classes.flex}>
+        <Grid container justifyContent="center" className={classes.flex}>
             
-            <Grid item xs={12} sm={12} justify="center" className={classes.flex}>
+            <Grid item xs={12} sm={12} justifyContent="center" className={classes.flex}>
                 {mapAvailabilySeats.map((cl) => (
                     <Grid xs={2} className={classes.chairTop}>
                         <Button variant="contained"  color="default" onClick={() => handleClick(cl[0], cl[1])} className={getStyleBox(cl[1])}>
@@ -118,9 +118,9 @@ const SelectChair = ({
             <Grid item xs={12} sm={12} className={classes.desk}>
                 <p className={classes.text}>[ Escritorio seleccionado ]</p>
             </Grid> 
-            <Grid item xs={12} sm={12} justify="center" className={classes.flex}> 
+            <Grid item xs={12} sm={12} justifyContent="center" className={classes.flex}> 
                 {mapAvailabilySeats.map((cr) => (
-                    <Grid xs={2} justify="center" className={classes.chairBottom}>
+                    <Grid xs={2} justifyContent="center" className={classes.chairBottom}>
                         <Button variant="contained"  color="default"  onClick={() => handleClick(cr[0], cr[1])} className={getStyleBox(cr[1])}>
                             <Grid className={classes.column}>
                                 <GiOfficeChair className={getStyleChair(cr[1])} key={cr[0]}/>

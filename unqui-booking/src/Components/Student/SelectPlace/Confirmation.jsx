@@ -15,7 +15,7 @@ const Confirmation = (props) => {
     const {desk, seat, date, startTime, endTime } = props
     
     return (
-        <Grid container justify="center" className={classes.center}>
+        <Grid container justifyContent="center" className={classes.center}>
             <Grid xs={3} sm={4}></Grid>
             <Grid xs={9} sm={8}>
                 <Grid item xs={12} sm={12}>

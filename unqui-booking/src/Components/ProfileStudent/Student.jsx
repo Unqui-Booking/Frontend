@@ -104,7 +104,7 @@ const Student = ({
     return (
 
         <Container maxWidth="lg"> 
-            <Grid container spacing={3} className={classes.root} justify="center" >
+            <Grid container spacing={3} className={classes.root} justifyContent="center" >
                 <Grid item xs= {12} sm={3} className={classes.cardUser}>
 
                     <Card>
@@ -115,7 +115,7 @@ const Student = ({
                                         <FaUser className={classes.iconUser}/>
                                     </Grid>
                                 </Avatar>
-                                <Typography variant='h9' className={classes.nameUser}><strong>{user.name}</strong></Typography>
+                                <Typography variant='h6' className={classes.nameUser} data-testid='name-user'><strong>{user.name}</strong></Typography>
                                 <Typography variant='body2'>{user.mail}</Typography>
                         </Grid>
                         </CardContent>
@@ -128,7 +128,7 @@ const Student = ({
                     </Grid>
                     <Card className={classes.cardBookings}>
                         <CardContent>
-                            <Grid container spacing={3} xs={12} sm={12} className={classes.containetPicture}>
+                            <Grid container spacing={3} className={classes.containetPicture}>
                                 <Grid item xs={12} sm={12}>
                                     {bookingsCurrentsByUser.length > 0  ? bookingsCurrentsByUser.map(b =>  
                                         <Grid container key={b.id}>
@@ -153,7 +153,7 @@ const Student = ({
                                         </Grid> 
                                         )
                                     : 
-                                    <Grid container xs={12} sm={12} justify='center'>
+                                    <Grid container justifyContent='center'>
                                         <Typography variant='body2'>Sin reservas</Typography>
                                     </Grid>
                                     }

@@ -200,7 +200,7 @@ const ListBookingStudent = (props) => {
 
     return (
         <Grid container>
-            <Grid container xs={12} sm={12} className={classes.containerFilter}>
+            <Grid container className={classes.containerFilter}>
 
                 { !admin ?
                     <Grid item xs={12} sm={3} >
@@ -296,7 +296,7 @@ const ListBookingStudent = (props) => {
                             <Typography className={classes.heading}><strong>Históricos</strong></Typography> : 
                             <div>
                                 { typeBoooking == "todayBookings" ?
-                                    <Grid container spacing={2} justify='center' display='flex'>
+                                    <Grid container spacing={2} justifyContent='center' display='flex'>
                                         <Grid item><Button onClick={() => handleFilterState('uploaded')} variant="outlined" className={classes.uploaded}> Pendientes</Button></Grid>
                                         <Grid item><Button onClick={() => handleFilterState('toConfirm')} variant="outlined" className={classes.toConfirm}> A confirmar</Button></Grid>
                                         <Grid item><Button onClick={() => handleFilterState('expired')}   variant="outlined" className={classes.expired}> Vencidas</Button></Grid>
@@ -307,8 +307,8 @@ const ListBookingStudent = (props) => {
                     </AccordionSummary>
                     <AccordionDetails className={classes.accordionDetails}>
                             {listCopyBooking.length > 0 ? listCopyBooking.slice((page - 1) * bookingsPerPage, page * bookingsPerPage).map(b => 
-                                    <Grid container xs={12} sm={12} key={b.id}>
-                                        <Grid container xs={12} sm={11} className={getStyle(b.state)}>
+                                    <Grid container key={b.id}>
+                                        <Grid container className={getStyle(b.state)}>
                                             { admin ? <Typography variant='body2'>{b.user.name}</Typography>: null }
                                             <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
                                             <Typography variant='body2'>Asiento {b.seat.id}</Typography>
@@ -361,7 +361,7 @@ const ListBookingStudent = (props) => {
                                     </Grid>
                                         
                                 ) : 
-                                <Grid container xs={12} sm={12} justify='center'>
+                                <Grid container justifyContent='center'>
                                     <Typography variant='body2'>Sin reservas</Typography>
                                 </Grid>
                             }

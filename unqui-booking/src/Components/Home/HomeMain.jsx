@@ -14,6 +14,8 @@ const HomeMain = ({
         //TODO >>> consumir el user en todo el proyecto desde este storage
         // PARA OBTENERLO COMO OBJETO >>> JSON.parse(localStorage.getItem('user'))
     }, [])
+
+    
     
     return ( user.admin ? <HomeAdmin /> : <HomeStudent /> ) }
 

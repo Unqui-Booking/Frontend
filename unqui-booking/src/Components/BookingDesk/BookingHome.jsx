@@ -27,7 +27,7 @@ const BookingHome = ({
 
     return (
         <Container maxWidth="md">
-            <Grid container className={classes.root} justify="center">
+            <Grid container className={classes.root} justifyContent="center">
             <Grid item xs={12}>
                 <Card>
                     <CardContent>

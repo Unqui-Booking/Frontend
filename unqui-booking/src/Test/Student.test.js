@@ -1,31 +1,80 @@
-import { render, fireEvent } from '@testing-library/react'
 import React from 'react'
-import { createStore } from 'redux';
-import store from '../../src/store';
-import  { Provider } from 'react-redux';
+import { render, screen } from '@testing-library/react'
 import Student from '../Components/ProfileStudent/Student'
-import  reducerUser  from '../Reducers/userReducer'
+import { Provider } from 'react-redux';
+import renderer from 'react-test-renderer';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+
 
 describe('Student', () => {
-  describe('Show user details', () => {
+
+  let store;
+  let component;
+ 
+  beforeEach(() => {
     
-    const renderComponent = ({ user }) =>
-        render(
-        <Provider store={createStore(reducerUser, { user })}>
-            <Student />
-        </Provider>
-        );
+    store = mockStore({
+      userReducer: { user: {
+                "id": 1,
+                "name": "Erica Gerez",
+                "mail": "erica.gerez@alu.edu.unq.com.ar",
+                "password": "Contrasenia1",
+                "admin": false,
+                "deleted": false
+            },
+    },
+      bookingReducer: {
+        bookingsHistoricalByUser: [],
+        bookingsCurrentsByUser: [],
+        copyHistoricalBookings: [],
+        openModalCancel: false
+      }
+   
+  });
 
-    it('when user is logged, show name user', async () => {
-       
-        const { getByText } = renderComponent(
-                                { user: {
-                                    "name": "Erica Gerez",
-                                    "mail": "erica.gerez@alu.edu.unq.com.ar",
-                                } });
-        await waitForElement(() => getByText(/gerez/i));
-    });
+    component = renderer.create(
+      <Provider store={store}>
+        <Student />
+      </Provider>
+    );
+
+  });
+
+  it('when user is logged, show name user', async () => {
+    //console.log(component.toJSON());
+    expect(component.toJSON()).toMatchSnapshot();
+    //expect(component.toJSON().queryByText(/registradas/i)).toBeInTheDocument();
+    // expect(screen.queryByText(/registradas/i)).toBeInTheDocument();
+   
+    // const renderComponent = (user ) =>
+    //   render(
+    //   <Provider store={createStore(reducerUser, { user })}>
+    //       <Student />
+    //   </Provider>
+    //   );
+
+    // renderComponent(
+    //     { user: {
+    //         "id": 1,
+    //         "name": "Erica Gerez",
+    //         "mail": "erica.gerez@alu.edu.unq.com.ar",
+    //         "password": "Contrasenia1",
+    //         "admin": false,
+    //         "deleted": false
+    //     } });
+
+     // expect(screen.queryByText(/erica gerez/i)).toBeInTheDocument();
+       //expect(page).toHaveTextContent(/erica gerez/i)
+
+      //expect(getByTestId('name-user')).toBeInTheDocument()
+    
+
+   
+
+  });
 
 
-  })
+
 })

@@ -100,11 +100,11 @@ const HomeStudent = ({
         <Container maxWidth="md">    
             {finedUser ? 
                 <FinedStudent dateLimit={dateLimit}/> :
-                <Grid container className={classes.root} justify="center" > 
+                <Grid container className={classes.root} justifyContent="center" > 
                     <Grid item xs={12}>
-                        <Typography variant='h4' data-testid='title-login' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
+                        <Typography variant='h4' data-testid='title-home-student' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
                     </Grid>
-                    <Grid item xs={6} justify="center" className={classes.flex}>
+                    <Grid item xs={6} justifyContent="center" className={classes.flex}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils} >
                             <KeyboardDatePicker
                                 disabled={ activeStep == 2  }
@@ -125,7 +125,7 @@ const HomeStudent = ({
                             />
                         </MuiPickersUtilsProvider>
                     </Grid>
-                    <Grid item xs={6} justify="center" className={classes.flex}>
+                    <Grid item xs={6} justifyContent="center" className={classes.flex}>
                         <BookingRegister/>
                     </Grid>
                     <Grid item xs={12}>

@@ -71,8 +71,8 @@ const Desk = (props) =>{
 
     return (
         <Container maxWidth="md">
-            <Grid container className={classes.root} justify="center" spacing={2}> 
-                <Grid item xs={12} justify="center" className={classes.flex}>
+            <Grid container className={classes.root} justifyContent="center" spacing={2}> 
+                <Grid item xs={12} justifyContent="center" className={classes.flex}>
                     <Button variant="contained"  color="default"  onClick={() => handleClick(desk.availableDesk)} className={getStyleBox(desk.availableDesk)}>
                         <Grid className={classes.flex}>
                             <img src={imgDesk} id={desk.id} className={getStyleDesk(desk.availableDesk)}/>

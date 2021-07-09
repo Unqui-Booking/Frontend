@@ -80,6 +80,7 @@ const Login = ({
         console.log(`${USER_URL}/login?mail=${email}&password=${values.password}`);
         resUser = res.data[0];
         if(!!resUser){
+            window.localStorage.setItem('user', JSON.stringify(resUser))
             setUser(resUser)
             setFailedLogin(false);
             history.push("/home");
@@ -104,13 +105,15 @@ const Login = ({
                             <TextField
                                 id="input-person"
                                 label="Email"
+                                name="Email"
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="start">
                                             <PersonIcon />
                                         </InputAdornment>
                                     ),
-                                }}
+                                }
+                                }
                                 className={classes.textFild}
                                 onChange={handleEmail}
                                 autoComplete='off'
@@ -119,6 +122,7 @@ const Login = ({
                             <TextField
                                 id="input-password"
                                 label="Contraseña"
+                                name="Contraseña"
                                 type={values.showPassword ? 'text' : 'password'}
                                 value={values.password}
                                 onChange={handleChange('password')}

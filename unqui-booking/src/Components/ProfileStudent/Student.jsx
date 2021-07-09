@@ -115,8 +115,8 @@ const Student = ({
                                         <FaUser className={classes.iconUser}/>
                                     </Grid>
                                 </Avatar>
-                                <Typography variant='h6' className={classes.nameUser} data-testid='name-user'><strong>{user.name}</strong></Typography>
-                                <Typography variant='body2'>{user.mail}</Typography>
+                                <Typography variant='h6' className={classes.nameUser} data-testid="user-name"><strong>{user.name}</strong></Typography>
+                                <Typography variant='body2' data-testid="user-email">{user.mail}</Typography>
                         </Grid>
                         </CardContent>
                     </Card>
@@ -146,6 +146,7 @@ const Student = ({
                                                 onClick={()=>handleOpenModal(b)}
                                                 color="primary"
                                                 disabled ={getDisabled(b)}
+                                                data-testid={'button-cancell-booking-'+b.id}
                                                 >
                                                     <DeleteIcon />
                                                 </IconButton>

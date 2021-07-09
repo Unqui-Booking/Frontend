@@ -107,9 +107,9 @@ const ListBookingStudent = (props) => {
 
     const classes = useStyles();
     const {listBooking, listCopyBooking, setCopy, admin, confirm, getBookings, fine, typeBoooking, cancelBooking, } = props
-    const [dateFilter, setDateFilter] = useState(null);
-    const [deskFiltered, setDeskFiltered] = useState(null);
-    const [seatFiltered, setSeatFiltered] = useState(null);
+    const [dateFilter, setDateFilter] = useState(undefined);
+    const [deskFiltered, setDeskFiltered] = useState(undefined);
+    const [seatFiltered, setSeatFiltered] = useState(undefined);
     const countPages = Math.ceil(listBooking.length / 6);
     const bookingsPerPage = 6;  
     const [page, setPage] = useState(1);
@@ -160,7 +160,7 @@ const ListBookingStudent = (props) => {
 
     const clearFilter = () => {
         setCopy(listBooking);
-        setDateFilter(null);
+        setDateFilter(undefined);
         setDeskFiltered("");
         setSeatFiltered("");
     }
@@ -230,9 +230,9 @@ const ListBookingStudent = (props) => {
                             className={classes.width}
                             value={deskFiltered}
                             onChange={handleFilterStudent}
-                            InputProps={{
-                                shrink: true,
-                            }}
+                            // InputProps={{
+                            //     shrink: true,
+                            // }}
                             InputLabelProps={{style: {fontSize: 15}}} 
                         />
                     </Grid>
@@ -250,7 +250,7 @@ const ListBookingStudent = (props) => {
                             inputProps: { 
                                 max: null, min: 1 
                             },
-                            shrink: true,
+                           // shrink: true,
                         }}
                         InputLabelProps={{style: {fontSize: 15}}} 
                     />
@@ -266,7 +266,7 @@ const ListBookingStudent = (props) => {
                             inputProps: { 
                                 max: null, min: 1 
                             },
-                            shrink: true,
+                            //shrink: true,
                         }}
                         className={classes.width}
                         onChange={handleFilterSeat}
@@ -343,7 +343,7 @@ const ListBookingStudent = (props) => {
                                             </Grid>
                                         : <div>
                                             {b.state == 'cancelled' ?
-                                                <Tooltip title="Cancelada por multa" placement="right">
+                                                <Tooltip title="Cancelada por multa" placement="right" data-testid='info-cancelled'>
                                                     <IconButton>
                                                         <InfoIcon/>
                                                     </IconButton>

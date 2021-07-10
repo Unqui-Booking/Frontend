@@ -36,7 +36,7 @@ const BookingHome = ({
 
     return (
         <div>
-            {desk || seatId ? 
+            {desk && seatId ? 
                 <Container maxWidth="md">
                     <Grid container className={classes.root} justifyContent="center">
                         <Grid item xs={12}>
@@ -44,11 +44,11 @@ const BookingHome = ({
                                 <CardContent>
                                     <Grid container spacing={3}>
                                         <Grid item xs={12} sm={12} className={classes.header}>
-                                            <Typography variant='h6'>Reservas registradas para escritorio {desk.nameDesk}, asiento {seatId}</Typography>
+                                            <Typography variant='h6' data-testid='title-booking'>Reservas registradas para escritorio {desk.nameDesk}, asiento {seatId}</Typography>
                                         </Grid>
                                     </Grid>
                                 </CardContent>
-                                <BookingList></BookingList>
+                                <BookingList />
                             </Card>
                         </Grid>
                     </Grid>

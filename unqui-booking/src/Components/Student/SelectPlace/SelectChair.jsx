@@ -108,7 +108,6 @@ const SelectChair = ({
                         <Button variant="contained"  color="default" onClick={() => handleClick(cl[0], cl[1])} className={getStyleBox(cl[1])}>
                         <Grid className={classes.column}>
                             <Chip size="small" label={cl[0]} color="default" variant="outline" className={classes.chip} />
-                            {console.log("silla: "+cl[0]+ " estado: "+ cl[1])}
                             <GiOfficeChair className={getStyleChair(cl[1])} key={cl[0]}/>
                         </Grid>
                         </Button>

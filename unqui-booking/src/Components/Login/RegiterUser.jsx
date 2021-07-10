@@ -7,6 +7,7 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import logo from '../../Img/logo.png';
 import { registerUser, setFailedLogin } from '../../Actions/userActions';
 import { Link } from 'react-router-dom';
+import ErrorPage from './ErrorPage';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RegiterUser = ({
     userReducer: {
+        error
     },
     registerUser,
     setFailedLogin
@@ -124,13 +126,18 @@ const RegiterUser = ({
     }
 
     const saveUser = async () => {
-        let newUser = await registerUser(name, email, values.password);
-        if(newUser){
-            setFailedLogin(false);
-            history.push("/");
-        }else{
-            console.log("no se pudo registrar el usuario");
+        try{
+            let newUser = await registerUser(name, email, values.password);
+            if(newUser){
+                setFailedLogin(false);
+                history.push("/");
+            }else{
+                console.log("no se pudo registrar el usuario");
+            }
+        }catch(error){
+            alert("error en register")
         }
+        
         
     }
 
@@ -141,59 +148,69 @@ const RegiterUser = ({
     return (
         
         <Container maxWidth="md"> 
-            <Grid container spacing={3} className={classes.container}>
-                <Avatar alt="Remy Sharp" src={logo} className={classes.avatar} />
-                <Card className={classes.card}>
-                    <CardContent>
-                        <FormControl className={classes.cardContent}>
-                            <TextField
-                                id="input-name"
-                                label="Nombre y apellido"
-                                className={classes.textFild}
-                                helperText= {showTextHelperName()}
-                                value={name}
-                                onChange={handleName}
-                                autoComplete='off'
-                            />
-                            <TextField
-                                id="input-email"
-                                label="Email"
-                                className={classes.textFild}
-                                helperText= {showTextHelperEmail()}
-                                value={email}
-                                onChange={handleEmail}
-                                autoComplete='off'
-                            />
-                            <TextField
-                                id="input-passqord-register"
-                                label="Contraseña"
-                                type={values.showPassword ? 'text' : 'password'}
-                                value={values.password}
-                                onChange={handleChange('password')}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="start">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                            >
-                                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                className={classes.textFild}
-                                helperText= {showTextHelperPassword()}
-                            />
-                            <Button variant="contained" color="primary" onClick={saveUser} className={classes.textFild} disabled={getValidations()}>
-                                Registrarse
-                            </Button>
-                            <Link href="#" onClick={goToLogin} to={"/"}>Ya tengo una cuenta</Link>
-                        </FormControl>
-                    </CardContent>
-                </Card>
-            </Grid>
+            { !(error != null && error.response.data.status == 400) ?
+                <Grid container spacing={3} className={classes.container}>
+                    <Avatar alt="Remy Sharp" src={logo} className={classes.avatar} />
+                    <Card className={classes.card}>
+                        <CardContent>
+                            <FormControl className={classes.cardContent}>
+                                <TextField
+                                    id="input-name"
+                                    label="Nombre y apellido"
+                                    name="Nombre y apellido"
+                                    className={classes.textFild}
+                                    helperText= {showTextHelperName()}
+                                    value={name}
+                                    onChange={handleName}
+                                    autoComplete='off'
+                                    data-testid='name-register'
+                                />
+                                <TextField
+                                    id="input-email"
+                                    label="Email"
+                                    name='Email'
+                                    className={classes.textFild}
+                                    helperText= {showTextHelperEmail()}
+                                    value={email}
+                                    onChange={handleEmail}
+                                    autoComplete='off'
+                                    data-testid='mail-register'
+                                />
+                                <TextField
+                                    id="input-passqord-register"
+                                    label="Contraseña"
+                                    name="Contraseña"
+                                    type={values.showPassword ? 'text' : 'password'}
+                                    value={values.password}
+                                    onChange={handleChange('password')}
+                                    data-testid='password-register'
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="start">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    className={classes.textFild}
+                                    helperText= {showTextHelperPassword()}
+                                />
+                                <Button data-testid='button-register' variant="contained" color="primary" onClick={saveUser} className={classes.textFild} disabled={getValidations()}>
+                                    Registrarse
+                                </Button>
+                                {/* <Link href="#" onClick={goToLogin} to={"/"}></Link> */}
+                                <a href='/' onClick={goToLogin} >Ya tengo una cuenta</a>
+                            </FormControl>
+                        </CardContent>
+                    </Card>
+                </Grid>:
+                <ErrorPage message={"El mail ingresado ya existe"}/> 
+            }
             
         </Container> 
     )

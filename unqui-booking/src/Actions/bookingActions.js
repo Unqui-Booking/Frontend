@@ -56,7 +56,6 @@ export const getAllBookings = () => async dispatch => {
 export const getBookingBySeatDateHours = (seatId, date, startTime, endTime ) => async dispatch => {  
     try{
         const res = await dataService.get(`${BOOKING_URL}/details?seat=${seatId}&date=${date}&startTime=${startTime}&endTime=${endTime}`)
-        console.log(`${BOOKING_URL}/details?seat=${seatId}&date=${date}&startTime=${startTime}&endTime=${endTime}`)
         dispatch( {
             type: GET_SPECIFIC_BOOKING,
             payload: res.data
@@ -73,7 +72,6 @@ export const getBookingBySeatDateHours = (seatId, date, startTime, endTime ) => 
 
 //TODO >>> Borrar: yA no se usa en el front sino en el back BORRAR
 export const getBookingsByUser = (userId) => async dispatch => {
-    console.log(`${BOOKING_URL}/user?user=${userId}`);
     const res = await dataService.get(`${BOOKING_URL}/user?user=${userId}`);
     try{
         dispatch( {
@@ -91,7 +89,6 @@ export const getBookingsByUser = (userId) => async dispatch => {
 }
 
 export const getHistoricalBookingsByUser = (userId) => async dispatch => {
-    console.log(`${BOOKING_URL}/historical?user=${userId}`);
     const res = await dataService.get(`${BOOKING_URL}/historical?user=${userId}`);
     try{
         dispatch( {
@@ -109,7 +106,6 @@ export const getHistoricalBookingsByUser = (userId) => async dispatch => {
 }
 
 export const getCurrentsBookingsByUser = (userId) => async dispatch => {
-    console.log(`${BOOKING_URL}/current?user=${userId}`);
     const res = await dataService.get(`${BOOKING_URL}/current?user=${userId}`);
     try{
         dispatch( {
@@ -129,7 +125,6 @@ export const getCurrentsBookingsByUser = (userId) => async dispatch => {
 export const getBookingBySeatAndDate = (seatId, date) => async dispatch => {
     try{
         const res = await dataService.get(`${BOOKING_URL}/sd?seat=${seatId}&date=${date}`)
-        console.log(`${BOOKING_URL}/sd?seat=${seatId}&date=${date}`);
         dispatch({
             type: GET_SPECIFIC_BOOKING_BY_SEAT_DATE,
             payload: res.data
@@ -146,9 +141,7 @@ export const getBookingBySeatAndDate = (seatId, date) => async dispatch => {
 
 export const getMapAvailabilySeats = (deskId, date, startTime, endTime) => async dispatch => {
     try{
-        console.log(`${BOOKING_URL}/availabled?desk=${deskId}&date=${date}&startTime=${startTime}&endTime=${endTime}`);
         const res = await dataService.get(`${BOOKING_URL}/availabled?desk=${deskId}&date=${date}&startTime=${startTime}&endTime=${endTime}`);
-        console.log(`${BOOKING_URL}/availabled?desk=${deskId}&date=${date}&startTime=${startTime}&endTime=${endTime}`);
         dispatch({
             type: GET_MAP_AVAILABILY_SEATS,
             payload: res.data
@@ -205,7 +198,6 @@ export const setCopyHistoricalBookings = (copyBookings) => dispatch => {
 
 export const getBookingsToday = () => async dispatch => {
     try{
-        console.log(`${BOOKING_URL}/today?date=${today}`);
         const res = await dataService.get(`${BOOKING_URL}/today?date=${today}`);
         dispatch({
             type: GET_BOOKINGS_TODAY,
@@ -447,7 +439,6 @@ export const fineBooking = (booking) => async dispatch => {
           }
           
         const res = await dataService.register(BOOKING_URL, payloadBooking);
-        console.log(res.data);
         dispatch({
             type: FINE_BOOKING,
             payload: res.data,
@@ -498,7 +489,6 @@ export const setCopyFinedBookings = (copyBookings) => dispatch => {
 export const getBookingsToCancel = (startDate, endDate, userId) => async dispatch => {
     
     try{
-        console.log(`${BOOKING_URL}/between?start=${startDate}&end=${endDate}&user=${userId}`);
         const res = await dataService.get(`${BOOKING_URL}/between?start=${startDate}&end=${endDate}&user=${userId}`)
         
         dispatch({

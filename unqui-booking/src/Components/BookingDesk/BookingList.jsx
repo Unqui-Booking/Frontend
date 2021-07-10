@@ -88,8 +88,8 @@ const BookingList = ({
 
                     <Grid item xs={12} sm={8} className={classes.rangeHours}>
                         {bookingsFilteredBySeatDate.map(b => 
-                            <Grid item className={classes.spacing}>
-                                <Chip size="small" key={b.id} label={`${b.startTime}hs - ${b.endTime}hs`} color="primary" variant="outline" className={classes.chip} />
+                            <Grid item className={classes.spacing} key={b.id}>
+                                <Chip data-testid='info-booking' size="small" key={b.id} label={`${b.startTime}hs - ${b.endTime}hs`} color="primary" variant="outlined" className={classes.chip} />
                             </Grid>                       
                         )}
                     </Grid>

@@ -133,7 +133,6 @@ const HomeAdmin = ({
         if(currentHour < (startTimeBooking - 1)) { state = "uploaded" }
         if(currentHour >= startTimeBooking) { state = "expired" }
         if((startTimeBooking - currentHour) == 1) { state = "toConfirm" }
-        console.log("NEW STATE: "+ state+ " BOOKING: "+ booking.id);
         return state;
         
     }

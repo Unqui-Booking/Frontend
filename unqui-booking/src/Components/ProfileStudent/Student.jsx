@@ -89,10 +89,10 @@ const Student = ({
          redirectPage();
     }, [])
 
-    const redirectPage = async ()  => {
+    const redirectPage =  ()  => {
         if(user){
-            await getHistoricalBookingsByUser(user.id);
-            await getCurrentsBookingsByUser(user.id);
+             getHistoricalBookingsByUser(user.id);
+             getCurrentsBookingsByUser(user.id);
         }
         else{
             window.location.href = 'http://localhost:3001/'

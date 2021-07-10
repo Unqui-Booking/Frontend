@@ -19,7 +19,7 @@ const HomeMain = ({
    }
     
     return (  user ? 
-                <div>  
+                <div>
                     { user.admin ? 
                         <HomeAdmin /> : <HomeStudent /> 
                     }

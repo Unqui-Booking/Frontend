@@ -177,7 +177,6 @@ const ListBookingStudent = (props) => {
             }
         }
         else{
-            console.log("NO ADMIN")
             return classes.containerHistorical;
         }
     }

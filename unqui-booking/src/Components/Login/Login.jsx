@@ -10,6 +10,7 @@ import { setFailedLogin, setUser } from '../../Actions/userActions'
 import { Alert } from '@material-ui/lab';
 import dataService from '../../Services/service';
 import { USER_URL } from '../../Api/base'
+import ErrorPage from './ErrorPage';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -63,9 +64,10 @@ const Login = ({
     const history = useHistory();
     const [email, setEmail] = useState('');
     const[open, setOpen] = useState(successRegister);
+    const[error, setError] = useState(false);
     //const [loading, setLoading] = useState(false);
 
-    const handleClose = () => {
+    const handleClose = (prop) => (event) => {
         setOpen(false);
     }
 
@@ -82,18 +84,23 @@ const Login = ({
     };
 
     const login = async (event) => {
-        let resUser;
-        let res = await dataService.get(`${USER_URL}/login?mail=${email}&password=${values.password}`);
-        console.log(`${USER_URL}/login?mail=${email}&password=${values.password}`);
-        resUser = res.data[0];
-        if(!!resUser){
-            window.localStorage.setItem('user', JSON.stringify(resUser))
-            setUser(resUser)
-            setFailedLogin(false);
-            history.push("/home");
-        }else{
-            setFailedLogin(true);
+        try{
+            let resUser;
+            let res = await dataService.get(`${USER_URL}/login?mail=${email}&password=${values.password}`);
+            resUser = res.data[0];
+            if(!!resUser){
+                window.localStorage.setItem('user', JSON.stringify(resUser))
+                setUser(resUser)
+                setFailedLogin(false);
+                history.push("/home");
+            }else{
+                setFailedLogin(true);
+            }
+       }
+        catch(error){
+            setError(true);
         }
+            
     }
 
     const handleEmail = (event) => {
@@ -103,70 +110,75 @@ const Login = ({
     return (
         
         <Container maxWidth="md">
-            <Grid container spacing={3} className={classes.container}>
-                <Avatar alt="Remy Sharp" src={logo} className={classes.avatar} />
-                <Card className={classes.card}>
-                    <CardContent>
-                        <form>
-                        <FormControl className={classes.cardContent}>
-                            <TextField
-                                id="input-person"
-                                label="Email"
-                                name="Email"
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="start">
-                                            <PersonIcon />
-                                        </InputAdornment>
-                                    ),
-                                }
-                                }
-                                className={classes.textFild}
-                                onChange={handleEmail}
-                                autoComplete='off'
-                            />
-                            
-                            <TextField
-                                id="input-password"
-                                label="Contraseña"
-                                name="Contraseña"
-                                type={values.showPassword ? 'text' : 'password'}
-                                value={values.password}
-                                onChange={handleChange('password')}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="start">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                            >
-                                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                className={classes.textFild}
-                            />
-                            { failedLogin ?
-                                 <FormHelperText>Usuario o contraseña incorrectos</FormHelperText> : null
-                            }
-                           
-                            <Button data-testid="btn-login" variant="contained" color="primary" onClick={(event)=>login(event)} className={classes.textFild}>
-                                Ingresar
-                            </Button>
-                            {/* <Link href="#" to={"/register"}>Registrarse</Link> */}
-                            <a href='/register'>Registrarse</a>
-                        </FormControl>
-                        </form>    
-                    </CardContent>
-                </Card>
-            </Grid>
-            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
-                <Alert onClose={handleClose} severity="success">
-                    <strong>Usuario registrado correctamente.</strong>
-                </Alert>
-            </Snackbar>
+            {!error?
+                <div>
+                    <Grid container spacing={3} className={classes.container}>
+                        <Avatar alt="Remy Sharp" src={logo} className={classes.avatar} />
+                        <Card className={classes.card}>
+                            <CardContent>
+                                <form>
+                                <FormControl className={classes.cardContent}>
+                                    <TextField
+                                        id="input-person"
+                                        label="Email"
+                                        name="Email"
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="start">
+                                                    <PersonIcon />
+                                                </InputAdornment>
+                                            ),
+                                        }
+                                        }
+                                        className={classes.textFild}
+                                        onChange={handleEmail}
+                                        autoComplete='off'
+                                    />
+                                    
+                                    <TextField
+                                        id="input-password"
+                                        label="Contraseña"
+                                        name="Contraseña"
+                                        type={values.showPassword ? 'text' : 'password'}
+                                        value={values.password}
+                                        onChange={handleChange('password')}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="start">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowPassword}
+                                                        onMouseDown={handleMouseDownPassword}
+                                                    >
+                                                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                        className={classes.textFild}
+                                    />
+                                    { failedLogin ?
+                                        <FormHelperText>Usuario o contraseña incorrectos</FormHelperText> : null
+                                    }
+                                
+                                    <Button data-testid="btn-login" variant="contained" id="button-login" color="primary" onClick={(event)=>login(event)} className={classes.textFild}>
+                                        Ingresar
+                                    </Button>
+                                    {/* <Link href="#" to={"/register"}>Registrarse</Link> */}
+                                    <a href='/register'>Registrarse</a>
+                                </FormControl>
+                                </form>    
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+                        <Alert onClose={handleClose} severity="success">
+                            <strong>Usuario registrado correctamente.</strong>
+                        </Alert>
+                    </Snackbar>
+                </div>: 
+                <ErrorPage message={'Ocurrió un error inesperado'}/>            
+            }
         </Container> 
     )
 }

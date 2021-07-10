@@ -22,7 +22,6 @@ export const getUser = (mail, password) => async dispatch => {
     try{
         let resUser;
         const res = await dataService.get(`${USER_URL}/login?mail=${mail}&password=${password}`)
-        console.log(`${USER_URL}/login?mail=${mail}&password=${password}`);
         resUser = res.data[0];
         dispatch( {
             type: GET_USER,
@@ -36,7 +35,6 @@ export const getUser = (mail, password) => async dispatch => {
             payload: error,
         })
         console.log(error);
-        console.log("no se pudo loguear");
     }
 }
 
@@ -56,18 +54,17 @@ export const registerUser = (name, mail, password) => async dispatch => {
         })
         return userRegistered;
     }
-    catch(err){
+    catch(error){
         dispatch({
             type: LOGS_ERROR,
-            payload: console.log(err)
+            payload: error
           });
-          console.log(err);
+          console.log(error);
     }
 }
 
 export const isFinedUserAtDate = (date, idUser) => async dispatch => {
     try{
-        console.log(`${USER_URL}/fined?date=${date}&user=${idUser}`)
         const res = await dataService.get(`${USER_URL}/fined?date=${date}&user=${idUser}`)
         dispatch( {
             type: IS_FINED_USER,

@@ -14,6 +14,10 @@ const ModalCancelBooking = (props) => {
     await getCurrentsBookingsByUser(user.id);
     setOpenSuccessCancel(true);
   }
+
+  const formatDate = (booking) => {
+    return booking.date.split("-").reverse().join();
+  }
  
   return (
       <Dialog
@@ -29,7 +33,7 @@ const ModalCancelBooking = (props) => {
               booking != null ? 
               <p>
                 ¿Desea cancelar la reserva para el <strong>asiento {booking.seat.id}</strong> en el <strong>escritorio {booking.seat.desk.id} </strong>   
-                el día <strong>{booking.date.split("-").reverse().join().replaceAll(",","/")} </strong>  
+                el día <strong>{formatDate(booking)}</strong>  
                 en el horario <strong>{booking.startTime}hs - {booking.endTime}hs</strong>?
               </p> : null
             }
@@ -37,7 +41,7 @@ const ModalCancelBooking = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>  
-          <Button onClick={handleCancelBooking} color="primary"> 
+          <Button onClick={handleCancelBooking} color="primary" data-testid='confirm-cancel' className='aaa'> 
             Sí 
           </Button>
           <Button onClick={handleClose} color="primary" autoFocus>

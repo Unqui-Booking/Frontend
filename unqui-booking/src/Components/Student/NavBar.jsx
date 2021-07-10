@@ -27,7 +27,7 @@ const NavBar = ({
   const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogOut = () => {
-      window.localStorage.setItem('user', JSON.stringify(null))
+      window.localStorage.removeItem('user');
       setFailedLogin(false);
       history.push("/");
   }

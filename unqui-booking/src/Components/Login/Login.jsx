@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
@@ -49,6 +49,12 @@ const Login = ({
 
 }) => {
 
+    useEffect( () => {
+        window.localStorage.removeItem('user');
+        //setLoading(false);
+    }, [])
+
+
     const classes = useStyles();
     const [values, setValues] = useState({
         password: '',
@@ -57,6 +63,7 @@ const Login = ({
     const history = useHistory();
     const [email, setEmail] = useState('');
     const[open, setOpen] = useState(successRegister);
+    //const [loading, setLoading] = useState(false);
 
     const handleClose = () => {
         setOpen(false);

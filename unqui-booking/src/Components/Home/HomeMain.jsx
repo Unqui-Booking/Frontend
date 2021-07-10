@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import HomeStudent from '../Student/HomeStudent';
 import HomeAdmin from '../Admin/HomeAdmin';
+import { Redirect } from "react-router-dom";
 
 const HomeMain = ({
     userReducer: {
@@ -9,15 +10,23 @@ const HomeMain = ({
     }
 }) => { 
     
-    useEffect( () => {
-        window.localStorage.setItem('user', JSON.stringify(user))
-        //TODO >>> consumir el user en todo el proyecto desde este storage
-        // PARA OBTENERLO COMO OBJETO >>> JSON.parse(localStorage.getItem('user'))
-    }, [])
+    useEffect( ()  => {
+        redirectPage();
+   }, [])
 
+   const redirectPage = ()  => {
+       if(!user){  window.location.href = 'http://localhost:3001/' }
+   }
     
-    
-    return ( user.admin ? <HomeAdmin /> : <HomeStudent /> ) }
+    return (  user ? 
+                <div>  
+                    { user.admin ? 
+                        <HomeAdmin /> : <HomeStudent /> 
+                    }
+                </div> : <Redirect to="/"/>
+            ) 
+
+}
 
 const mapStateToProps = state => ({
     userReducer: state.userReducer,

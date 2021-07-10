@@ -53,6 +53,33 @@ const boookings = {
                 "admin": false,
                 "deleted": false
             }
+        },
+        {
+            "id": 2,
+            "seat": {
+                "id": 11,
+                "desk": {
+                    "id": 2,
+                    "nameDesk": "Escritorio 2",
+                    "area": "general",
+                    "availableDesk": true,
+                    "deleted": false
+                },
+                "deleted": false
+            },
+            "date": "2021-07-12",
+            "startTime": 11,
+            "endTime": 12,
+            "deleted": false,
+            "state": "uploaded",
+            "user": {
+                "id": 1,
+                "name": "Erica Gerez",
+                "mail": "erica.gerez@alu.edu.unq.com.ar",
+                "password": "Contrasenia1",
+                "admin": false,
+                "deleted": false
+            }
         }
     ], 
     bookingsHistorical: [

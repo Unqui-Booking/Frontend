@@ -14,6 +14,8 @@ import InfoIcon from '@material-ui/icons/Info';
 const useStyles = makeStyles((theme) => ({
 
     containerHistorical:{ 
+        display: 'flex',
+        flexFlow: 'row',
         border: '1px solid #0000002b',
         borderRadius: '4px',
         alignItems: 'center',
@@ -82,6 +84,8 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
     },
     toConfirmBooking: {
+        display: 'flex',
+        flexFlow: 'row',
         border: '1px solid #4caf50',
         background: '#4caf5030',
         borderRadius: '4px',
@@ -92,6 +96,8 @@ const useStyles = makeStyles((theme) => ({
         margin: '4px 0px',
     },
     expiredBooking: {
+        display: 'flex',
+        flexFlow: 'row',
         border: '1px solid #b7002e',
         background: '#ff00001c',
         borderRadius: '4px',
@@ -307,7 +313,7 @@ const ListBookingStudent = (props) => {
                     <AccordionDetails className={classes.accordionDetails}>
                             {listCopyBooking.length > 0 ? listCopyBooking.slice((page - 1) * bookingsPerPage, page * bookingsPerPage).map(b => 
                                     <Grid container key={b.id} data-testid={'booking-'+b.id}>
-                                        <Grid container className={getStyle(b.state)}>
+                                        <Grid item xs={11} sm={11} className={getStyle(b.state)}>
                                             { admin ? <Typography variant='body2'>{b.user.name}</Typography>: null }
                                             <Typography variant='body2'>{b.seat.desk.nameDesk}</Typography>
                                             <Typography variant='body2'>Asiento {b.seat.id}</Typography>

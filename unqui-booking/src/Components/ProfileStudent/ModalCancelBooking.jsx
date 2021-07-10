@@ -16,7 +16,7 @@ const ModalCancelBooking = (props) => {
   }
 
   const formatDate = (booking) => {
-    return booking.date.split("-").reverse().join();
+    return booking.date.split("-").reverse().join().replaceAll(",","/");
   }
  
   return (

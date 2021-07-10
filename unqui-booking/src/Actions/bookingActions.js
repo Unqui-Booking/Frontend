@@ -162,7 +162,8 @@ export const registerBooking = (seatId, date, startTime, endTime, userId) => asy
         date,
         startTime,
         endTime,
-        user: {id: userId}
+        user: {id: userId},
+        state: "uploaded"
       }
     try{
         const res = await dataService.register(BOOKING_URL, payloadBooking);

@@ -197,13 +197,18 @@ const ListBookingStudent = (props) => {
         const bookingFined = await fine(booking);
         await getBookings();
         const infoFined = await cancelBooking.isFinedUserAtDate(moment(new Date()).format().split('T')[0], bookingFined.user.id);
-        const dateLimit = (moment(infoFined.dateLimit).format().split('T')[0].split('-')[0]+'-').concat(moment(infoFined.dateLimit).format().split('T')[0].split('-').slice(-2).reverse().concat()).split(',').join('-');
+        //const dateLimit = (moment(infoFined.dateLimit).format().split('T')[0].split('-')[0]+'-').concat(moment(infoFined.dateLimit).format().split('T')[0].split('-').slice(-2).reverse().concat()).split(',').join('-');
+        let fullDateLimit = infoFined.dateLimit;
+        const dayLimit = fullDateLimit.split('/')[0];
+        const monthLimit = fullDateLimit.split('/')[1];
+        const yearLimit = fullDateLimit.split('/')[2];
+        fullDateLimit = yearLimit + '-' + monthLimit + '-' + dayLimit;
         const startDate = moment(bookingFined.date).format().split('T')[0];
-        const bookingsToCancel = await cancelBooking.getBookingsToCancel(startDate, dateLimit, bookingFined.user.id);
+        const bookingsToCancel = await cancelBooking.getBookingsToCancel(startDate, fullDateLimit, bookingFined.user.id);
         bookingsToCancel.map((b)=> cancelBooking.updateState(b));
     }
 
-    return (
+    return ( 
         <Grid container>
             <Grid container className={classes.containerFilter}>
 

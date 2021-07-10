@@ -490,6 +490,7 @@ export const setCopyFinedBookings = (copyBookings) => dispatch => {
 export const getBookingsToCancel = (startDate, endDate, userId) => async dispatch => {
     
     try{
+        console.log(`${BOOKING_URL}/between?start=${startDate}&end=${endDate}&user=${userId}`)
         const res = await dataService.get(`${BOOKING_URL}/between?start=${startDate}&end=${endDate}&user=${userId}`)
         
         dispatch({

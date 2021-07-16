@@ -87,7 +87,7 @@ const SelectPlace = ({
         setActiveStep(activeStep + 1);
         break;
       case 2:
-        onSaveRegister()
+        onSaveRegister();
         history.push("/desk");
         break;
       default:
@@ -96,10 +96,10 @@ const SelectPlace = ({
     }
   }
 
-  const onSaveRegister = () => {
+  const onSaveRegister = async () => {
     if (startTime != null && endTime != null) {
-      registerBooking(seatId, moment(date).format().split('T')[0].toString(), startTime, endTime, user.id);
-      getBookingBySeatAndDate(seatId, moment(date).format().split('T')[0].toString());
+      await registerBooking(seatId, moment(date).format().split('T')[0].toString(), startTime, endTime, user.id);
+      await getBookingBySeatAndDate(seatId, moment(date).format().split('T')[0].toString());
       handleOpen(true);
     } else {
       return console.log("error post booking")

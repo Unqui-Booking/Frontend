@@ -6,7 +6,6 @@ import { IconButton, AppBar, Toolbar, Typography } from  '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { setFailedLogin } from '../../Actions/userActions';
-import { getBookingsByUser, getHistoricalBookingsByUser, getCurrentsBookingsByUser } from '../../Actions/bookingActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,30 +18,22 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = ({
   userReducer: {
-    user
-  },
-  bookingReducer: {
-
   },
   setFailedLogin,
-  getBookingsByUser,
-  getHistoricalBookingsByUser,
-  getCurrentsBookingsByUser
-
 }) => {
 
   const classes = useStyles();
   let history = useHistory(); 
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogOut = () => {
-    setFailedLogin(false);
-    history.push("/");
+      window.localStorage.removeItem('user');
+      setFailedLogin(false);
+      history.push("/");
   }
 
-  const handleProfile = () => {
-    getHistoricalBookingsByUser(user.id);
-    getCurrentsBookingsByUser(user.id);
-    history.push("/student");
+  const handleProfile = async () => {
+      history.push("/student");
   }
   
     return (
@@ -53,17 +44,19 @@ const NavBar = ({
             UNQui-Booking
           </Typography>
           
-          {user != undefined ?
+          {user != null ?
             <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleProfile}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              { !user.admin ?
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleProfile}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>: null 
+              }
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -83,9 +76,10 @@ const NavBar = ({
 
 }
 
+
 const mapStateToProps = state => ({
   userReducer: state.userReducer,
   bookingReducer: state.bookingReducer,
 });
 
-export default connect(mapStateToProps, { setFailedLogin, getBookingsByUser, getHistoricalBookingsByUser, getCurrentsBookingsByUser })(NavBar)
+export default connect(mapStateToProps, { setFailedLogin })(NavBar)

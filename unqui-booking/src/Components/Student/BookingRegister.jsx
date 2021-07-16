@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react'
+import React from 'react';
 import { connect } from "react-redux";
 import moment from 'moment';
 import { FormControl, InputLabel, Select, MenuItem, Grid} from '@material-ui/core';
@@ -53,21 +52,18 @@ const BookingRegister = ({
   const hoursStart = [9,10,11,12,13,14,15,16,17,18,19]
   const hoursEnd = [9,10,11,12,13,14,15,16,17,18,19,20]
 
-  const handleChangeStartHours = (event) => { 
-    setSelectedStartHour(event.target.value);
-    console.log("MAP ANTES: "+mapAvailabilySeats);
+  const handleChangeStartHours = async (event) => { 
+    await setSelectedStartHour(event.target.value);
     if(desk != null){ //si selecciono el cambio de fecha en el paso 2 o en el paso 1 una vez que se seleccionó un desk
-      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], event.target.value, endTime);
+      await getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], event.target.value, parseInt(event.target.value)+1);
     }
-    console.log("MAP ahora: "+mapAvailabilySeats);
   }
 
-  const handleChangeEndHours = (event) => {
-    setSelectedEndHour(event.target.value);
+  const handleChangeEndHours = async (event) => {
+    await setSelectedEndHour(event.target.value);
     if(desk != null){ //si selecciono el cambio de fecha en el paso 2 o en el paso 1 una vez que se seleccionó un desk
-      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, event.target.value);
+      await getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, event.target.value);
     }
-    console.log(event.target.value);
   }
 
   const getDisabilityEndTime = (h) => {
@@ -91,7 +87,7 @@ const BookingRegister = ({
                   IconComponent= {ScheduleIcon}
                   >
                     <MenuItem value={hoursStart[0]}>{hoursStart[0]}:00</MenuItem>
-                    {hoursStart.slice(1, hoursStart.length).map(h => <MenuItem value={h}>{h}:00</MenuItem> 
+                    {hoursStart.slice(1, hoursStart.length).map(h => <MenuItem key={h} value={h}>{h}:00</MenuItem> 
                     )}
                 </Select>
               </Grid>
@@ -113,7 +109,7 @@ const BookingRegister = ({
                   <MenuItem value={hoursEnd[0]} disabled={getDisabilityEndTime(hoursEnd[0])}>
                       {hoursEnd[0]}:00
                   </MenuItem>
-                  {hoursEnd.slice(1, hoursEnd.length).map(h => <MenuItem value={h} disabled={getDisabilityEndTime(h)}>{h}:00</MenuItem> 
+                  {hoursEnd.slice(1, hoursEnd.length).map(h => <MenuItem key={h} value={h} disabled={getDisabilityEndTime(h)}>{h}:00</MenuItem> 
                   )}
               </Select>
           </FormControl>

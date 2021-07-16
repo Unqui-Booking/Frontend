@@ -1,4 +1,4 @@
-import { FAILED_LOGIN, GET_USER, LOGS_ERROR, ADD_USER } from './types';
+import { FAILED_LOGIN, GET_USER, LOGS_ERROR, ADD_USER, IS_FINED_USER, SET_USER } from './types';
 import { USER_URL } from '../Api/base'
 import dataService from '../Services/service'
 
@@ -22,7 +22,6 @@ export const getUser = (mail, password) => async dispatch => {
     try{
         let resUser;
         const res = await dataService.get(`${USER_URL}/login?mail=${mail}&password=${password}`)
-        console.log(`${USER_URL}/login?mail=${mail}&password=${password}`);
         resUser = res.data[0];
         dispatch( {
             type: GET_USER,
@@ -30,13 +29,12 @@ export const getUser = (mail, password) => async dispatch => {
         })
         return resUser;
     }
-    catch(err){
+    catch(error){
         dispatch( {
             type: LOGS_ERROR,
-            payload: console.log(err),
+            payload: error,
         })
-        console.log(err);
-        console.log("no se pudo loguear");
+        console.log(error);
     }
 }
 
@@ -55,6 +53,40 @@ export const registerUser = (name, mail, password) => async dispatch => {
             payload: userRegistered
         })
         return userRegistered;
+    }
+    catch(error){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: error
+          });
+          console.log(error);
+    }
+}
+
+export const isFinedUserAtDate = (date, idUser) => async dispatch => {
+    try{
+        const res = await dataService.get(`${USER_URL}/fined?date=${date}&user=${idUser}`)
+        dispatch( {
+            type: IS_FINED_USER,
+            payload: res.data
+        })
+        return res.data;
+    }
+    catch(err){
+        dispatch({
+            type: LOGS_ERROR,
+            payload: console.log(err)
+          });
+          console.log(err);
+    }
+}
+
+export const setUser = (user) => dispatch => {
+    try{
+        dispatch({
+            type: SET_USER,
+            payload: user
+        })
     }
     catch(err){
         dispatch({

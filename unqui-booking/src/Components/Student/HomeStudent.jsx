@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Grid, Container, Typography} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import SelectPlace from './SelectPlace/SelectPlace';
 import BookingRegister from './BookingRegister';
@@ -13,6 +12,8 @@ import { isFinedUserAtDate } from '../../Actions/userActions';
 import { useEffect } from 'react';
 import FinedStudent from '../Student/FinedStudent';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import DateFnsUtils from '@date-io/date-fns';
+import deLocale from "date-fns/locale/es";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -105,7 +106,7 @@ const HomeStudent = ({
                         <Typography variant='h4' data-testid='title-home-student' className={classes.title}> Sistema de gestión de reservas de escritorios</Typography>
                     </Grid>
                     <Grid item xs={6} justifyContent="center" className={classes.flex}>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils}  >
                             <KeyboardDatePicker
                                 disabled={ activeStep == 2  }
                                 className={classes.dateSelect}

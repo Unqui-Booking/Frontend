@@ -5,11 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Pagination from '@material-ui/lab/Pagination';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import GavelIcon from '@material-ui/icons/Gavel';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import InfoIcon from '@material-ui/icons/Info';
+import DateFnsUtils from '@date-io/date-fns';
+import deLocale from "date-fns/locale/es";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -214,7 +215,7 @@ const ListBookingStudent = (props) => {
 
                 { !admin ?
                     <Grid item xs={12} sm={3} >
-                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                        <MuiPickersUtilsProvider locale={deLocale} utils={DateFnsUtils} >
                             <KeyboardDatePicker
                                 className={classes.dateSelect}
                                 disableToolbar

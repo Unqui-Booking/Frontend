@@ -1,6 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Grid, IconButton, TextField, Typography, Button, Tooltip } from '@material-ui/core';
 import React, { useState }  from 'react'
 import moment from 'moment';
+import "moment/locale/es";
 import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Pagination from '@material-ui/lab/Pagination';
@@ -120,6 +121,7 @@ const ListBookingStudent = (props) => {
     const countPages = Math.ceil(listBooking.length / 6);
     const bookingsPerPage = 6;  
     const [page, setPage] = useState(1);
+    moment.locale('es');
 
     const handleFilterDate = (date) => {
         if(date != null){

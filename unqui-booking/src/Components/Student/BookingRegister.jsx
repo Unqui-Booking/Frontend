@@ -52,17 +52,17 @@ const BookingRegister = ({
   const hoursStart = [9,10,11,12,13,14,15,16,17,18,19]
   const hoursEnd = [9,10,11,12,13,14,15,16,17,18,19,20]
 
-  const handleChangeStartHours = (event) => { 
-    setSelectedStartHour(event.target.value);
+  const handleChangeStartHours = async (event) => { 
+    await setSelectedStartHour(event.target.value);
     if(desk != null){ //si selecciono el cambio de fecha en el paso 2 o en el paso 1 una vez que se seleccionó un desk
-      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], event.target.value, endTime);
+      await getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], event.target.value, parseInt(event.target.value)+1);
     }
   }
 
-  const handleChangeEndHours = (event) => {
-    setSelectedEndHour(event.target.value);
+  const handleChangeEndHours = async (event) => {
+    await setSelectedEndHour(event.target.value);
     if(desk != null){ //si selecciono el cambio de fecha en el paso 2 o en el paso 1 una vez que se seleccionó un desk
-      getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, event.target.value);
+      await getMapAvailabilySeats(desk.id, moment(date).format().split('T')[0], startTime, event.target.value);
     }
   }
 

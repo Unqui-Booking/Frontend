@@ -2,8 +2,9 @@ import React , { useState, useEffect } from 'react'
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { Grid , Snackbar, CardContent, makeStyles, Chip, TextField } from '@material-ui/core'
-import { getBookingBySeatAndDate } from '../../Actions/bookingActions'
-import { Alert } from '@material-ui/lab'
+import { getBookingBySeatAndDate } from '../../Actions/bookingActions';
+import { handleOpen } from '../../Actions/snackbarAction';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     rangeHours: {
@@ -51,6 +52,7 @@ const BookingList = ({
     snackbarReducer:{
         openSnackbar,
       },
+    handleOpen,
     getBookingBySeatAndDate})=>{
 
         moment.locale('es');  
@@ -66,7 +68,7 @@ const BookingList = ({
             if (reason === 'clickaway') {
               return;
             }
-            setOpen(false);
+            handleOpen(false);
         };
         
         return (
@@ -94,7 +96,7 @@ const BookingList = ({
                         )}
                     </Grid>
 
-                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+                    <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleClose} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
                         <Alert onClose={handleClose} severity="success">
                         <strong>Reserva registrada exitosamente.</strong>
                         </Alert>
@@ -112,4 +114,4 @@ const mapStateToProps = state => ({
     snackbarReducer: state.snackbarReducer
 });
 
-export default connect(mapStateToProps, { getBookingBySeatAndDate})(BookingList)
+export default connect(mapStateToProps, { getBookingBySeatAndDate, handleOpen })(BookingList)

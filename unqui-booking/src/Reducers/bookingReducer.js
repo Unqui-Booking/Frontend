@@ -34,6 +34,7 @@ const initialState = {
     bookingsFiltered: [],
     bookingsFilteredBySeatDate: [],
     mapAvailabilySeats: null,
+    countChairBySide: 0,
     bookingsByUSer: [],
     bookingsHistoricalByUser: [],
     bookingsCurrentsByUser: [],
@@ -90,6 +91,7 @@ export default function reducerBooking (state = initialState, action){
             return {
                 ...state,
                 mapAvailabilySeats: Object.entries(action.payload),
+                countChairBySide: Object.entries(action.payload).length,
                 
             }
         case GET_BOOKINGS_BY_USER:

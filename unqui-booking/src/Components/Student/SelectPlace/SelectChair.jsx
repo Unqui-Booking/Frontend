@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 const SelectChair = ({
     bookingReducer: {
         mapAvailabilySeats,
+        countChairBySide
     },
     setSelectedSeat,
     setActiveStep }) => {
@@ -103,7 +104,7 @@ const SelectChair = ({
         <Grid container justifyContent="center" className={classes.flex}>
             
             <Grid item xs={12} sm={12} justifyContent="center" className={classes.flex}>
-                {mapAvailabilySeats.map((cl) => (
+                {mapAvailabilySeats.slice(0, countChairBySide/2).map((cl) => (
                     <Grid xs={2} className={classes.chairTop}>
                         <Button variant="contained"  color="default" onClick={() => handleClick(cl[0], cl[1])} className={getStyleBox(cl[1])}>
                         <Grid className={classes.column}>
@@ -118,7 +119,7 @@ const SelectChair = ({
                 <p className={classes.text}>[ Escritorio seleccionado ]</p>
             </Grid> 
             <Grid item xs={12} sm={12} justifyContent="center" className={classes.flex}> 
-                {mapAvailabilySeats.map((cr) => (
+                {mapAvailabilySeats.slice(countChairBySide/2, countChairBySide).map((cr) => (
                     <Grid xs={2} justifyContent="center" className={classes.chairBottom}>
                         <Button variant="contained"  color="default"  onClick={() => handleClick(cr[0], cr[1])} className={getStyleBox(cr[1])}>
                             <Grid className={classes.column}>

@@ -33,7 +33,7 @@ const ModalCancelBooking = (props) => {
               booking != null ? 
               <p>
                 ¿Desea cancelar la reserva para el <strong>asiento {booking.seat.id}</strong> en el <strong>escritorio {booking.seat.desk.id} </strong>   
-                el día <strong>{formatDate(booking)}</strong>  
+                el día <strong>{formatDate(booking)} </strong>  
                 en el horario <strong>{booking.startTime}hs - {booking.endTime}hs</strong>?
               </p> : null
             }

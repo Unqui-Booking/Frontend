@@ -86,7 +86,7 @@ const HomeStudent = ({
     const filterDays = (date) => {
         const today = new Date();
         //|| date.getDay() === 6 
-        return date.getDay() === 0 || date.getDate() > (today.getDate() + 14);
+        return date.getDay() === 0 || date.getDate() > (today.getDate() + 14) || date.getMonth() != today.getMonth();
       }
     
     const handleOnChange = (date) => {
